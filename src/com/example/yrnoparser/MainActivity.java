@@ -18,8 +18,6 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
-    List headlines;
-    ArrayList<String> links;
     private Location location;
     private WeatherForecast forecast;
     private ArrayList<WeatherForecast> listOfForecasts;
@@ -29,17 +27,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        headlines = new ArrayList();
-        links = new ArrayList<String>();
         location = new Location();
         forecast = new WeatherForecast();
         listOfForecasts = new ArrayList<WeatherForecast>();
 
         new AsyncTaskRunner().execute("");
 
-
     }
-
 
     public InputStream getInputStream(URL url) {
         try {
@@ -50,8 +44,6 @@ public class MainActivity extends Activity {
     }
 
     private class AsyncTaskRunner extends AsyncTask<String, String, String> {
-
-        private String resp;
 
         @Override
         protected String doInBackground(String... params) {
@@ -145,7 +137,6 @@ public class MainActivity extends Activity {
                         listOfForecasts.add(forecast);
                     }
 
-
                     eventType = xpp.next(); //move to next element
                 }
 
@@ -159,11 +150,8 @@ public class MainActivity extends Activity {
             }
 
 
-            for(String s : links)
-                Log.d("APP", s);
-
             Log.d("APP", location.toString());
-            Log.d("APP", forecast.toString());
+            Log.d("APP", listOfForecasts.toString());
 
             return "lol";
         }
