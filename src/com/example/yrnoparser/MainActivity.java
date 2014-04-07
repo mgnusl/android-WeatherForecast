@@ -10,11 +10,9 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -69,69 +67,58 @@ public class MainActivity extends Activity {
                     if (eventType == XmlPullParser.START_TAG) {
 
                         // Get location info
-                        if(xpp.getName().equalsIgnoreCase("location")) {
+                        if (xpp.getName().equalsIgnoreCase("location")) {
                             insideLocation = true;
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("name")) {
+                        } else if (xpp.getName().equalsIgnoreCase("name")) {
                             if (insideLocation)
                                 location.setName(xpp.nextText());
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("type")) {
+                        } else if (xpp.getName().equalsIgnoreCase("type")) {
                             if (insideLocation)
                                 location.setType(xpp.nextText());
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("country")) {
+                        } else if (xpp.getName().equalsIgnoreCase("country")) {
                             if (insideLocation)
                                 location.setCountry(xpp.nextText());
                         }
 
                         // Get weather info
-                        if(xpp.getName().equalsIgnoreCase("tabular")) {
+                        if (xpp.getName().equalsIgnoreCase("tabular")) {
                             insideTabular = true;
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("time")) {
-                            if(insideTabular) {
+                        } else if (xpp.getName().equalsIgnoreCase("time")) {
+                            if (insideTabular) {
                                 // Inside time and tabular
                                 location = new Location();
                                 forecast.setFromTime(xpp.getAttributeValue(null, "from"));
                                 forecast.setToTime(xpp.getAttributeValue(null, "to"));
                                 forecast.setPeriod(Integer.parseInt(xpp.getAttributeValue(null, "period")));
                             }
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("symbol")) {
-                            if(insideTabular) {
-                                forecast.setSymbol(Integer.parseInt(xpp.getAttributeValue(null, "number")));
+                        } else if (xpp.getName().equalsIgnoreCase("symbol")) {
+                            if (insideTabular) {
+                                forecast.setSymbol(xpp.getAttributeValue(null, "number"));
                                 forecast.setWeatherType(xpp.getAttributeValue(null, "name"));
                             }
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("windDirection")) {
-                            if(insideTabular) {
+                        } else if (xpp.getName().equalsIgnoreCase("windDirection")) {
+                            if (insideTabular) {
                                 forecast.setWindDirection(xpp.getAttributeValue(null, "name"));
                             }
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("windSpeed")) {
-                            if(insideTabular) {
-                                forecast.setWindSpeed(xpp.getAttributeValue(null, "mps"));                            }
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("temperature")) {
-                            if(insideTabular) {
-                                forecast.setTemperature(xpp.getAttributeValue(null, "value"));                            }
-                        }
-                        else if(xpp.getName().equalsIgnoreCase("pressure")) {
-                            if(insideTabular) {
-                                forecast.setPressure(xpp.getAttributeValue(null, "value"));                            }
+                        } else if (xpp.getName().equalsIgnoreCase("windSpeed")) {
+                            if (insideTabular) {
+                                forecast.setWindSpeed(xpp.getAttributeValue(null, "mps"));
+                            }
+                        } else if (xpp.getName().equalsIgnoreCase("temperature")) {
+                            if (insideTabular) {
+                                forecast.setTemperature(xpp.getAttributeValue(null, "value"));
+                            }
+                        } else if (xpp.getName().equalsIgnoreCase("pressure")) {
+                            if (insideTabular) {
+                                forecast.setPressure(xpp.getAttributeValue(null, "value"));
+                            }
                         }
 
-                    }
-
-                    else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("location")) {
+                    } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("location")) {
                         insideLocation = false;
-                    }
-
-                    else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("tabular")) {
+                    } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("tabular")) {
                         insideTabular = false;
-                    }
-                    else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("time")
+                    } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("time")
                             && insideTabular) {
                         // Done processing this "time"
                         listOfForecasts.add(forecast);

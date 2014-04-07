@@ -7,7 +7,7 @@ public class WeatherForecast {
     private String windSpeed;
     private int period;
     private String windDirection;
-    private int symbol;
+    private String symbol;
     private String weatherType;
     private String temperature;
     private String pressure;
@@ -63,11 +63,11 @@ public class WeatherForecast {
         this.windDirection = windDirection;
     }
 
-    public int getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(int symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
