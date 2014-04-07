@@ -35,7 +35,6 @@ public class MainActivity extends Activity {
         forecast = new WeatherForecast();
         listOfForecasts = new ArrayList<WeatherForecast>();
 
-
         new AsyncTaskRunner().execute("");
 
 
@@ -68,7 +67,7 @@ public class MainActivity extends Activity {
                 xpp.setInput(getInputStream(url), "UTF_8");
 
                 boolean insideLocation = false;
-                boolean insideForecast = false;
+                boolean insideTabular = false;
 
                 //links.add(xpp.getAttributeValue(null, "from"));
 
@@ -95,8 +94,40 @@ public class MainActivity extends Activity {
                         }
 
                         // Get weather info
-                        if(xpp.getName().equalsIgnoreCase("forecast")) {
-                            insideForecast = true;
+                        if(xpp.getName().equalsIgnoreCase("tabular")) {
+                            insideTabular = true;
+                        }
+                        else if(xpp.getName().equalsIgnoreCase("time")) {
+                            if(insideTabular) {
+                                // Inside time and tabular
+                                location = new Location();
+                                forecast.setFromTime(xpp.getAttributeValue(null, "from"));
+                                forecast.setToTime(xpp.getAttributeValue(null, "to"));
+                                forecast.setPeriod(Integer.parseInt(xpp.getAttributeValue(null, "period")));
+                            }
+                        }
+                        else if(xpp.getName().equalsIgnoreCase("symbol")) {
+                            if(insideTabular) {
+                                forecast.setSymbol(Integer.parseInt(xpp.getAttributeValue(null, "number")));
+                                forecast.setWeatherType(xpp.getAttributeValue(null, "name"));
+                            }
+                        }
+                        else if(xpp.getName().equalsIgnoreCase("windDirection")) {
+                            if(insideTabular) {
+                                forecast.setWindDirection(xpp.getAttributeValue(null, "name"));
+                            }
+                        }
+                        else if(xpp.getName().equalsIgnoreCase("windSpeed")) {
+                            if(insideTabular) {
+                                forecast.setWindSpeed(xpp.getAttributeValue(null, "mps"));                            }
+                        }
+                        else if(xpp.getName().equalsIgnoreCase("temperature")) {
+                            if(insideTabular) {
+                                forecast.setTemperature(xpp.getAttributeValue(null, "value"));                            }
+                        }
+                        else if(xpp.getName().equalsIgnoreCase("pressure")) {
+                            if(insideTabular) {
+                                forecast.setPressure(xpp.getAttributeValue(null, "value"));                            }
                         }
 
                     }
@@ -104,6 +135,16 @@ public class MainActivity extends Activity {
                     else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("location")) {
                         insideLocation = false;
                     }
+
+                    else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("tabular")) {
+                        insideTabular = false;
+                    }
+                    else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("time")
+                            && insideTabular) {
+                        // Done processing this "time"
+                        listOfForecasts.add(forecast);
+                    }
+
 
                     eventType = xpp.next(); //move to next element
                 }
@@ -122,6 +163,7 @@ public class MainActivity extends Activity {
                 Log.d("APP", s);
 
             Log.d("APP", location.toString());
+            Log.d("APP", forecast.toString());
 
             return "lol";
         }

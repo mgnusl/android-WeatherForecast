@@ -2,11 +2,13 @@ package com.example.yrnoparser;
 
 public class WeatherForecast {
     private Location location;
-    private String from;
-    private String to;
+    private String fromTime;
+    private String toTime;
     private String windSpeed;
+    private int period;
     private String windDirection;
     private int symbol;
+    private String weatherType;
     private String temperature;
     private String pressure;
 
@@ -21,20 +23,20 @@ public class WeatherForecast {
         this.location = location;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromTime() {
+        return fromTime;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromTime(String fromTime) {
+        this.fromTime = fromTime;
     }
 
-    public String getTo() {
-        return to;
+    public String getToTime() {
+        return toTime;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToTime(String toTime) {
+        this.toTime = toTime;
     }
 
     public String getWindSpeed() {
@@ -43,6 +45,14 @@ public class WeatherForecast {
 
     public void setWindSpeed(String windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
     }
 
     public String getWindDirection() {
@@ -59,6 +69,14 @@ public class WeatherForecast {
 
     public void setSymbol(int symbol) {
         this.symbol = symbol;
+    }
+
+    public String getWeatherType() {
+        return weatherType;
+    }
+
+    public void setWeatherType(String weatherType) {
+        this.weatherType = weatherType;
     }
 
     public String getTemperature() {
@@ -81,11 +99,13 @@ public class WeatherForecast {
     public String toString() {
         return "WeatherForecast{" +
                 "location=" + location +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
+                ", fromTime='" + fromTime + '\'' +
+                ", toTime='" + toTime + '\'' +
                 ", windSpeed='" + windSpeed + '\'' +
+                ", period=" + period +
                 ", windDirection='" + windDirection + '\'' +
                 ", symbol=" + symbol +
+                ", weatherType='" + weatherType + '\'' +
                 ", temperature='" + temperature + '\'' +
                 ", pressure='" + pressure + '\'' +
                 '}';
