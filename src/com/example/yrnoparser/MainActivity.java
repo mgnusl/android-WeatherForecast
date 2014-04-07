@@ -1,9 +1,11 @@
 package com.example.yrnoparser;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -19,6 +21,8 @@ public class MainActivity extends Activity {
     private Location location;
     private WeatherForecast forecast;
     private ArrayList<WeatherForecast> listOfForecasts;
+    private ListView sixHourListView;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,10 @@ public class MainActivity extends Activity {
         location = new Location();
         forecast = new WeatherForecast();
         listOfForecasts = new ArrayList<WeatherForecast>();
+
+        sixHourListView = (ListView)findViewById(R.id.sixHourListView);
+
+        context = this;
 
         new AsyncTaskRunner().execute("");
 
@@ -86,7 +94,7 @@ public class MainActivity extends Activity {
                         } else if (xpp.getName().equalsIgnoreCase("time")) {
                             if (insideTabular) {
                                 // Inside time and tabular
-                                location = new Location();
+                                forecast = new WeatherForecast();
                                 forecast.setFromTime(xpp.getAttributeValue(null, "from"));
                                 forecast.setToTime(xpp.getAttributeValue(null, "to"));
                                 forecast.setPeriod(Integer.parseInt(xpp.getAttributeValue(null, "period")));
@@ -138,7 +146,9 @@ public class MainActivity extends Activity {
 
 
             Log.d("APP", location.toString());
-            Log.d("APP", listOfForecasts.toString());
+
+            for(WeatherForecast f : listOfForecasts)
+                Log.d("APP", f.getFromTime());
 
             return "lol";
         }
@@ -146,6 +156,10 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
+
+            OverviewListAdapter sixHourListAdapter = new OverviewListAdapter(context,
+                    R.layout.row_data_six_hour, listOfForecasts);
+            sixHourListView.setAdapter(sixHourListAdapter);
 
         }
 

@@ -37,8 +37,11 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
         rowImage.setImageResource(Integer.parseInt(symbol));
 
-        TextView commentTextView = (TextView) convertView.findViewById(R.id.infoTextView);
-        commentTextView.setText(rowItem.toString());
+        TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
+        fromTextView.setText(rowItem.getTemperature());
+
+        TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
+        toTextView.setText(rowItem.getToTime());
 
         return convertView;
 
