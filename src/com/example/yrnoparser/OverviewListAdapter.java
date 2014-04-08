@@ -45,11 +45,11 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
         WeatherForecast rowItem = getItem(position);
 
         // Convert from ISO8601 time format to Joda DateTime
-        DateTime fromTime = formatter.parseDateTime(rowItem.getFromTime());
-        String fromTimeString = twentyFourHourDateFormat.print(fromTime);
+        //DateTime fromTime = formatter.parseDateTime(rowItem.getFromTime());
+        //String fromTimeString = twentyFourHourDateFormat.print(fromTime);
 
-        DateTime toTime = formatter.parseDateTime(rowItem.getToTime());
-        String toTimeString = twentyFourHourDateFormat.print(toTime);
+        //DateTime toTime = formatter.parseDateTime(rowItem.getToTime());
+        //String toTimeString = twentyFourHourDateFormat.print(toTime);
 
         // Find the correct symbol
         //TODO: find symbol based on time
@@ -74,10 +74,10 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
         rowImage.setImageDrawable(icons.getDrawable(symbol));
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
-        fromTextView.setText(fromTimeString);
+        //fromTextView.setText(fromTimeString);
 
         TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
-        toTextView.setText(toTimeString);
+        //toTextView.setText(toTimeString);
 
         return convertView;
 

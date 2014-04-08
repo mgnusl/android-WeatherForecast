@@ -1,10 +1,15 @@
 package com.example.yrnoparser;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+
 public class WeatherForecast {
     private Location location;
-    private String fromTime;
-    private String toTime;
     private String windSpeed;
+    private DateTime fromTime;
+    private DateTime toTime;
     private int period;
     private String windDirection;
     private int symbol;
@@ -12,7 +17,12 @@ public class WeatherForecast {
     private String temperature;
     private String pressure;
 
+    private DateTimeFormatter dateFormatter;
+    private DateTimeFormatter twentyFourHourDateFormatter;
+
     public WeatherForecast() {
+        dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
+        twentyFourHourDateFormatter = new DateTimeFormatterBuilder().appendPattern("dd/MM/YY HH:mm").toFormatter();
     }
 
     public Location getLocation() {
@@ -21,22 +31,6 @@ public class WeatherForecast {
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public String getFromTime() {
-        return fromTime;
-    }
-
-    public void setFromTime(String fromTime) {
-        this.fromTime = fromTime;
-    }
-
-    public String getToTime() {
-        return toTime;
-    }
-
-    public void setToTime(String toTime) {
-        this.toTime = toTime;
     }
 
     public String getWindSpeed() {
@@ -95,19 +89,31 @@ public class WeatherForecast {
         this.pressure = pressure;
     }
 
-    @Override
-    public String toString() {
-        return "WeatherForecast{" +
-                "location=" + location +
-                ", fromTime='" + fromTime + '\'' +
-                ", toTime='" + toTime + '\'' +
-                ", windSpeed='" + windSpeed + '\'' +
-                ", period=" + period +
-                ", windDirection='" + windDirection + '\'' +
-                ", symbol=" + symbol +
-                ", weatherType='" + weatherType + '\'' +
-                ", temperature='" + temperature + '\'' +
-                ", pressure='" + pressure + '\'' +
-                '}';
+    public DateTime getToTime() {
+        return toTime;
+    }
+
+    public String getToTimeString() {
+        return twentyFourHourDateFormatter.print(toTime);
+    }
+
+    public void setToTime(String t) {
+        // Convert from ISO8601 time format to Joda DateTime
+        DateTime toTime = dateFormatter.parseDateTime(t);
+        this.toTime = toTime;
+    }
+
+    public DateTime getFromTime() {
+        return fromTime;
+    }
+
+    public String getFromTimeString() {
+        return twentyFourHourDateFormatter.print(fromTime);
+    }
+
+    public void setFromTime(String t) {
+        // Convert from ISO8601 time format to Joda DateTime
+        DateTime fromTime = dateFormatter.parseDateTime(t);
+        this.fromTime = fromTime;
     }
 }

@@ -5,13 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import com.applidium.headerlistview.HeaderListView;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -42,8 +38,8 @@ public class MainActivity extends Activity {
         listOfForecasts = new ArrayList<WeatherForecast>();
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
-        sixHourListView = (ListView) findViewById(R.id.sixHourListView);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
+
 
         context = this;
 
@@ -57,6 +53,13 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void updateListView() {
+        HeaderListView list = new HeaderListView(this);
+
+        list.setAdapter(new OverviewSectionAdapter(this, listOfForecasts, weatherIcons));
+        setContentView(list);
     }
 
     private class AsyncTaskRunner extends AsyncTask<String, String, String> {
@@ -155,7 +158,6 @@ public class MainActivity extends Activity {
             }
 
 
-
             return "lol";
         }
 
@@ -163,16 +165,15 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            OverviewListAdapter sixHourListAdapter = new OverviewListAdapter(context,
+            /*OverviewListAdapter sixHourListAdapter = new OverviewListAdapter(context,
                     R.layout.row_data_six_hour, listOfForecasts, weatherIcons);
             sixHourListView.setAdapter(sixHourListAdapter);
 
             infoTextView.setText(location.getName() + " - " + location.getType() + " - " + location.getCountry());
 
-            WeatherForecast wc = listOfForecasts.get(0);
+            WeatherForecast wc = listOfForecasts.get(0);*/
 
-
-
+            updateListView();
 
 
         }
