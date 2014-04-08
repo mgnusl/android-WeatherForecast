@@ -1,6 +1,7 @@
 package com.example.yrnoparser;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,14 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
     private int resource;
     private LayoutInflater inflater;
     private Context context;
+    private TypedArray icons;
 
-    public OverviewListAdapter(Context context, int resourceId, List<WeatherForecast> objects) {
+    public OverviewListAdapter(Context context, int resourceId, List<WeatherForecast> objects, TypedArray icons) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.icons = icons;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
         String symbol = rowItem.getSymbol();
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
-        rowImage.setImageResource(Integer.parseInt(symbol));
+        rowImage.setImageDrawable(icons.getDrawable(position));
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
         fromTextView.setText(rowItem.getTemperature());

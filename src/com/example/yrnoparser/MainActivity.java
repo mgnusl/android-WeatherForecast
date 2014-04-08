@@ -2,6 +2,7 @@ package com.example.yrnoparser;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
     private ArrayList<WeatherForecast> listOfForecasts;
     private ListView sixHourListView;
     private Context context;
+    private TypedArray weatherIcons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,9 @@ public class MainActivity extends Activity {
         location = new Location();
         forecast = new WeatherForecast();
         listOfForecasts = new ArrayList<WeatherForecast>();
+        weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
-        sixHourListView = (ListView)findViewById(R.id.sixHourListView);
+        sixHourListView = (ListView) findViewById(R.id.sixHourListView);
 
         context = this;
 
@@ -147,7 +150,7 @@ public class MainActivity extends Activity {
 
             Log.d("APP", location.toString());
 
-            for(WeatherForecast f : listOfForecasts)
+            for (WeatherForecast f : listOfForecasts)
                 Log.d("APP", f.getFromTime());
 
             return "lol";
@@ -158,7 +161,7 @@ public class MainActivity extends Activity {
         protected void onPostExecute(String result) {
 
             OverviewListAdapter sixHourListAdapter = new OverviewListAdapter(context,
-                    R.layout.row_data_six_hour, listOfForecasts);
+                    R.layout.row_data_six_hour, listOfForecasts, weatherIcons);
             sixHourListView.setAdapter(sixHourListAdapter);
 
         }
