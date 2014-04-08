@@ -7,6 +7,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -25,6 +30,7 @@ public class MainActivity extends Activity {
     private ListView sixHourListView;
     private Context context;
     private TypedArray weatherIcons;
+    private TextView infoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class MainActivity extends Activity {
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
         sixHourListView = (ListView) findViewById(R.id.sixHourListView);
+        infoTextView = (TextView) findViewById(R.id.infoTextView);
 
         context = this;
 
@@ -58,7 +65,7 @@ public class MainActivity extends Activity {
         protected String doInBackground(String... params) {
             publishProgress("Sleeping..."); // Calls onProgressUpdate()
             try {
-                URL url = new URL("http://www.yr.no/place/Norway/Telemark/Sauherad/Gvarv/forecast.xml");
+                URL url = new URL("http://www.yr.no/place/Norway/S%C3%B8r-Tr%C3%B8ndelag/Trondheim/Trondheim/forecast.xml");
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
@@ -104,7 +111,7 @@ public class MainActivity extends Activity {
                             }
                         } else if (xpp.getName().equalsIgnoreCase("symbol")) {
                             if (insideTabular) {
-                                forecast.setSymbol(xpp.getAttributeValue(null, "number"));
+                                forecast.setSymbol(Integer.parseInt(xpp.getAttributeValue(null, "number")));
                                 forecast.setWeatherType(xpp.getAttributeValue(null, "name"));
                             }
                         } else if (xpp.getName().equalsIgnoreCase("windDirection")) {
@@ -148,10 +155,6 @@ public class MainActivity extends Activity {
             }
 
 
-            Log.d("APP", location.toString());
-
-            for (WeatherForecast f : listOfForecasts)
-                Log.d("APP", f.getFromTime());
 
             return "lol";
         }
@@ -163,6 +166,14 @@ public class MainActivity extends Activity {
             OverviewListAdapter sixHourListAdapter = new OverviewListAdapter(context,
                     R.layout.row_data_six_hour, listOfForecasts, weatherIcons);
             sixHourListView.setAdapter(sixHourListAdapter);
+
+            infoTextView.setText(location.getName() + " - " + location.getType() + " - " + location.getCountry());
+
+            WeatherForecast wc = listOfForecasts.get(0);
+
+
+
+
 
         }
 

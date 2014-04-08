@@ -2,41 +2,42 @@
 <resources>
     <string-array name="weather_icons">
         <item>@drawable/a01d</item>
-        <item>@drawable/a01m</item>
         <item>@drawable/a01n</item>
         <item>@drawable/a02d</item>
-        <item>@drawable/a02m</item>
         <item>@drawable/a02n</item>
         <item>@drawable/a03d</item>
-        <item>@drawable/a03m</item>
         <item>@drawable/a03n</item>
-        <item>@drawable/a04</item>
+        <item>@drawable/a04d</item>
+        <item>@drawable/a04n</item>
         <item>@drawable/a05d</item>
-        <item>@drawable/a05m</item>
         <item>@drawable/a05n</item>
         <item>@drawable/a06d</item>
-        <item>@drawable/a06m</item>
         <item>@drawable/a06n</item>
         <item>@drawable/a07d</item>
-        <item>@drawable/a07m</item>
         <item>@drawable/a07n</item>
         <item>@drawable/a08d</item>
-        <item>@drawable/a08m</item>
         <item>@drawable/a08n</item>
-        <item>@drawable/a09</item>
-        <item>@drawable/a10</item>
-        <item>@drawable/a11</item>
-        <item>@drawable/a12</item>
-        <item>@drawable/a13</item>
-        <item>@drawable/a14</item>
-        <item>@drawable/a15</item>
+        <item>@drawable/a09d</item>
+        <item>@drawable/a09n</item>
+        <item>@drawable/a10d</item>
+        <item>@drawable/a10n</item>
+        <item>@drawable/a11d</item>
+        <item>@drawable/a11n</item>
+        <item>@drawable/a12d</item>
+        <item>@drawable/a12n</item>
+        <item>@drawable/a13d</item>
+        <item>@drawable/a13n</item>
+        <item>@drawable/a14d</item>
+        <item>@drawable/a14n</item>
+        <item>@drawable/a15d</item>
+        <item>@drawable/a15n</item>
         <item>@drawable/a20d</item>
         <item>@drawable/a20n</item>
-        <item>@drawable/a20m</item>
         <item>@drawable/a21d</item>
         <item>@drawable/a21n</item>
-        <item>@drawable/a21m</item>
-        <item>@drawable/a22</item>
-        <item>@drawable/a23</item>
+        <item>@drawable/a22d</item>
+        <item>@drawable/a22n</item>
+        <item>@drawable/a23d</item>
+        <item>@drawable/a23n</item>
     </string-array>
 </resources>
