@@ -74,10 +74,10 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
         rowImage.setImageDrawable(icons.getDrawable(symbol));
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
-        fromTextView.setText(Integer.toString(rowItem.getSymbol()));
+        fromTextView.setText(fromTimeString);
 
         TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
-        toTextView.setText(fromTimeString);
+        toTextView.setText(toTimeString);
 
         return convertView;
 
