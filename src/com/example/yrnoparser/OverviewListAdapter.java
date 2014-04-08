@@ -44,15 +44,6 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
 
         WeatherForecast rowItem = getItem(position);
 
-        // Find the correct symbol
-        //TODO: find symbol based on time
-        int symbol;
-        if(rowItem.getSymbol() == 1)
-            symbol = 0;
-        else {
-            // Hvis dag (-2 hvis natt)
-            symbol = (rowItem.getSymbol()*2)-1;
-        }
         // Convert from ISO8601 time format to Joda DateTime
         DateTime fromTime = formatter.parseDateTime(rowItem.getFromTime());
         String fromTimeString = twentyFourHourDateFormat.print(fromTime);
@@ -60,15 +51,33 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
         DateTime toTime = formatter.parseDateTime(rowItem.getToTime());
         String toTimeString = twentyFourHourDateFormat.print(toTime);
 
+        // Find the correct symbol
+        //TODO: find symbol based on time
+        int symbol;
+        if(rowItem.getSymbol() == 1)
+            if(rowItem.getPeriod() == 3 || rowItem.getPeriod() == 0)
+                symbol = 0;
+            else
+                symbol = 1;
+        else {
+            // Check if day or night period
+            if(rowItem.getPeriod() == 3 || rowItem.getPeriod() == 0) //"natt"
+                symbol = (rowItem.getSymbol()*2)-1;
+            else
+                symbol = (rowItem.getSymbol()*2)-2;
+        }
+
+
+
         // Views
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
         rowImage.setImageDrawable(icons.getDrawable(symbol));
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
-        fromTextView.setText(fromTimeString);
+        fromTextView.setText(Integer.toString(rowItem.getSymbol()));
 
         TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
-        toTextView.setText(toTimeString);
+        toTextView.setText(fromTimeString);
 
         return convertView;
 

@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         protected String doInBackground(String... params) {
             publishProgress("Sleeping..."); // Calls onProgressUpdate()
             try {
-                URL url = new URL("http://www.yr.no/place/Norway/S%C3%B8r-Tr%C3%B8ndelag/Trondheim/Trondheim/forecast.xml");
+                URL url = new URL("http://www.yr.no/sted/Norge/Troms/Troms%C3%B8/Troms%C3%B8/varsel.xml");
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
