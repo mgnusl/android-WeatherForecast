@@ -71,8 +71,6 @@ public class MainActivity extends Activity {
 
         SingleDay day = new SingleDay();
 
-        Log.d("APP", "List of forecasts size:" + Integer.toString(listOfForecasts.size()));
-
         for(Forecast f : listOfForecasts) {
             if(f.getPeriod() == 0) {
                 day = new SingleDay();
@@ -88,13 +86,7 @@ public class MainActivity extends Activity {
         }
         listOfDays.add(day);
 
-        for(SingleDay s : listOfDays) {
-            Log.d("APP", "___NY DAG____");
-            for (Forecast f : s.getForecasts())
-                Log.d("APP", f.getFromTimeString());
-        }
-
-        // Update list with newly fetched data
+        // Update list with new data
         updateListView();
 
     }

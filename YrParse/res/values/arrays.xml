@@ -40,4 +40,15 @@
         <item>@drawable/a23d</item>
         <item>@drawable/a23n</item>
     </string-array>
+
+    <string-array name="weekdays">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
 </resources>

@@ -29,16 +29,18 @@ public class SingleDay {
         return null;
     }
 
+    public DateTime getDate() {
+        if(forecasts.size() > 0)
+            return forecasts.get(0).getFromTime();
+        return null;
+    }
+
     public void setForecasts(ArrayList<Forecast> forecasts) {
         this.forecasts = forecasts;
     }
 
     public void addForecast(Forecast f) {
         forecasts.add(f);
-    }
-
-    public DateTime getDate() {
-        return date;
     }
 
     public void setDate(DateTime date) {

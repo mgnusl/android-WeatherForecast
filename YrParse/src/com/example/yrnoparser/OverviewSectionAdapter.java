@@ -18,11 +18,13 @@ public class OverviewSectionAdapter extends SectionAdapter {
     private Context context;
     private ArrayList<SingleDay> data;
     private TypedArray icons;
+    private String[] weekDayNames;
 
     public OverviewSectionAdapter(Context context, ArrayList<SingleDay> data, TypedArray icons) {
         this.context = context;
         this.data = data;
         this.icons = icons;
+        weekDayNames = context.getResources().getStringArray(R.array.weekdays);
     }
 
     @Override
@@ -102,7 +104,21 @@ public class OverviewSectionAdapter extends SectionAdapter {
         }
 
         TextView text = (TextView) convertView.findViewById(android.R.id.text1);
-        text.setText("test");
+        SingleDay day = data.get(section);
+        text.setText(weekDayNames[day.getDate().getDayOfWeek()-1] + " " + day.getDateString());
+
+        int sectionColor = section % 3;
+        switch (sectionColor) {
+            case 0:
+                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue1));
+                break;
+            case 1:
+                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue2));
+                break;
+            case 2:
+                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue3));
+                break;
+        }
 
         return convertView;
     }
@@ -110,6 +126,7 @@ public class OverviewSectionAdapter extends SectionAdapter {
     @Override
     public void onRowItemClick(AdapterView<?> parent, View view, int section, int row, long id) {
         super.onRowItemClick(parent, view, section, row, id);
+        Log.d("APP", "Section: " + Integer.toString(section) + ". Row: " +  Integer.toString(row));
     }
 
 }
