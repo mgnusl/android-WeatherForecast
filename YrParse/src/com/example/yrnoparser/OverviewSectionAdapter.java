@@ -15,10 +15,10 @@ import java.util.ArrayList;
 public class OverviewSectionAdapter extends SectionAdapter {
 
     private Context context;
-    private ArrayList<Forecast> data;
+    private ArrayList<SingleDay> data;
     private TypedArray icons;
 
-    public OverviewSectionAdapter(Context context, ArrayList<Forecast> data, TypedArray icons) {
+    public OverviewSectionAdapter(Context context, ArrayList<SingleDay> data, TypedArray icons) {
         this.context = context;
         this.data = data;
         this.icons = icons;
@@ -26,11 +26,13 @@ public class OverviewSectionAdapter extends SectionAdapter {
 
     @Override
     public int numberOfSections() {
-        return data.size() / 4;
+        return data.size();
     }
 
     @Override
     public int numberOfRows(int section) {
+        if(section == 1)
+            return data.get(0).getForecasts().size();
         return 4;
     }
 

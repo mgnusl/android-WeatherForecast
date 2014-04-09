@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 
     public void updateListView() {
         HeaderListView list = new HeaderListView(this);
-        list.setAdapter(new OverviewSectionAdapter(this, listOfForecasts, weatherIcons));
+        list.setAdapter(new OverviewSectionAdapter(this, listOfDays, weatherIcons));
         setContentView(list);
     }
 
