@@ -66,7 +66,6 @@ public class OverviewListAdapter extends ArrayAdapter<Forecast> {
         }
 
 
-
         // Views
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
         rowImage.setImageDrawable(icons.getDrawable(symbol));

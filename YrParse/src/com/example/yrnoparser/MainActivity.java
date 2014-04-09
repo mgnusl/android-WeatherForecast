@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
@@ -28,6 +29,8 @@ public class MainActivity extends Activity {
     private TypedArray weatherIcons;
     private TextView infoTextView;
 
+    private ArrayList<SingleDay> listOfDays;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +39,10 @@ public class MainActivity extends Activity {
         location = new Location();
         forecast = new Forecast();
         listOfForecasts = new ArrayList<Forecast>();
+        listOfDays = new ArrayList<SingleDay>();
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
         infoTextView = (TextView) findViewById(R.id.infoTextView);
-
 
         context = this;
 
@@ -57,9 +60,40 @@ public class MainActivity extends Activity {
 
     public void updateListView() {
         HeaderListView list = new HeaderListView(this);
-
         list.setAdapter(new OverviewSectionAdapter(this, listOfForecasts, weatherIcons));
         setContentView(list);
+    }
+
+    /**
+     * Organize forecasts into SingleDay objects
+     */
+    public void handleForecasts() {
+
+        SingleDay day = new SingleDay();
+
+        Log.d("APP", "List of forecasts size:" + Integer.toString(listOfForecasts.size()));
+
+        for(Forecast f : listOfForecasts) {
+            if(f.getPeriod() == 0) {
+                day = new SingleDay();
+                day.addForecast(f);
+                continue;
+            }
+            if(f.getPeriod() == 3) {
+                day.addForecast(f);
+                listOfDays.add(day);
+                continue;
+            }
+            day.addForecast(f);
+        }
+        listOfDays.add(day);
+
+        for(SingleDay s : listOfDays) {
+            Log.d("APP", "___NY DAG____");
+            for (Forecast f : s.getForecasts())
+                Log.d("APP", f.getFromTimeString());
+        }
+
     }
 
     private class AsyncTaskRunner extends AsyncTask<String, String, String> {
@@ -165,16 +199,10 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            /*OverviewListAdapter sixHourListAdapter = new OverviewListAdapter(context,
-                    R.layout.row_data_six_hour, listOfForecasts, weatherIcons);
-            sixHourListView.setAdapter(sixHourListAdapter);
-
-            infoTextView.setText(location.getName() + " - " + location.getType() + " - " + location.getCountry());
-
-            Forecast wc = listOfForecasts.get(0);*/
-
+            // Handle the forecasts
+            handleForecasts();
+            // Update list with newly fetched data
             updateListView();
-
 
         }
 
