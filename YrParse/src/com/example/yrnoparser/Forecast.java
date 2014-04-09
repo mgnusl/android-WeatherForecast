@@ -5,13 +5,13 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-public class WeatherForecast {
+public class Forecast {
     private Location location;
     private String windSpeed;
     private DateTime fromTime;
     private DateTime toTime;
-    private int period;
     private String windDirection;
+    private int period;
     private int symbol;
     private String weatherType;
     private String temperature;
@@ -20,7 +20,7 @@ public class WeatherForecast {
     private DateTimeFormatter dateFormatter;
     private DateTimeFormatter twentyFourHourDateFormatter;
 
-    public WeatherForecast() {
+    public Forecast() {
         dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
         twentyFourHourDateFormatter = new DateTimeFormatterBuilder().appendPattern("dd/MM/YY HH:mm").toFormatter();
     }

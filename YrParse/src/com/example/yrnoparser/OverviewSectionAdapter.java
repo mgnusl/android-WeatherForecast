@@ -15,10 +15,10 @@ import java.util.ArrayList;
 public class OverviewSectionAdapter extends SectionAdapter {
 
     private Context context;
-    private ArrayList<WeatherForecast> data;
+    private ArrayList<Forecast> data;
     private TypedArray icons;
 
-    public OverviewSectionAdapter(Context context, ArrayList<WeatherForecast> data, TypedArray icons) {
+    public OverviewSectionAdapter(Context context, ArrayList<Forecast> data, TypedArray icons) {
         this.context = context;
         this.data = data;
         this.icons = icons;
@@ -51,7 +51,7 @@ public class OverviewSectionAdapter extends SectionAdapter {
             convertView = inflater.inflate(R.layout.row_data_six_hour, parent, false);
         }
 
-        WeatherForecast forecast = data.get(row);
+        Forecast forecast = data.get(row);
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
         fromTextView.setText(forecast.getFromTimeString());

@@ -2,7 +2,6 @@ package com.example.yrnoparser;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
 import java.util.List;
 
-public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
+public class OverviewListAdapter extends ArrayAdapter<Forecast> {
 
     private int resource;
     private LayoutInflater inflater;
@@ -27,7 +25,7 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
     private DateTimeFormatter twentyFourHourDateFormat;
 
 
-    public OverviewListAdapter(Context context, int resourceId, List<WeatherForecast> objects, TypedArray icons) {
+    public OverviewListAdapter(Context context, int resourceId, List<Forecast> objects, TypedArray icons) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
@@ -42,7 +40,7 @@ public class OverviewListAdapter extends ArrayAdapter<WeatherForecast> {
 
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
-        WeatherForecast rowItem = getItem(position);
+        Forecast rowItem = getItem(position);
 
         // Convert from ISO8601 time format to Joda DateTime
         //DateTime fromTime = formatter.parseDateTime(rowItem.getFromTime());

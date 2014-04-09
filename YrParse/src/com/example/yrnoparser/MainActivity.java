@@ -21,8 +21,8 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private Location location;
-    private WeatherForecast forecast;
-    private ArrayList<WeatherForecast> listOfForecasts;
+    private Forecast forecast;
+    private ArrayList<Forecast> listOfForecasts;
     private ListView sixHourListView;
     private Context context;
     private TypedArray weatherIcons;
@@ -34,8 +34,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
 
         location = new Location();
-        forecast = new WeatherForecast();
-        listOfForecasts = new ArrayList<WeatherForecast>();
+        forecast = new Forecast();
+        listOfForecasts = new ArrayList<Forecast>();
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
         infoTextView = (TextView) findViewById(R.id.infoTextView);
@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
                         } else if (xpp.getName().equalsIgnoreCase("time")) {
                             if (insideTabular) {
                                 // Inside time and tabular
-                                forecast = new WeatherForecast();
+                                forecast = new Forecast();
                                 forecast.setFromTime(xpp.getAttributeValue(null, "from"));
                                 forecast.setToTime(xpp.getAttributeValue(null, "to"));
                                 forecast.setPeriod(Integer.parseInt(xpp.getAttributeValue(null, "period")));
@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
 
             infoTextView.setText(location.getName() + " - " + location.getType() + " - " + location.getCountry());
 
-            WeatherForecast wc = listOfForecasts.get(0);*/
+            Forecast wc = listOfForecasts.get(0);*/
 
             updateListView();
 
