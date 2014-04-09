@@ -70,6 +70,13 @@ public class OverviewSectionAdapter extends SectionAdapter {
         else
             tempTextView.setTextColor(context.getResources().getColor(R.color.blue_text));
 
+        TextView precipitationTextView = (TextView) convertView.findViewById(R.id.precipitationTextView);
+        if(forecast.getPrecipitation().equals("0"))
+            precipitationTextView.setText("0 mm");
+        else
+            precipitationTextView.setText(forecast.getPrecipitationMin() + "-" + forecast.getPrecipitationMax() + " mm");
+
+
 
 
 

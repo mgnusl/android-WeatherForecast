@@ -16,6 +16,9 @@ public class Forecast {
     private String weatherType;
     private String temperature;
     private String pressure;
+    private String precipitation;
+    private String precipitationMin;
+    private String precipitationMax;
 
     private DateTimeFormatter dateFormatter;
 
@@ -85,6 +88,30 @@ public class Forecast {
 
     public void setPressure(String pressure) {
         this.pressure = pressure;
+    }
+
+    public String getPrecipitation() {
+        return precipitation;
+    }
+
+    public String getPrecipitationMin() {
+        return precipitationMin;
+    }
+
+    public void setPrecipitationMin(String precipitationMin) {
+        this.precipitationMin = precipitationMin;
+    }
+
+    public String getPrecipitationMax() {
+        return precipitationMax;
+    }
+
+    public void setPrecipitationMax(String precipitationMax) {
+        this.precipitationMax = precipitationMax;
+    }
+
+    public void setPrecipitation(String precipitation) {
+        this.precipitation = precipitation;
     }
 
     public DateTime getToTime() {

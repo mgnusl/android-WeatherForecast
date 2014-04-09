@@ -48,4 +48,14 @@
         android:id="@+id/temperatureTextView"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/temperatureTextView"
+        android:text="0.5 - 5.3 mm"
+        android:textSize="12dp"
+        android:id="@+id/precipitationTextView"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"/>
 </RelativeLayout>

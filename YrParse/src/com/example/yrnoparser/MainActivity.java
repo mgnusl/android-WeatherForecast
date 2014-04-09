@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
@@ -71,13 +70,13 @@ public class MainActivity extends Activity {
 
         SingleDay day = new SingleDay();
 
-        for(Forecast f : listOfForecasts) {
-            if(f.getPeriod() == 0) {
+        for (Forecast f : listOfForecasts) {
+            if (f.getPeriod() == 0) {
                 day = new SingleDay();
                 day.addForecast(f);
                 continue;
             }
-            if(f.getPeriod() == 3) {
+            if (f.getPeriod() == 3) {
                 day.addForecast(f);
                 listOfDays.add(day);
                 continue;
@@ -103,13 +102,11 @@ public class MainActivity extends Activity {
                 factory.setNamespaceAware(false);
                 XmlPullParser xpp = factory.newPullParser();
 
-                // We will get the XML from an input stream
+                // Get the XML from an input stream
                 xpp.setInput(getInputStream(url), "UTF_8");
 
                 boolean insideLocation = false;
                 boolean insideTabular = false;
-
-                //links.add(xpp.getAttributeValue(null, "from"));
 
                 // Returns the type of current event: START_TAG, END_TAG, etc..
                 int eventType = xpp.getEventType();
@@ -145,6 +142,15 @@ public class MainActivity extends Activity {
                             if (insideTabular) {
                                 forecast.setSymbol(Integer.parseInt(xpp.getAttributeValue(null, "number")));
                                 forecast.setWeatherType(xpp.getAttributeValue(null, "name"));
+                            }
+                        } else if (xpp.getName().equalsIgnoreCase("precipitation")) {
+                            if (insideTabular) {
+                                String value = xpp.getAttributeValue(null, "value");
+                                forecast.setPrecipitation(value);
+                                if(!value.equals("0")) {
+                                    forecast.setPrecipitationMin(xpp.getAttributeValue(null, "minvalue"));
+                                    forecast.setPrecipitationMax(xpp.getAttributeValue(null, "maxvalue"));
+                                }
                             }
                         } else if (xpp.getName().equalsIgnoreCase("windDirection")) {
                             if (insideTabular) {
