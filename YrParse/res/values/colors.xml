@@ -1,5 +1,10 @@
 <resources>
+    <!-- Sticky header colors -->
     <color name="blue1">#5588ff</color>
     <color name="blue2">#77aaff</color>
     <color name="blue3">#99ccff</color>
+
+    <!-- Text color -->
+    <color name="red_text">#cc0000</color>
+    <color name="blue_text">#0000cc</color>
 </resources>

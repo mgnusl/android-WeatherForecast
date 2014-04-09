@@ -63,6 +63,16 @@ public class OverviewSectionAdapter extends SectionAdapter {
         TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
         toTextView.setText(DateFormatter.get24HourString(forecast.getToTime()));
 
+        TextView tempTextView = (TextView) convertView.findViewById(R.id.temperatureTextView);
+        tempTextView.setText(forecast.getTemperature() + "°C");
+        if(Integer.parseInt(forecast.getTemperature()) >= 0)
+            tempTextView.setTextColor(context.getResources().getColor(R.color.red_text));
+        else
+            tempTextView.setTextColor(context.getResources().getColor(R.color.blue_text));
+
+
+
+
         // Find the correct symbol
         int symbol;
         if (forecast.getSymbol() == 1)
