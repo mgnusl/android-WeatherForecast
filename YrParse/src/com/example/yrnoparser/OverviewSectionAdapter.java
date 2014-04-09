@@ -2,6 +2,7 @@ package com.example.yrnoparser;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,7 @@ public class OverviewSectionAdapter extends SectionAdapter {
 
     @Override
     public int numberOfRows(int section) {
-        if(section == 1)
-            return data.get(0).getForecasts().size();
-        return 4;
+        return data.get(section).getForecasts().size();
     }
 
     @Override
@@ -53,7 +52,7 @@ public class OverviewSectionAdapter extends SectionAdapter {
             convertView = inflater.inflate(R.layout.row_data_six_hour, parent, false);
         }
 
-        Forecast forecast = data.get(row);
+        Forecast forecast = data.get(section).getForecasts().get(row);
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
         fromTextView.setText(forecast.getFromTimeString());
@@ -62,7 +61,6 @@ public class OverviewSectionAdapter extends SectionAdapter {
         toTextView.setText(forecast.getToTimeString());
 
         // Find the correct symbol
-        //TODO: find symbol based on time
         int symbol;
         if (forecast.getSymbol() == 1)
             if (forecast.getPeriod() == 3 || forecast.getPeriod() == 0)
@@ -79,6 +77,7 @@ public class OverviewSectionAdapter extends SectionAdapter {
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
         iconImageView.setImageDrawable(icons.getDrawable(symbol));
+
 
         return convertView;
 
@@ -99,35 +98,12 @@ public class OverviewSectionAdapter extends SectionAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (getSectionHeaderItemViewType(section) == 0) {
-
-                convertView = (TextView) inflater.inflate(context.getResources().getLayout(android.R.layout.simple_list_item_1), null);
-            } else {
-                convertView = inflater.inflate(context.getResources().getLayout(android.R.layout.simple_list_item_2), null);
-            }
+            convertView = (TextView) inflater.inflate(context.getResources().getLayout(android.R.layout.simple_list_item_1), null);
         }
 
-        if (getSectionHeaderItemViewType(section) == 0) {
-            ((TextView) convertView).setText("Header for section " + section);
-        } else {
-            ((TextView) convertView.findViewById(android.R.id.text1)).setText("Header for section " + section);
-            ((TextView) convertView.findViewById(android.R.id.text2)).setText("Has a detail text field");
-        }
+        TextView text = (TextView) convertView.findViewById(android.R.id.text1);
+        text.setText("test");
 
-        switch (section) {
-            case 0:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.holo_red_light));
-                break;
-            case 1:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.holo_orange_light));
-                break;
-            case 2:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.holo_green_light));
-                break;
-            case 3:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.holo_blue_light));
-                break;
-        }
         return convertView;
     }
 

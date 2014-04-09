@@ -94,6 +94,9 @@ public class MainActivity extends Activity {
                 Log.d("APP", f.getFromTimeString());
         }
 
+        // Update list with newly fetched data
+        updateListView();
+
     }
 
     private class AsyncTaskRunner extends AsyncTask<String, String, String> {
@@ -201,8 +204,7 @@ public class MainActivity extends Activity {
 
             // Handle the forecasts
             handleForecasts();
-            // Update list with newly fetched data
-            updateListView();
+
 
         }
 
