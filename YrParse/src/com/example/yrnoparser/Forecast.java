@@ -18,11 +18,9 @@ public class Forecast {
     private String pressure;
 
     private DateTimeFormatter dateFormatter;
-    private DateTimeFormatter twentyFourHourDateFormatter;
 
     public Forecast() {
         dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
-        twentyFourHourDateFormatter = new DateTimeFormatterBuilder().appendPattern("dd/MM/YY HH:mm").toFormatter();
     }
 
     public Location getLocation() {
@@ -93,10 +91,6 @@ public class Forecast {
         return toTime;
     }
 
-    public String getToTimeString() {
-        return twentyFourHourDateFormatter.print(toTime);
-    }
-
     public void setToTime(String t) {
         // Convert from ISO8601 time format to Joda DateTime
         DateTime toTime = dateFormatter.parseDateTime(t);
@@ -105,10 +99,6 @@ public class Forecast {
 
     public DateTime getFromTime() {
         return fromTime;
-    }
-
-    public String getFromTimeString() {
-        return twentyFourHourDateFormatter.print(fromTime);
     }
 
     public void setFromTime(String t) {

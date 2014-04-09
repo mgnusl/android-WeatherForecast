@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.applidium.headerlistview.SectionAdapter;
+import com.example.yrnoparser.utils.DateFormatter;
 
 import java.util.ArrayList;
 
@@ -57,10 +58,10 @@ public class OverviewSectionAdapter extends SectionAdapter {
         Forecast forecast = data.get(section).getForecasts().get(row);
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
-        fromTextView.setText(forecast.getFromTimeString());
+        fromTextView.setText(DateFormatter.get24HourString(forecast.getFromTime()));
 
         TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
-        toTextView.setText(forecast.getToTimeString());
+        toTextView.setText(DateFormatter.get24HourString(forecast.getToTime()));
 
         // Find the correct symbol
         int symbol;
