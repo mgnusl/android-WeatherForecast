@@ -1,4 +1,4 @@
-package com.example.yrnoparser;
+package com.example.yrnoparser.data;
 
 public class Location {
     private String name;

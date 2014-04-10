@@ -1,9 +1,8 @@
-package com.example.yrnoparser;
+package com.example.yrnoparser.data;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
 
 public class Forecast {
     private Location location;

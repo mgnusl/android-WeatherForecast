@@ -12,4 +12,21 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"/>
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchEditText"
+        android:layout_below="@+id/getSixHourButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search..."
+        android:id="@+id/searchButton"
+        android:layout_below="@+id/searchEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"/>
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.yrnoparser;
+package com.example.yrnoparser.data;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;

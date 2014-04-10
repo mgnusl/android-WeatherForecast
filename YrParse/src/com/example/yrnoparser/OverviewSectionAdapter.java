@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.applidium.headerlistview.SectionAdapter;
+import com.example.yrnoparser.data.Forecast;
+import com.example.yrnoparser.data.SingleDay;
 import com.example.yrnoparser.utils.DateFormatter;
 
 import java.util.ArrayList;

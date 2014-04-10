@@ -1,4 +1,4 @@
-package com.example.yrnoparser;
+package com.example.yrnoparser.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.example.yrnoparser.R;
+import com.example.yrnoparser.data.Forecast;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;

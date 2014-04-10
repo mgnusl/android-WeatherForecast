@@ -1,15 +1,18 @@
 package com.example.yrnoparser;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
+import com.example.yrnoparser.data.Forecast;
+import com.example.yrnoparser.data.Location;
+import com.example.yrnoparser.data.SingleDay;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -44,7 +47,7 @@ public class SixHourForecastActivity extends Activity {
 
         context = this;
 
-        new AsyncTaskRunner().execute("");
+        new AsyncDownloadTask().execute();
 
     }
 
@@ -96,14 +99,15 @@ public class SixHourForecastActivity extends Activity {
         // Update list with new data
         updateListView();
 
-
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+    private class AsyncDownloadTask extends AsyncTask<Void, String, String> {
+
+        ProgressDialog pDialog;
 
         @Override
-        protected String doInBackground(String... params) {
-            publishProgress("Sleeping..."); // Calls onProgressUpdate()
+        protected String doInBackground(Void... params) {
+            publishProgress("Working..."); // Calls onProgressUpdate()
             try {
                 URL url = new URL("http://www.yr.no/sted/Norge/Troms/Troms%C3%B8/Troms%C3%B8/varsel.xml");
 
@@ -117,8 +121,9 @@ public class SixHourForecastActivity extends Activity {
                 boolean insideLocation = false;
                 boolean insideTabular = false;
 
-                // Returns the type of current event: START_TAG, END_TAG, etc..
+                // Returns the type of current event
                 int eventType = xpp.getEventType();
+                // Loop thru all elements as long as they are not END_DOCUMENT
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     if (eventType == XmlPullParser.START_TAG) {
 
@@ -202,25 +207,25 @@ public class SixHourForecastActivity extends Activity {
                 e.printStackTrace();
             }
 
+            return null;
 
-            return "lol";
         }
 
 
         @Override
         protected void onPostExecute(String result) {
-
             // Handle the forecasts
             handleForecasts();
 
-
+            pDialog.dismiss();
         }
 
 
         @Override
         protected void onPreExecute() {
-            // Things to be done before execution of long running operation. For
-            // example showing ProgessDialog
+            pDialog = new ProgressDialog(SixHourForecastActivity.this);
+            pDialog.setMessage("Working...");
+            pDialog.show();
         }
 
         @Override
