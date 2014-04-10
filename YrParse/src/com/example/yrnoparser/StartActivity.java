@@ -32,6 +32,7 @@ public class StartActivity extends Activity {
         resultsFromSearch = new ArrayList<Toponym>();
         searchEditText = (EditText)findViewById(R.id.searchEditText);
 
+
         sixHourButton = (Button) findViewById(R.id.getSixHourButton);
         sixHourButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +65,8 @@ public class StartActivity extends Activity {
                 LocationFinder locfinder = new LocationFinder();
                 resultsFromSearch = locfinder.findLocationsFromString(urls[0]);
                 for (Toponym t : resultsFromSearch)
-                    Log.d("APP", t.getName() + " - " + t.getCountryName() + " - " + t.getFeatureCode());
+                    Log.d("APP", t.getName() + " - " + t.getCountryName() + " - " + Integer.toString(t.getGeoNameId()) +
+                     " - " + t.getCountryCode()+"."+t.getAdminCode1());
 
 
             } catch (Exception e) {

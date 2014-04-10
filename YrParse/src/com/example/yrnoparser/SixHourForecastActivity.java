@@ -110,7 +110,7 @@ public class SixHourForecastActivity extends Activity {
         protected String doInBackground(Void... params) {
             publishProgress("Working..."); // Calls onProgressUpdate()
             try {
-                URL url = new URL("http://www.yr.no/sted/Norge/Troms/Troms%C3%B8/Troms%C3%B8/varsel.xml");
+                URL url = new URL("http://www.yr.no/place/netherlands/north_holland/amsterdam/forecast.xml");
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
