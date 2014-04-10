@@ -1,5 +1,5 @@
 <resources>
-    <!-- Sticky header colors -->
+    <!-- Sticky six_hour_header colors -->
     <color name="blue1">#5588ff</color>
     <color name="blue2">#77aaff</color>
     <color name="blue3">#99ccff</color>

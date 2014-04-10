@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
-import com.example.yrnoparser.location.LocationFinder;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -20,7 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class SixHourForecastActivity extends Activity {
 
     private Location location;
     private Forecast forecast;
@@ -28,22 +28,19 @@ public class MainActivity extends Activity {
     private ListView sixHourListView;
     private Context context;
     private TypedArray weatherIcons;
-    private TextView infoTextView;
 
     private ArrayList<SingleDay> listOfDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.six_hour);
 
         location = new Location();
         forecast = new Forecast();
         listOfForecasts = new ArrayList<Forecast>();
         listOfDays = new ArrayList<SingleDay>();
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
-
-        infoTextView = (TextView) findViewById(R.id.infoTextView);
 
         context = this;
 
@@ -60,7 +57,16 @@ public class MainActivity extends Activity {
     }
 
     public void updateListView() {
+
         HeaderListView list = new HeaderListView(this);
+
+        // Add header to the list
+        View footerView = getLayoutInflater().inflate(R.layout.six_hour_header, null);
+        TextView infoTextView = (TextView)footerView.findViewById(R.id.sixHourTextView);
+        infoTextView.setText(location.getName());
+        ListView lv = list.getListView();
+        lv.addHeaderView(footerView);
+
         list.setAdapter(new OverviewSectionAdapter(this, listOfDays, weatherIcons));
         setContentView(list);
     }
@@ -89,7 +95,6 @@ public class MainActivity extends Activity {
 
         // Update list with new data
         updateListView();
-
 
 
     }
@@ -151,7 +156,7 @@ public class MainActivity extends Activity {
                             if (insideTabular) {
                                 String value = xpp.getAttributeValue(null, "value");
                                 forecast.setPrecipitation(value);
-                                if(!value.equals("0")) {
+                                if (!value.equals("0")) {
                                     forecast.setPrecipitationMin(xpp.getAttributeValue(null, "minvalue"));
                                     forecast.setPrecipitationMax(xpp.getAttributeValue(null, "maxvalue"));
                                 }
@@ -186,15 +191,6 @@ public class MainActivity extends Activity {
 
                     eventType = xpp.next(); //move to next element
 
-                }
-
-                LocationFinder lol = new LocationFinder();
-                try {
-                    lol.findLocationsFromString();
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                    Log.d("APP", "crash");
                 }
 
 
