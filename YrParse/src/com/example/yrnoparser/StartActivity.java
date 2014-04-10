@@ -46,28 +46,27 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String searchString = searchEditText.getText().toString();
-                if(searchString == null)
+                if(searchString.equals(""))
                     Toast.makeText(StartActivity.this, "Tomt søkefelt", Toast.LENGTH_LONG).show();
                 else
                     new AsyncSearchLocationFromString().execute(searchEditText.getText().toString());
             }
         });
 
-
-
-
     }
 
-    private class AsyncSearchLocationFromString extends AsyncTask<String, Void, Void> {
+    private class AsyncSearchLocationFromString extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
-        protected Void doInBackground(String... urls) {
+        protected String doInBackground(String... urls) {
 
             try {
                 LocationFinder locfinder = new LocationFinder();
-                List<Toponym> list = locfinder.findLocationsFromString(urls[0]);
-                for (Toponym t : list)
-                    Log.d("APP", t.getName());
+                resultsFromSearch = locfinder.findLocationsFromString(urls[0]);
+                for (Toponym t : resultsFromSearch)
+                    Log.d("APP", t.getName() + " - " + t.getCountryName() + " - " + t.getFeatureCode());
+
+
             } catch (Exception e) {
                 Log.d("APP", "exception");
                 e.printStackTrace();
@@ -75,9 +74,6 @@ public class StartActivity extends Activity {
             return null;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-
-        }
 
         @Override
         protected void onPreExecute() {
@@ -87,7 +83,7 @@ public class StartActivity extends Activity {
             pDialog.show();
         }
 
-        protected void onPostExecute(Long result) {
+        protected void onPostExecute(String result) {
             pDialog.dismiss();
 
         }

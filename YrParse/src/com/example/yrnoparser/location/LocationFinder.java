@@ -18,16 +18,6 @@ public class LocationFinder {
         ToponymSearchResult searchResult = WebService.search(searchCriteria);
         List<Toponym> toponyms = searchResult.getToponyms();
 
-        // For testing
-        /*for (Toponym toponym : toponyms) {
-            if (toponym.getName().equalsIgnoreCase(locationName)) {
-                Log.d("APP", toponym.getName());
-                Log.d("APP", toponym.getFeatureCode());
-                Log.d("APP", toponym.getCountryName());
-                Log.d("APP", Integer.toString(toponym.getGeoNameId()));
-                Log.d("APP", "--------");
-            }
-        }*/
         return toponyms;
     }
 

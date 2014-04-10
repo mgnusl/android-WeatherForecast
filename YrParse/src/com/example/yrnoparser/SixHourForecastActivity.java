@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
+import com.example.yrnoparser.adapter.OverviewSectionAdapter;
 import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.Location;
 import com.example.yrnoparser.data.SingleDay;
@@ -211,6 +212,12 @@ public class SixHourForecastActivity extends Activity {
 
         }
 
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(SixHourForecastActivity.this);
+            pDialog.setMessage("Working...");
+            pDialog.show();
+        }
 
         @Override
         protected void onPostExecute(String result) {
@@ -220,18 +227,5 @@ public class SixHourForecastActivity extends Activity {
             pDialog.dismiss();
         }
 
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(SixHourForecastActivity.this);
-            pDialog.setMessage("Working...");
-            pDialog.show();
-        }
-
-        @Override
-        protected void onProgressUpdate(String... text) {
-            // Things to be done while execution of long running operation is in
-            // progress. For example updating ProgessDialog
-        }
     }
 }
