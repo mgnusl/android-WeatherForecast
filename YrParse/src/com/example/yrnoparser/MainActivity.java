@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
+import com.example.yrnoparser.location.LocationFinder;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -87,6 +89,8 @@ public class MainActivity extends Activity {
 
         // Update list with new data
         updateListView();
+
+
 
     }
 
@@ -181,6 +185,16 @@ public class MainActivity extends Activity {
                     }
 
                     eventType = xpp.next(); //move to next element
+
+                }
+
+                LocationFinder lol = new LocationFinder();
+                try {
+                    lol.findLocationsFromString();
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    Log.d("APP", "crash");
                 }
 
 
