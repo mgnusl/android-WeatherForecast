@@ -3,6 +3,7 @@ package com.example.yrnoparser;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +33,6 @@ public class SixHourForecastActivity extends Activity {
     private ListView sixHourListView;
     private Context context;
     private TypedArray weatherIcons;
-
     private ArrayList<SingleDay> listOfDays;
 
     @Override
@@ -47,6 +47,9 @@ public class SixHourForecastActivity extends Activity {
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
         context = this;
+
+        Intent intent = getIntent();
+        intent.getStringExtra("info");
 
         new AsyncDownloadTask().execute();
 
@@ -66,7 +69,7 @@ public class SixHourForecastActivity extends Activity {
 
         // Add header to the list
         View footerView = getLayoutInflater().inflate(R.layout.six_hour_header, null);
-        TextView infoTextView = (TextView)footerView.findViewById(R.id.sixHourTextView);
+        TextView infoTextView = (TextView) footerView.findViewById(R.id.sixHourTextView);
         infoTextView.setText(location.getName());
         ListView lv = list.getListView();
         lv.addHeaderView(footerView);
