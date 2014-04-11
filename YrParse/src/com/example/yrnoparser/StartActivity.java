@@ -65,7 +65,8 @@ public class StartActivity extends Activity {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
         int i = 0;
         for (Toponym t : resultsFromSearch) {
-            popup.getMenu().add(Menu.NONE, i, Menu.NONE, t.getName() + " - " + t.getCountryName());
+            popup.getMenu().add(Menu.NONE, i, Menu.NONE, t.getName() +
+                    " - " + t.getCountryName());
             i++;
         }
 

@@ -72,11 +72,17 @@ public class SixHourForecastActivity extends Activity {
         HeaderListView list = new HeaderListView(this);
 
         // Add header to the list
-        View footerView = getLayoutInflater().inflate(R.layout.six_hour_header, null);
-        TextView infoTextView = (TextView) footerView.findViewById(R.id.sixHourTextView);
-        infoTextView.setText(location.getName());
+        View headerView = getLayoutInflater().inflate(R.layout.six_hour_header, null);
+
+        TextView locationTextView = (TextView) headerView.findViewById(R.id.sixHourLocationTextView);
+        locationTextView.setText(location.getName());
+        TextView typeTextView = (TextView) headerView.findViewById(R.id.sixHourTypeTextView);
+        typeTextView.setText(location.getType());
+        TextView countryTextView = (TextView) headerView.findViewById(R.id.sixHourCountryTextView);
+        countryTextView.setText(location.getCountry());
+
         ListView lv = list.getListView();
-        lv.addHeaderView(footerView);
+        lv.addHeaderView(headerView);
 
         list.setAdapter(new OverviewSectionAdapter(this, listOfDays, weatherIcons));
         setContentView(list);
