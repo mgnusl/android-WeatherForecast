@@ -34,6 +34,7 @@ public class SixHourForecastActivity extends Activity {
     private Context context;
     private TypedArray weatherIcons;
     private ArrayList<SingleDay> listOfDays;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,12 @@ public class SixHourForecastActivity extends Activity {
 
         context = this;
 
+        // Get intent and data passed with it
         Intent intent = getIntent();
-        intent.getStringExtra("info");
+        url = intent.getStringExtra("info");
 
-        new AsyncDownloadTask().execute();
+
+        new AsyncDownloadTask().execute(url);
 
     }
 
@@ -105,15 +108,15 @@ public class SixHourForecastActivity extends Activity {
 
     }
 
-    private class AsyncDownloadTask extends AsyncTask<Void, String, String> {
+    private class AsyncDownloadTask extends AsyncTask<String, String, String> {
 
         ProgressDialog pDialog;
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(String... params) {
             publishProgress("Working..."); // Calls onProgressUpdate()
             try {
-                URL url = new URL("http://www.yr.no/place/netherlands/north_holland/amsterdam/forecast.xml");
+                URL url = new URL(params[0]);
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
