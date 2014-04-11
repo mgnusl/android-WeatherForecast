@@ -33,7 +33,7 @@ public class StartActivity extends Activity {
     private List<Toponym> resultsFromSearch;
     private List<GeoName> listOfGeonames;
 
-    private Button sixHourButton, searchButton;
+    private Button searchButton;
     private EditText searchEditText;
 
     private Toponym selectedLocation;
@@ -46,15 +46,6 @@ public class StartActivity extends Activity {
         listOfGeonames = new ArrayList<GeoName>();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
-
-        sixHourButton = (Button) findViewById(R.id.getSixHourButton);
-        sixHourButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(StartActivity.this, SixHourForecastActivity.class);
-                startActivity(i);
-            }
-        });
 
         searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
