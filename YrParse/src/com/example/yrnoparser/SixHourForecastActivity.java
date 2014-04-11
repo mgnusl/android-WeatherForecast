@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -116,6 +117,8 @@ public class SixHourForecastActivity extends Activity {
         protected String doInBackground(String... params) {
             publishProgress("Working..."); // Calls onProgressUpdate()
             try {
+
+                Log.d("APP", params[0]);
                 URL url = new URL(params[0]);
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();

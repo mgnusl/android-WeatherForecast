@@ -36,6 +36,8 @@ public class StartActivity extends Activity {
     private Button sixHourButton, searchButton;
     private EditText searchEditText;
 
+    private Toponym selectedLocation;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
@@ -78,7 +80,7 @@ public class StartActivity extends Activity {
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                Toponym selectedLocation = resultsFromSearch.get(item.getItemId());
+                selectedLocation = resultsFromSearch.get(item.getItemId());
                 new AsyncBuildURLTask().execute(Integer.toString(selectedLocation.getGeoNameId()));
                 return true;
             }
@@ -87,8 +89,7 @@ public class StartActivity extends Activity {
 
     }
 
-    private void handleLocationSelection(int selectedLocationIndex) {
-        Toponym selectedLocation = resultsFromSearch.get(selectedLocationIndex);
+    private void handleLocationSelection() {
         String url;
         String regionName = null;
         String regionNameParent = null;
@@ -233,6 +234,7 @@ public class StartActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             pDialog.dismiss();
+            handleLocationSelection();
         }
 
     }
