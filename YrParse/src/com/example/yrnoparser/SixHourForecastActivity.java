@@ -139,7 +139,7 @@ public class SixHourForecastActivity extends Activity {
 
                 // Returns the type of current event
                 int eventType = xpp.getEventType();
-                // Loop thru all elements as long as they are not END_DOCUMENT
+                // Loop through all elements as long as they are not END_DOCUMENT
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     if (eventType == XmlPullParser.START_TAG) {
 
@@ -207,6 +207,7 @@ public class SixHourForecastActivity extends Activity {
                     } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("time")
                             && insideTabular) {
                         // Done processing this "time"
+                        forecast.setLocation(location);
                         listOfForecasts.add(forecast);
                     }
 

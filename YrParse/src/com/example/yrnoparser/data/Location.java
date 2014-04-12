@@ -1,26 +1,20 @@
 package com.example.yrnoparser.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Location {
     private String name;
-    private String type;
     private String country;
-
-    public Location(String name, String type, String country ) {
-        this.name = name;
-        this.type = type;
-        this.country = country;
-    }
+    private String countryCode;
+    private String type;
+    private String childRegion;
+    private String region;
+    private int geonamesID;
+    private List<GeoName> geonameList;
 
     public Location() {
-
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+        geonameList = new ArrayList<GeoName>();
     }
 
     public String getName() {
@@ -31,6 +25,14 @@ public class Location {
         this.name = name;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getType() {
         return type;
     }
@@ -39,13 +41,47 @@ public class Location {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Location{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", country='" + country + '\'' +
-                '}';
+    public String getChildRegion() {
+        return childRegion;
     }
 
+    public void setChildRegion(String childRegion) {
+        this.childRegion = childRegion;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public int getGeonamesID() {
+        return geonamesID;
+    }
+
+    public void setGeonamesID(int geonamesID) {
+        this.geonamesID = geonamesID;
+    }
+
+    public List<GeoName> getGeonameList() {
+        return geonameList;
+    }
+
+    public void setGeonameList(List<GeoName> geonameList) {
+        this.geonameList = geonameList;
+    }
+
+    public void addGeoname(GeoName g) {
+        geonameList.add(g);
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 }

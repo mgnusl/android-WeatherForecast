@@ -14,16 +14,15 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import com.example.yrnoparser.data.GeoName;
+import com.example.yrnoparser.data.Location;
 import com.example.yrnoparser.location.LocationFinder;
 import com.example.yrnoparser.utils.UrlBuilder;
 import org.geonames.Toponym;
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +31,12 @@ public class StartActivity extends Activity {
 
     private List<Toponym> resultsFromSearch;
     private List<GeoName> listOfGeonames;
+    private List<Location> listOfLocations;
 
     private Button searchButton;
     private EditText searchEditText;
 
-    private Toponym selectedLocation;
+    private Location selectedLocation;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +44,7 @@ public class StartActivity extends Activity {
 
         resultsFromSearch = new ArrayList<Toponym>();
         listOfGeonames = new ArrayList<GeoName>();
+        listOfLocations = new ArrayList<Location>();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
@@ -64,16 +65,16 @@ public class StartActivity extends Activity {
     private void showPopupMenu() {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
         int i = 0;
-        for (Toponym t : resultsFromSearch) {
-            popup.getMenu().add(Menu.NONE, i, Menu.NONE, t.getName() +
-                    " - " + t.getCountryName());
+        for (Location l : listOfLocations) {
+            popup.getMenu().add(Menu.NONE, i, Menu.NONE, l.getName() + " - " + l.getRegion() +
+                    " - " + l.getCountry());
             i++;
         }
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                selectedLocation = resultsFromSearch.get(item.getItemId());
-                new AsyncBuildURLTask().execute(Integer.toString(selectedLocation.getGeoNameId()));
+                selectedLocation = listOfLocations.get(item.getItemId());
+                handleLocationSelection();
                 return true;
             }
         });
@@ -83,25 +84,15 @@ public class StartActivity extends Activity {
 
     private void handleLocationSelection() {
         String url;
-        String regionName = null;
-        String regionNameParent = null;
-
-        // Loop through listOfGeonames to extract the needed information about region(s)
-        for(GeoName g : listOfGeonames) {
-            if(g.getFcode().equalsIgnoreCase("ADM1"))
-                regionName = g.getName();
-            if(g.getFcode().equalsIgnoreCase("ADM2"))
-                regionNameParent = g.getName();
-        }
 
         // Build URL
         if(selectedLocation.getCountryCode().equalsIgnoreCase("no")) {
-            url = UrlBuilder.buildNorwegianURL(selectedLocation.getCountryName(), regionName, regionNameParent,
-                    selectedLocation.getName(), "sixhour");
+            url = UrlBuilder.buildNorwegianURL(selectedLocation.getCountry(), selectedLocation.getRegion(),
+                    selectedLocation.getChildRegion(), selectedLocation.getName(), "sixhour");
         }
         else {
-            url = UrlBuilder.buildInternationalURL(selectedLocation.getCountryName(),
-                    regionName, selectedLocation.getName(), "sixhour");
+            url = UrlBuilder.buildInternationalURL(selectedLocation.getCountry(),
+                    selectedLocation.getRegion(), selectedLocation.getName(), "sixhour");
         }
 
         // Launch activity
@@ -123,15 +114,80 @@ public class StartActivity extends Activity {
     private class AsyncSearchLocationFromString extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
-        protected String doInBackground(String... urls) {
+        protected String doInBackground(String...args) {
 
             try {
                 LocationFinder locfinder = new LocationFinder();
-                resultsFromSearch = locfinder.findLocationsFromString(urls[0]);
-                for (Toponym t : resultsFromSearch)
-                    Log.d("APP", t.getName() + " - " + t.getCountryName() + " - " + Integer.toString(t.getGeoNameId()) +
-                            " - " + t.getCountryCode() + "." + t.getAdminCode1());
+                resultsFromSearch = locfinder.findLocationsFromString(args[0]);
 
+                for (Toponym toponym : resultsFromSearch) {
+
+                    // The URL to get geoname data from
+                    URL url = new URL("http://api.geonames.org/hierarchy?geonameId=" +
+                            toponym.getGeoNameId() + "&username=mgnusl");
+
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(false);
+                    XmlPullParser xpp = factory.newPullParser();
+
+                    // Get the XML from an input stream
+                    xpp.setInput(getInputStream(url), "UTF_8");
+
+                    Location location = new Location();
+                    location.setCountry(toponym.getCountryName());
+                    location.setGeonamesID(toponym.getGeoNameId());
+                    location.setName(toponym.getName());
+                    location.setCountryCode(toponym.getCountryCode());
+
+                    boolean insideGeoname = false;
+                    GeoName geoname = new GeoName();
+
+                    // Returns the type of current event
+                    int eventType = xpp.getEventType();
+                    // Loop through all elements as long as they are not END_DOCUMENT
+                    while (eventType != XmlPullParser.END_DOCUMENT) {
+                        if (eventType == XmlPullParser.START_TAG) {
+                            if (xpp.getName().equalsIgnoreCase("geoname")) {
+                                // Inside geoname
+                                insideGeoname = true;
+                            } else if (xpp.getName().equalsIgnoreCase("name")) {
+                                if (insideGeoname) {
+                                    geoname.setName(xpp.nextText());
+                                }
+                            } else if (xpp.getName().equalsIgnoreCase("fcode")) {
+                                if (insideGeoname) {
+                                    geoname.setFcode(xpp.nextText());
+                                }
+                            }
+                        } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("geoname")) {
+                            insideGeoname = false;
+                            location.addGeoname(geoname);
+                            geoname = new GeoName();
+                        }
+
+                        eventType = xpp.next(); //move to next element
+
+                    } // end while
+
+                    // Run through the list of GeoNames the Location has and set the needed fields
+                    for(GeoName g : location.getGeonameList()) {
+                        if(g.getFcode().equals("ADM2")) {
+                            location.setChildRegion(g.getName());
+                        }
+                        if(g.getFcode().equals("ADM1")) {
+                            location.setRegion(g.getName());
+                        }
+                    }
+                    // Add the Location to the list of Locations to be shown later in the popupmenu
+                    listOfLocations.add(location);
+
+                    Log.d("APP", location.getName() + " - " + location.getRegion()
+                            + " - " + location.getGeonamesID() + " - " + location.getChildRegion()
+                            + " - " + location.getType());
+
+
+
+                } // end for
 
             } catch (Exception e) {
                 Log.d("APP", "exception");
@@ -139,7 +195,6 @@ public class StartActivity extends Activity {
             }
             return null;
         }
-
 
         @Override
         protected void onPreExecute() {
@@ -153,81 +208,5 @@ public class StartActivity extends Activity {
             pDialog.dismiss();
             showPopupMenu();
         }
-    }
-
-    private class AsyncBuildURLTask extends AsyncTask<String, String, String> {
-
-        ProgressDialog pDialog;
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            try {
-
-                //http://api.geonames.org/hierarchy?geonameId=2759794&username=mgnusl
-
-                URL url = new URL("http://api.geonames.org/hierarchy?geonameId=" +
-                        params[0] + "&username=mgnusl");
-
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(false);
-                XmlPullParser xpp = factory.newPullParser();
-
-                // Get the XML from an input stream
-                xpp.setInput(getInputStream(url), "UTF_8");
-
-                boolean insideGeoname = false;
-                GeoName geoname = new GeoName();
-
-                // Returns the type of current event
-                int eventType = xpp.getEventType();
-                // Loop thru all elements as long as they are not END_DOCUMENT
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    if (eventType == XmlPullParser.START_TAG) {
-                        if (xpp.getName().equalsIgnoreCase("geoname")) {
-                            // Inside geoname
-                            insideGeoname = true;
-                            geoname = new GeoName();
-                        } else if (xpp.getName().equalsIgnoreCase("name")) {
-                            if (insideGeoname) {
-                                geoname.setName(xpp.nextText());
-                            }
-                        } else if (xpp.getName().equalsIgnoreCase("fcode")) {
-                            if (insideGeoname) {
-                                geoname.setFcode(xpp.nextText());
-                            }
-                        }
-                    } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("geoname")) {
-                        insideGeoname = false;
-                        listOfGeonames.add(geoname);
-                    }
-                    eventType = xpp.next(); //move to next element
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (XmlPullParserException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(StartActivity.this);
-            pDialog.setMessage("Working...");
-            pDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            pDialog.dismiss();
-            handleLocationSelection();
-        }
-
     }
 }
