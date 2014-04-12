@@ -53,6 +53,8 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String searchString = searchEditText.getText().toString();
+                // Clear location list to remove results from earlier searches
+                listOfLocations.clear();
                 if (searchString.equals(""))
                     Toast.makeText(StartActivity.this, "Tomt søkefelt", Toast.LENGTH_LONG).show();
                 else
@@ -64,6 +66,7 @@ public class StartActivity extends Activity {
 
     private void showPopupMenu() {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
+
         int i = 0;
         for (Location l : listOfLocations) {
             popup.getMenu().add(Menu.NONE, i, Menu.NONE, l.getName() + " - " + l.getRegion() +
