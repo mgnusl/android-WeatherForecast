@@ -30,10 +30,8 @@ import java.util.List;
 public class StartActivity extends Activity {
 
     private List<Toponym> resultsFromSearch;
-    private List<GeoName> listOfGeonames;
     private List<Location> listOfLocations;
 
-    private Button searchButton;
     private EditText searchEditText;
 
     private Location selectedLocation;
@@ -43,12 +41,11 @@ public class StartActivity extends Activity {
         setContentView(R.layout.start);
 
         resultsFromSearch = new ArrayList<Toponym>();
-        listOfGeonames = new ArrayList<GeoName>();
         listOfLocations = new ArrayList<Location>();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
-        searchButton = (Button) findViewById(R.id.searchButton);
+        Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +100,6 @@ public class StartActivity extends Activity {
         intent.putExtra("info", url);
         startActivity(intent);
 
-
     }
 
     public InputStream getInputStream(URL url) {
@@ -120,9 +116,11 @@ public class StartActivity extends Activity {
         protected String doInBackground(String...args) {
 
             try {
+
                 LocationFinder locfinder = new LocationFinder();
                 resultsFromSearch = locfinder.findLocationsFromString(args[0]);
 
+                // For each search result
                 for (Toponym toponym : resultsFromSearch) {
 
                     // The URL to get geoname data from
@@ -136,6 +134,7 @@ public class StartActivity extends Activity {
                     // Get the XML from an input stream
                     xpp.setInput(getInputStream(url), "UTF_8");
 
+                    // Set location fields for data we already know
                     Location location = new Location();
                     location.setCountry(toponym.getCountryName());
                     location.setGeonamesID(toponym.getGeoNameId());
@@ -174,10 +173,10 @@ public class StartActivity extends Activity {
 
                     // Run through the list of GeoNames the Location has and set the needed fields
                     for(GeoName g : location.getGeonameList()) {
-                        if(g.getFcode().equals("ADM2")) {
+                        if(g.getFcode().equals("ADM2")) { // Child region. IE. "Bærum" or "Santa Barbara"
                             location.setChildRegion(g.getName());
                         }
-                        if(g.getFcode().equals("ADM1")) {
+                        if(g.getFcode().equals("ADM1")) { // Parent region. IE. "Akershus" or "California"
                             location.setRegion(g.getName());
                         }
                     }
@@ -189,13 +188,13 @@ public class StartActivity extends Activity {
                             + " - " + location.getType());
 
 
-
                 } // end for
 
             } catch (Exception e) {
                 Log.d("APP", "exception");
                 e.printStackTrace();
             }
+
             return null;
         }
 
