@@ -15,7 +15,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.data.Location;
-import com.example.yrnoparser.location.LocationFinder;
+import com.example.yrnoparser.location.GeonamesLocation;
 import com.example.yrnoparser.utils.UrlBuilder;
 import org.geonames.Toponym;
 import org.xmlpull.v1.XmlPullParser;
@@ -86,11 +86,10 @@ public class StartActivity extends Activity {
         String url;
 
         // Build URL
-        if(selectedLocation.getCountryCode().equalsIgnoreCase("no")) {
+        if (selectedLocation.getCountryCode().equalsIgnoreCase("no")) {
             url = UrlBuilder.buildNorwegianURL(selectedLocation.getCountry(), selectedLocation.getRegion(),
                     selectedLocation.getChildRegion(), selectedLocation.getName(), "sixhour");
-        }
-        else {
+        } else {
             url = UrlBuilder.buildInternationalURL(selectedLocation.getCountry(),
                     selectedLocation.getRegion(), selectedLocation.getName(), "sixhour");
         }
@@ -113,11 +112,11 @@ public class StartActivity extends Activity {
     private class AsyncSearchLocationFromString extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
-        protected String doInBackground(String...args) {
+        protected String doInBackground(String... args) {
 
             try {
 
-                LocationFinder locfinder = new LocationFinder();
+                GeonamesLocation locfinder = new GeonamesLocation();
                 resultsFromSearch = locfinder.findLocationsFromString(args[0]);
 
                 // For each search result
@@ -172,11 +171,11 @@ public class StartActivity extends Activity {
                     } // end while
 
                     // Run through the list of GeoNames the Location has and set the needed fields
-                    for(GeoName g : location.getGeonameList()) {
-                        if(g.getFcode().equals("ADM2")) { // Child region. IE. "Bærum" or "Santa Barbara"
+                    for (GeoName g : location.getGeonameList()) {
+                        if (g.getFcode().equals("ADM2")) { // Child region. IE. "Bærum" or "Santa Barbara"
                             location.setChildRegion(g.getName());
                         }
-                        if(g.getFcode().equals("ADM1")) { // Parent region. IE. "Akershus" or "California"
+                        if (g.getFcode().equals("ADM1")) { // Parent region. IE. "Akershus" or "California"
                             location.setRegion(g.getName());
                         }
                     }

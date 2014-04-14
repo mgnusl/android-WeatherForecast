@@ -4,11 +4,11 @@ import org.geonames.*;
 
 import java.util.List;
 
-public class LocationFinder {
+public class GeonamesLocation {
 
     private static final String GEONAMES_USERNAME = "mgnusl";
 
-    public LocationFinder() {
+    public GeonamesLocation() {
         WebService.setUserName(GEONAMES_USERNAME);
     }
 

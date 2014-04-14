@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:appcompat-v7:+'
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
@@ -48,5 +49,4 @@ dependencies {
 	compile('org.geonames:geonames:1.0')
 
     compile project(":HeaderListView")
-            
 }
