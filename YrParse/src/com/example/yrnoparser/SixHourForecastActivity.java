@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.applidium.headerlistview.HeaderListView;
 import com.example.yrnoparser.adapter.OverviewSectionAdapter;
 import com.example.yrnoparser.data.Forecast;
@@ -215,12 +216,17 @@ public class SixHourForecastActivity extends Activity {
 
                 }
 
-
             } catch (MalformedURLException e) {
+                finish();
                 e.printStackTrace();
             } catch (XmlPullParserException e) {
+                finish();
                 e.printStackTrace();
             } catch (IOException e) {
+                finish();
+                e.printStackTrace();
+            } catch (Exception e) {
+                finish();
                 e.printStackTrace();
             }
 
@@ -237,9 +243,16 @@ public class SixHourForecastActivity extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
+            // Check if we actually found any forecasts while reading the URL
+            if(listOfForecasts.isEmpty()) {
+                Toast.makeText(SixHourForecastActivity.this, "No forecasts available for this location",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+
             // Handle the forecasts
             handleForecasts();
-
             pDialog.dismiss();
         }
 
