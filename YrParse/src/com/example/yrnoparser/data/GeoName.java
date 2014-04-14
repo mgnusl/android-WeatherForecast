@@ -4,6 +4,7 @@ public class GeoName {
 
     private String name;
     private String fcode;
+    private int geonameID;
 
     public GeoName() {
 
@@ -23,5 +24,13 @@ public class GeoName {
 
     public void setFcode(String fcode) {
         this.fcode = fcode;
+    }
+
+    public int getGeonameID() {
+        return geonameID;
+    }
+
+    public void setGeonameID(int geonameID) {
+        this.geonameID = geonameID;
     }
 }
