@@ -47,6 +47,7 @@ dependencies {
     }
 	compile('joda-time:joda-time:2.3')
 	compile('org.geonames:geonames:1.0')
+    compile('com.google.android.gms:play-services:4.2.+')
 
     compile project(":HeaderListView")
 }

@@ -59,6 +59,14 @@ public class StartActivity extends Activity {
 
             }
         });
+
+        Button locationButton = (Button)findViewById(R.id.locfindButton);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StartActivity.this, LocationFinderActivity.class));
+            }
+        });
     }
 
     private void showPopupMenu() {
