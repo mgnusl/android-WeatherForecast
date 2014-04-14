@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
-import com.example.yrnoparser.data.Location;
 import com.example.yrnoparser.location.GeonamesLocation;
 import com.example.yrnoparser.utils.UrlBuilder;
 import org.geonames.Toponym;
@@ -30,18 +30,18 @@ import java.util.List;
 public class StartActivity extends Activity {
 
     private List<Toponym> resultsFromSearch;
-    private List<Location> listOfLocations;
+    private List<ForecastLocation> listOfForecastLocations;
 
     private EditText searchEditText;
 
-    private Location selectedLocation;
+    private ForecastLocation selectedForecastLocation;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
 
         resultsFromSearch = new ArrayList<Toponym>();
-        listOfLocations = new ArrayList<Location>();
+        listOfForecastLocations = new ArrayList<ForecastLocation>();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
@@ -51,7 +51,7 @@ public class StartActivity extends Activity {
             public void onClick(View v) {
                 String searchString = searchEditText.getText().toString();
                 // Clear location list to remove results from earlier searches
-                listOfLocations.clear();
+                listOfForecastLocations.clear();
                 if (searchString.equals(""))
                     Toast.makeText(StartActivity.this, "Tomt søkefelt", Toast.LENGTH_LONG).show();
                 else
@@ -73,7 +73,7 @@ public class StartActivity extends Activity {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
 
         int i = 0;
-        for (Location l : listOfLocations) {
+        for (ForecastLocation l : listOfForecastLocations) {
             popup.getMenu().add(Menu.NONE, i, Menu.NONE, l.getName() + " - " + l.getRegion() +
                     " - " + l.getCountry());
             i++;
@@ -81,7 +81,7 @@ public class StartActivity extends Activity {
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                selectedLocation = listOfLocations.get(item.getItemId());
+                selectedForecastLocation = listOfForecastLocations.get(item.getItemId());
                 handleLocationSelection();
                 return true;
             }
@@ -94,12 +94,12 @@ public class StartActivity extends Activity {
         String url;
 
         // Build URL
-        if (selectedLocation.getCountryCode().equalsIgnoreCase("no")) {
-            url = UrlBuilder.buildNorwegianURL(selectedLocation.getCountry(), selectedLocation.getRegion(),
-                    selectedLocation.getChildRegion(), selectedLocation.getName(), "sixhour");
+        if (selectedForecastLocation.getCountryCode().equalsIgnoreCase("no")) {
+            url = UrlBuilder.buildNorwegianURL(selectedForecastLocation.getCountry(), selectedForecastLocation.getRegion(),
+                    selectedForecastLocation.getChildRegion(), selectedForecastLocation.getName(), "sixhour");
         } else {
-            url = UrlBuilder.buildInternationalURL(selectedLocation.getCountry(),
-                    selectedLocation.getRegion(), selectedLocation.getName(), "sixhour");
+            url = UrlBuilder.buildInternationalURL(selectedForecastLocation.getCountry(),
+                    selectedForecastLocation.getRegion(), selectedForecastLocation.getName(), "sixhour");
         }
 
         // Launch activity
@@ -142,11 +142,11 @@ public class StartActivity extends Activity {
                     xpp.setInput(getInputStream(url), "UTF_8");
 
                     // Set location fields for data we already know
-                    Location location = new Location();
-                    location.setCountry(toponym.getCountryName());
-                    location.setGeonamesID(toponym.getGeoNameId());
-                    location.setName(toponym.getName());
-                    location.setCountryCode(toponym.getCountryCode());
+                    ForecastLocation forecastLocation = new ForecastLocation();
+                    forecastLocation.setCountry(toponym.getCountryName());
+                    forecastLocation.setGeonamesID(toponym.getGeoNameId());
+                    forecastLocation.setName(toponym.getName());
+                    forecastLocation.setCountryCode(toponym.getCountryCode());
 
                     boolean insideGeoname = false;
                     GeoName geoname = new GeoName();
@@ -170,7 +170,7 @@ public class StartActivity extends Activity {
                             }
                         } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("geoname")) {
                             insideGeoname = false;
-                            location.addGeoname(geoname);
+                            forecastLocation.addGeoname(geoname);
                             geoname = new GeoName();
                         }
 
@@ -179,20 +179,20 @@ public class StartActivity extends Activity {
                     } // end while
 
                     // Run through the list of GeoNames the Location has and set the needed fields
-                    for (GeoName g : location.getGeonameList()) {
+                    for (GeoName g : forecastLocation.getGeonameList()) {
                         if (g.getFcode().equals("ADM2")) { // Child region. IE. "Bærum" or "Santa Barbara"
-                            location.setChildRegion(g.getName());
+                            forecastLocation.setChildRegion(g.getName());
                         }
                         if (g.getFcode().equals("ADM1")) { // Parent region. IE. "Akershus" or "California"
-                            location.setRegion(g.getName());
+                            forecastLocation.setRegion(g.getName());
                         }
                     }
                     // Add the Location to the list of Locations to be shown later in the popupmenu
-                    listOfLocations.add(location);
+                    listOfForecastLocations.add(forecastLocation);
 
-                    Log.d("APP", location.getName() + " - " + location.getRegion()
-                            + " - " + location.getGeonamesID() + " - " + location.getChildRegion()
-                            + " - " + location.getType());
+                    Log.d("APP", forecastLocation.getName() + " - " + forecastLocation.getRegion()
+                            + " - " + forecastLocation.getGeonamesID() + " - " + forecastLocation.getChildRegion()
+                            + " - " + forecastLocation.getType());
 
 
                 } // end for

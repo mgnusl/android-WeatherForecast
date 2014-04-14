@@ -5,7 +5,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 public class Forecast {
-    private Location location;
+    private ForecastLocation forecastLocation;
     private String windSpeed;
     private DateTime fromTime;
     private DateTime toTime;
@@ -25,12 +25,12 @@ public class Forecast {
         dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
     }
 
-    public Location getLocation() {
-        return location;
+    public ForecastLocation getForecastLocation() {
+        return forecastLocation;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setForecastLocation(ForecastLocation forecastLocation) {
+        this.forecastLocation = forecastLocation;
     }
 
     public String getWindSpeed() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
@@ -26,6 +27,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
     private LocationClient locationClient;
     private GeoName currentLocationGeoname;
+    private ForecastLocation location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,8 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(location.getLatitude() + ", " + location.getLongitude());
 
-        new AsyncReverseGeocode().execute(location.getLatitude(), location.getLongitude());
+        new AsyncReverseGeocode().execute(Double.toString(location.getLatitude()),
+                Double.toString(location.getLongitude()));
 
     }
 
@@ -78,10 +81,10 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         Toast.makeText(this, "Disconnected", Toast.LENGTH_LONG).show();
     }
 
-    private class AsyncReverseGeocode extends AsyncTask<Double, String, String> {
+    private class AsyncReverseGeocode extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
-        protected String doInBackground(Double... args) {
+        protected String doInBackground(String... args) {
 
             try {
 
@@ -114,8 +117,61 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                     }
 
                     eventType = xpp.next(); //move to next element
-
                 }
+
+                // Check if we found a result. If not, show error and stop asynctask
+                if(currentLocationGeoname.getGeonameID() == 0) {
+                    Log.d("APP", "NO GEONAME ID SET");
+                    return null;
+                }
+
+                //
+                // ***
+                // If we have a geonameID, extract data from its corresponding url
+                URL geonameURL = new URL("http://api.geonames.org/hierarchy?geonameId=" +
+                        currentLocationGeoname.getGeonameID() + "&username=mgnusl");
+
+                XmlPullParserFactory factory2 = XmlPullParserFactory.newInstance();
+                factory2.setNamespaceAware(false);
+                XmlPullParser xpp2 = factory.newPullParser();
+
+                // Get the XML from an input stream
+                xpp2.setInput(Utils.getInputStream(geonameURL), "UTF_8");
+
+                // Set location fields for data we already know
+                location = new ForecastLocation();
+                location.setGeonamesID(currentLocationGeoname.getGeonameID());
+
+                boolean insideGeoname2 = false;
+                GeoName geoname = new GeoName();
+
+                // Returns the type of current event
+                int eventType2 = xpp2.getEventType();
+                // Loop through all elements as long as they are not END_DOCUMENT
+                while (eventType2 != XmlPullParser.END_DOCUMENT) {
+                    if (eventType2 == XmlPullParser.START_TAG) {
+                        if (xpp2.getName().equalsIgnoreCase("geoname")) {
+                            // Inside geoname
+                            insideGeoname2 = true;
+                        } else if (xpp2.getName().equalsIgnoreCase("name")) {
+                            if (insideGeoname2) {
+                                geoname.setName(xpp2.nextText());
+                                Log.d("APP", geoname.getName());
+                            }
+                        } else if (xpp2.getName().equalsIgnoreCase("fcode")) {
+                            if (insideGeoname2) {
+                                geoname.setFcode(xpp2.nextText());
+                            }
+                        }
+                    } else if (eventType2 == XmlPullParser.END_TAG && xpp2.getName().equalsIgnoreCase("geoname")) {
+                        insideGeoname2 = false;
+                        location.addGeoname(geoname);
+                        geoname = new GeoName();
+                    }
+
+                    eventType2 = xpp2.next(); //move to next element
+
+                } // end while
 
             } catch(XmlPullParserException e) {
                 e.printStackTrace();
@@ -137,7 +193,20 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         protected void onPostExecute(String result) {
             pDialog.dismiss();
             Log.d("APP", Integer.toString(currentLocationGeoname.getGeonameID()));
+
+            // FOR TESTING
+            StringBuilder sb = new StringBuilder();
+            for(GeoName g : location.getGeonameList()) {
+                sb.append(g.getName() + " - ");
+            }
+
+            testResult(sb.toString());
         }
+    }
+
+    public void testResult(String s) {
+        TextView tv = (TextView)findViewById(R.id.textView2);
+        tv.setText(s);
     }
 
 }

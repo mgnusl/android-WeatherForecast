@@ -3,7 +3,7 @@ package com.example.yrnoparser.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class ForecastLocation {
     private String name;
     private String country;
     private String countryCode;
@@ -13,7 +13,7 @@ public class Location {
     private int geonamesID;
     private List<GeoName> geonameList;
 
-    public Location() {
+    public ForecastLocation() {
         geonameList = new ArrayList<GeoName>();
     }
 

@@ -7,7 +7,7 @@ public class GeoName {
     private int geonameID;
 
     public GeoName() {
-
+        geonameID = 0;
     }
 
     public String getName() {

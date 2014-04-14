@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.applidium.headerlistview.HeaderListView;
 import com.example.yrnoparser.adapter.OverviewSectionAdapter;
 import com.example.yrnoparser.data.Forecast;
-import com.example.yrnoparser.data.Location;
+import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.SingleDay;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class SixHourForecastActivity extends Activity {
 
-    private Location location;
+    private ForecastLocation forecastLocation;
     private Forecast forecast;
     private ArrayList<Forecast> listOfForecasts;
     private ListView sixHourListView;
@@ -43,7 +43,7 @@ public class SixHourForecastActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.six_hour);
 
-        location = new Location();
+        forecastLocation = new ForecastLocation();
         forecast = new Forecast();
         listOfForecasts = new ArrayList<Forecast>();
         listOfDays = new ArrayList<SingleDay>();
@@ -76,11 +76,11 @@ public class SixHourForecastActivity extends Activity {
         View headerView = getLayoutInflater().inflate(R.layout.six_hour_header, null);
 
         TextView locationTextView = (TextView) headerView.findViewById(R.id.sixHourLocationTextView);
-        locationTextView.setText(location.getName());
+        locationTextView.setText(forecastLocation.getName());
         TextView typeTextView = (TextView) headerView.findViewById(R.id.sixHourTypeTextView);
-        typeTextView.setText(location.getType());
+        typeTextView.setText(forecastLocation.getType());
         TextView countryTextView = (TextView) headerView.findViewById(R.id.sixHourCountryTextView);
-        countryTextView.setText(location.getCountry());
+        countryTextView.setText(forecastLocation.getCountry());
 
         ListView lv = list.getListView();
         lv.addHeaderView(headerView);
@@ -149,13 +149,13 @@ public class SixHourForecastActivity extends Activity {
                             insideLocation = true;
                         } else if (xpp.getName().equalsIgnoreCase("name")) {
                             if (insideLocation)
-                                location.setName(xpp.nextText());
+                                forecastLocation.setName(xpp.nextText());
                         } else if (xpp.getName().equalsIgnoreCase("type")) {
                             if (insideLocation)
-                                location.setType(xpp.nextText());
+                                forecastLocation.setType(xpp.nextText());
                         } else if (xpp.getName().equalsIgnoreCase("country")) {
                             if (insideLocation)
-                                location.setCountry(xpp.nextText());
+                                forecastLocation.setCountry(xpp.nextText());
                         }
 
                         // Get weather info
@@ -208,7 +208,7 @@ public class SixHourForecastActivity extends Activity {
                     } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("time")
                             && insideTabular) {
                         // Done processing this "time"
-                        forecast.setLocation(location);
+                        forecast.setForecastLocation(forecastLocation);
                         listOfForecasts.add(forecast);
                     }
 
