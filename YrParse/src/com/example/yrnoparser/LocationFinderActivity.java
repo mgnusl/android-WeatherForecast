@@ -35,9 +35,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         setContentView(R.layout.loc_finder);
 
         // Check if Google Play service is available and up to date.
-        final int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (result != ConnectionResult.SUCCESS) {
-            Toast.makeText(this, "Google Play service is not available", Toast.LENGTH_LONG).show();
+        if(!servicesConnected()) {
             finish();
         }
 
@@ -58,8 +56,9 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
     @Override
     public void onConnected(Bundle arg0) {
-        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
 
+        if(!servicesConnected())
+            return;
         Location location = locationClient.getLastLocation();
         Log.d("APP", "location: " + location.toString());
 
@@ -73,6 +72,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
     @Override
     public void onConnectionFailed(ConnectionResult arg0) {
+
         Toast.makeText(this, "Connection failed", Toast.LENGTH_LONG).show();
     }
 
@@ -207,6 +207,24 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
     public void testResult(String s) {
         TextView tv = (TextView)findViewById(R.id.textView2);
         tv.setText(s);
+    }
+
+    private boolean servicesConnected() {
+        // Check that Google Play services is available
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode) {
+            // In debug mode, log the status
+            Log.d("APP", "Google Play services is available.");
+            Toast.makeText(this, "Available", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
+        else {
+            // Get the error code
+            Toast.makeText(this, "Error code: " + Integer.toString(resultCode), Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
 }
