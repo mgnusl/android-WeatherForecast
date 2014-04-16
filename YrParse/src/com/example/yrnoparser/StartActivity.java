@@ -17,12 +17,11 @@ import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.location.GeonamesLocation;
 import com.example.yrnoparser.utils.UrlBuilder;
+import com.example.yrnoparser.utils.Utils;
 import org.geonames.Toponym;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +71,11 @@ public class StartActivity extends Activity {
     private void showPopupMenu() {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
 
+        if(resultsFromSearch.isEmpty()) {
+            Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         int i = 0;
         for (ForecastLocation l : listOfForecastLocations) {
             popup.getMenu().add(Menu.NONE, i, Menu.NONE, l.getName() + " - " + l.getRegion() +
@@ -109,14 +113,6 @@ public class StartActivity extends Activity {
 
     }
 
-    public InputStream getInputStream(URL url) {
-        try {
-            return url.openConnection().getInputStream();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     private class AsyncSearchLocationFromString extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
@@ -139,7 +135,7 @@ public class StartActivity extends Activity {
                     XmlPullParser xpp = factory.newPullParser();
 
                     // Get the XML from an input stream
-                    xpp.setInput(getInputStream(url), "UTF_8");
+                    xpp.setInput(Utils.getInputStream(url), "UTF_8");
 
                     // Set location fields for data we already know
                     ForecastLocation forecastLocation = new ForecastLocation();
