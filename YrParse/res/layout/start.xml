@@ -4,25 +4,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
+    <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
 
     <EditText
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"/>
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchEditText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="33dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search..."
-        android:id="@+id/searchButton"
-        style="@style/btnStylelivid_brown"
-        android:layout_below="@+id/searchEditText"
-        android:layout_centerHorizontal="true"
-        android:textColor="#ffffff"
-        android:layout_marginTop="28dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search..."
+            android:id="@+id/searchButton"
+            style="@style/btnStylelivid_brown"
+            android:layout_below="@+id/searchEditText"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:layout_marginTop="28dp"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,10 +1,10 @@
 package com.example.yrnoparser;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +26,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartActivity extends Activity {
+public class StartActivity extends FragmentActivity {
 
     private List<Toponym> resultsFromSearch;
     private List<ForecastLocation> listOfForecastLocations;
-
     private EditText searchEditText;
-
     private ForecastLocation selectedForecastLocation;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +39,8 @@ public class StartActivity extends Activity {
 
         resultsFromSearch = new ArrayList<Toponym>();
         listOfForecastLocations = new ArrayList<ForecastLocation>();
+
+
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
@@ -63,7 +63,7 @@ public class StartActivity extends Activity {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StartActivity.this, LocationFinderActivity.class));
+                startActivity(new Intent(StartActivity.this, ForecastActivity.class));
             }
         });
     }

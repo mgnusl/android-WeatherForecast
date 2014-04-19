@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".SixHourForecastActivity"></activity>
         <activity android:name=".LocationFinderActivity"></activity>
+        <activity android:name=".ForecastActivity"></activity>
 
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version"/>
