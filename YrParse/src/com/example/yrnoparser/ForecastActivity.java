@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.yrnoparser.adapter.MyPagerAdapter;
@@ -52,7 +51,7 @@ public class ForecastActivity extends FragmentActivity {
         url = intent.getStringExtra("info");
 
         // Download and parse the XML
-        new AsyncDownloadTask().execute(url);
+        new AsyncHandleXML().execute(url);
     }
 
     /**
@@ -92,7 +91,6 @@ public class ForecastActivity extends FragmentActivity {
         fragments.add(sixHourFragment);
         fragments.add(new OneHourFragment());
 
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         FragmentManager fragmentManager = getSupportFragmentManager();
         viewPager.setAdapter(new MyPagerAdapter(fragmentManager, fragments));
@@ -105,7 +103,7 @@ public class ForecastActivity extends FragmentActivity {
 
     }
 
-    private class AsyncDownloadTask extends AsyncTask<String, String, String> {
+    private class AsyncHandleXML extends AsyncTask<String, String, String> {
 
         ProgressDialog pDialog;
 
@@ -114,15 +112,14 @@ public class ForecastActivity extends FragmentActivity {
             publishProgress("Working..."); // Calls onProgressUpdate()
             try {
 
-                Log.d("APP", params[0]);
-                URL url = new URL(params[0]);
+                URL urlSixHour = new URL(params[0] + "/forecast.xml");
 
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
                 XmlPullParser xpp = factory.newPullParser();
 
                 // Get the XML from an input stream
-                xpp.setInput(Utils.getInputStream(url), "UTF_8");
+                xpp.setInput(Utils.getInputStream(urlSixHour), "UTF_8");
 
                 boolean insideLocation = false;
                 boolean insideTabular = false;
@@ -244,6 +241,10 @@ public class ForecastActivity extends FragmentActivity {
             handleForecasts();
             pDialog.dismiss();
         }
+
+    }
+
+    private void loadSixHourForecast(String baseUrl) {
 
     }
 }

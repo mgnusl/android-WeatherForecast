@@ -99,11 +99,11 @@ public class StartActivity extends FragmentActivity {
 
         // Build URL
         if (selectedForecastLocation.getCountryCode().equalsIgnoreCase("no")) {
-            url = UrlBuilder.buildNorwegianURL(selectedForecastLocation.getCountry(), selectedForecastLocation.getRegion(),
-                    selectedForecastLocation.getChildRegion(), selectedForecastLocation.getName(), "sixhour");
+            url = UrlBuilder.buildNorwegianBaseURL(selectedForecastLocation.getCountry(), selectedForecastLocation.getRegion(),
+                    selectedForecastLocation.getChildRegion(), selectedForecastLocation.getName());
         } else {
-            url = UrlBuilder.buildInternationalURL(selectedForecastLocation.getCountry(),
-                    selectedForecastLocation.getRegion(), selectedForecastLocation.getName(), "sixhour");
+            url = UrlBuilder.buildInternationalBaseURL(selectedForecastLocation.getCountry(),
+                    selectedForecastLocation.getRegion(), selectedForecastLocation.getName());
         }
 
         // Launch activity

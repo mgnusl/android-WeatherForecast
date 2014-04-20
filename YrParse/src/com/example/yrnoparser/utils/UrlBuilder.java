@@ -4,16 +4,14 @@ import java.util.HashMap;
 
 public class UrlBuilder {
 
-    public static String buildInternationalURL(String country, String region, String placename, String type) {
+    public static String buildInternationalBaseURL(String country, String region, String placename) {
 
-        String url = null;
-        if (type.equals("sixhour"))
-            url = "http://www.yr.no/place/" + country + "/" + region + "/" + placename + "/forecast.xml";
+        String url = "http://www.yr.no/place/" + country + "/" + region + "/" + placename;
         return url.replaceAll(" ", "_").toLowerCase();
     }
 
-    public static String buildNorwegianURL(String country, String region, String region2,
-                                           String placename, String type) {
+    public static String buildNorwegianBaseURL(String country, String region, String region2,
+                                           String placename) {
 
         // Key-value pairs for norwegian regions for building URLs "the yr.no way"
         HashMap<String, String> regionFormatNO = new HashMap<String, String>();
@@ -37,10 +35,8 @@ public class UrlBuilder {
         regionFormatNO.put("Aust-Agder", "aust agder");
         regionFormatNO.put("Akershus", "akershus");
 
-        String url = null;
-        if (type.equals("sixhour"))
-            url = "http://www.yr.no/place/" + country + "/" + regionFormatNO.get(region) + "/" + region2 + "/"
-                    + placename + "/forecast.xml";
+        String url = "http://www.yr.no/place/" + country + "/" + regionFormatNO.get(region) + "/" + region2 + "/"
+                    + placename;
         return url.replaceAll(" ", "_").toLowerCase();
     }
 

@@ -17,14 +17,14 @@ import com.example.yrnoparser.utils.DateFormatter;
 
 import java.util.ArrayList;
 
-public class OverviewSectionAdapter extends SectionAdapter {
+public class SixHourSectionAdapter extends SectionAdapter {
 
     private Context context;
     private ArrayList<SingleDay> data;
     private TypedArray icons;
     private String[] weekDayNames;
 
-    public OverviewSectionAdapter(Context context, ArrayList<SingleDay> data, TypedArray icons) {
+    public SixHourSectionAdapter(Context context, ArrayList<SingleDay> data, TypedArray icons) {
         this.context = context;
         this.data = data;
         this.icons = icons;

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
-import com.example.yrnoparser.adapter.OverviewSectionAdapter;
+import com.example.yrnoparser.adapter.SixHourSectionAdapter;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.SingleDay;
 
@@ -47,7 +47,7 @@ public class SixHourFragment extends Fragment {
 
         ListView lv = list.getListView();
         lv.addHeaderView(headerView);
-        list.setAdapter(new OverviewSectionAdapter(getActivity(), listOfDays, weatherIcons));
+        list.setAdapter(new SixHourSectionAdapter(getActivity(), listOfDays, weatherIcons));
 
         return view;
     }
