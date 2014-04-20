@@ -2,7 +2,6 @@ package com.example.yrnoparser;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -17,12 +16,12 @@ import com.example.yrnoparser.adapter.OverviewSectionAdapter;
 import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.SingleDay;
+import com.example.yrnoparser.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,8 +31,6 @@ public class SixHourForecastActivity extends Activity {
     private ForecastLocation forecastLocation;
     private Forecast forecast;
     private ArrayList<Forecast> listOfForecasts;
-    private ListView sixHourListView;
-    private Context context;
     private TypedArray weatherIcons;
     private ArrayList<SingleDay> listOfDays;
     private String url;
@@ -49,8 +46,6 @@ public class SixHourForecastActivity extends Activity {
         listOfDays = new ArrayList<SingleDay>();
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
-        context = this;
-
         // Get intent and data passed with it
         Intent intent = getIntent();
         url = intent.getStringExtra("info");
@@ -58,14 +53,6 @@ public class SixHourForecastActivity extends Activity {
 
         new AsyncDownloadTask().execute(url);
 
-    }
-
-    public InputStream getInputStream(URL url) {
-        try {
-            return url.openConnection().getInputStream();
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     public void updateListView() {
@@ -133,7 +120,7 @@ public class SixHourForecastActivity extends Activity {
                 XmlPullParser xpp = factory.newPullParser();
 
                 // Get the XML from an input stream
-                xpp.setInput(getInputStream(url), "UTF_8");
+                xpp.setInput(Utils.getInputStream(url), "UTF_8");
 
                 boolean insideLocation = false;
                 boolean insideTabular = false;
@@ -244,7 +231,7 @@ public class SixHourForecastActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             // Check if we actually found any forecasts while reading the URL
-            if(listOfForecasts.isEmpty()) {
+            if (listOfForecasts.isEmpty()) {
                 Toast.makeText(SixHourForecastActivity.this, "No forecasts available for this location",
                         Toast.LENGTH_SHORT).show();
                 finish();

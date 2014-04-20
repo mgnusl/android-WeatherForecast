@@ -63,7 +63,7 @@ public class StartActivity extends FragmentActivity {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StartActivity.this, ForecastActivity.class));
+                startActivity(new Intent(StartActivity.this, LocationFinderActivity.class));
             }
         });
     }
@@ -107,7 +107,7 @@ public class StartActivity extends FragmentActivity {
         }
 
         // Launch activity
-        Intent intent = new Intent(StartActivity.this, SixHourForecastActivity.class);
+        Intent intent = new Intent(StartActivity.this, ForecastActivity.class);
         intent.putExtra("info", url);
         startActivity(intent);
 

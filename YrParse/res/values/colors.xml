@@ -7,4 +7,13 @@
     <!-- Text color -->
     <color name="red_text">#cc0000</color>
     <color name="blue_text">#0000cc</color>
+
+    <!-- Metro colors -->
+    <color name="redm">#d11141</color>
+    <color name="greenm">#00b159</color>
+    <color name="bluem">#00aedb</color>
+    <color name="orangem">#f37735</color>
+    <color name="yellowm">#ffc425</color>
+
+
 </resources>
