@@ -83,7 +83,19 @@ public class OneHourSectionAdapter extends SectionAdapter {
             precipitationTextView.setText(forecast.getPrecipitationMin() + "-" + forecast.getPrecipitationMax() + " mm");
 
         // Find the correct symbol
-        int symbol = forecast.getSymbol();
+        int symbol;
+        if (forecast.getSymbol() == 1)
+            if (forecast.getFromTime().getHourOfDay()<7)
+                symbol = 1;
+            else
+                symbol = 0;
+        else {
+            // Check if day or night period
+            if (forecast.getFromTime().getHourOfDay()<7) //"natt"
+                symbol = (forecast.getSymbol() * 2) - 1;
+            else
+                symbol = (forecast.getSymbol() * 2) - 2;
+        }
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
         iconImageView.setImageDrawable(icons.getDrawable(symbol));

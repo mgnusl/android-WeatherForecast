@@ -76,23 +76,22 @@ public class ForecastActivity extends FragmentActivity {
 
         // Handle one hour forecasts
         day = new SingleDay();
-        Log.d("APP", "nr of forecasts " + Integer.toString(listOfOneHourForecasts.size()));
         for(Forecast f : listOfOneHourForecasts) {
+            Log.d("APP", "From time: " + Integer.toString(f.getFromTime().getHourOfDay()));
+            Log.d("APP", "To time: " + Integer.toString(f.getToTime().getHourOfDay()));
             if(f.getFromTime().getHourOfDay() == 23 ||
                     (f.getFromTime().getHourOfDay()<23 && f.getFromTime().getHourOfDay()>23)) {
                 day.addForecast(f);
                 listOfOneHourDays.add(day);
                 day = new SingleDay();
-                Log.d("APP", "Ny dag " + Integer.toString(f.getFromTime().getHourOfDay()));
                 continue;
             }
-            Log.d("APP", Integer.toString(f.getFromTime().getHourOfDay()));
             day.addForecast(f);
         }
         listOfOneHourDays.add(day); // Add any "non-finished" days to the list
-
-        Log.d("APP", "nr of days " + Integer.toString(listOfOneHourDays.size()));
-
+        // Remove any empty days at the end of the list
+        if(listOfOneHourDays.get(listOfOneHourDays.size()-1).getForecasts().isEmpty())
+            listOfOneHourDays.remove(listOfOneHourDays.size()-1);
 
         // Initialize and send data to Fragments
         initializeFragments();

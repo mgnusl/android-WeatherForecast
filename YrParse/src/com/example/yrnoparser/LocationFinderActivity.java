@@ -60,7 +60,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         if(!servicesConnected())
             return;
         Location location = locationClient.getLastLocation();
-        Log.d("APP", "location: " + location.toString());
 
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(location.getLatitude() + ", " + location.getLongitude());
