@@ -186,10 +186,6 @@ public class StartActivity extends FragmentActivity {
                     // Add the Location to the list of Locations to be shown later in the popupmenu
                     listOfForecastLocations.add(forecastLocation);
 
-                    Log.d("APP", forecastLocation.getName() + " - " + forecastLocation.getRegion()
-                            + " - " + forecastLocation.getGeonamesID() + " - " + forecastLocation.getChildRegion()
-                            + " - " + forecastLocation.getType());
-
 
                 } // end for
 

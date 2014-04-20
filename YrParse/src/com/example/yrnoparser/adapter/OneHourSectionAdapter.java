@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.applidium.headerlistview.SectionAdapter;
 import com.example.yrnoparser.R;
 import com.example.yrnoparser.data.Forecast;
+import com.example.yrnoparser.data.SingleDay;
 import com.example.yrnoparser.utils.DateFormatter;
 
 import java.util.ArrayList;
@@ -19,15 +20,16 @@ import java.util.ArrayList;
 public class OneHourSectionAdapter extends SectionAdapter {
 
     private Context context;
-    private ArrayList<Forecast> data;
+    private ArrayList<SingleDay> data;
     private TypedArray icons;
     private String[] weekDayNames;
 
-    public OneHourSectionAdapter(Context context, ArrayList<Forecast> data, TypedArray icons) {
+    public OneHourSectionAdapter(Context context, ArrayList<SingleDay> data, TypedArray icons) {
         this.context = context;
         this.data = data;
         this.icons = icons;
         weekDayNames = context.getResources().getStringArray(R.array.weekdays);
+        Log.d("APP", Integer.toString(data.size()));
     }
 
     @Override
@@ -37,7 +39,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
 
     @Override
     public int numberOfRows(int section) {
-        return data.size();
+        return data.get(section).getForecasts().size();
     }
 
     @Override
@@ -57,7 +59,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
             convertView = inflater.inflate(R.layout.row_data_six_hour, parent, false);
         }
 
-        Forecast forecast = data.get(row);
+        Forecast forecast = data.get(section).getForecasts().get(row);
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
         fromTextView.setText(DateFormatter.get24HourString(forecast.getFromTime()));
@@ -67,23 +69,24 @@ public class OneHourSectionAdapter extends SectionAdapter {
 
         TextView tempTextView = (TextView) convertView.findViewById(R.id.temperatureTextView);
         tempTextView.setText(forecast.getTemperature() + "°C");
-        if(Integer.parseInt(forecast.getTemperature()) >= 0)
+        if (Integer.parseInt(forecast.getTemperature()) >= 0)
             tempTextView.setTextColor(context.getResources().getColor(R.color.red_text));
         else
             tempTextView.setTextColor(context.getResources().getColor(R.color.blue_text));
 
         TextView precipitationTextView = (TextView) convertView.findViewById(R.id.precipitationTextView);
-        if(forecast.getPrecipitation().equals("0") || forecast.getPrecipitation() == null)
+        if (forecast.getPrecipitation().equals("0") || forecast.getPrecipitation() == null)
             precipitationTextView.setText("0 mm");
         else if (forecast.getPrecipitationMin() == null)
             precipitationTextView.setText("0 mm");
         else
             precipitationTextView.setText(forecast.getPrecipitationMin() + "-" + forecast.getPrecipitationMax() + " mm");
 
+        // Find the correct symbol
+        int symbol = forecast.getSymbol();
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
-        iconImageView.setImageDrawable(icons.getDrawable(forecast.getSymbol()));
-
+        iconImageView.setImageDrawable(icons.getDrawable(symbol));
 
         return convertView;
 
@@ -108,7 +111,8 @@ public class OneHourSectionAdapter extends SectionAdapter {
         }
 
         TextView text = (TextView) convertView.findViewById(android.R.id.text1);
-        text.setText("section");
+        SingleDay day = data.get(section);
+        text.setText(weekDayNames[day.getDate().getDayOfWeek() - 1] + " " + day.getDateString());
         text.setTextColor(context.getResources().getColor(R.color.c1));
 
         convertView.setBackgroundColor(context.getResources().getColor(R.color.c3));
@@ -119,7 +123,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
     @Override
     public void onRowItemClick(AdapterView<?> parent, View view, int section, int row, long id) {
         super.onRowItemClick(parent, view, section, row, id);
-        Log.d("APP", "Section: " + Integer.toString(section) + ". Row: " +  Integer.toString(row));
+        Log.d("APP", "Section: " + Integer.toString(section) + ". Row: " + Integer.toString(row));
     }
 
 }

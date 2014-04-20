@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.yrnoparser.adapter.MyPagerAdapter;
@@ -28,10 +29,10 @@ import java.util.List;
 public class ForecastActivity extends FragmentActivity {
     private ViewPager viewPager;
     private ForecastLocation forecastLocation;
-    private ArrayList<Forecast> listOfForecasts;
+    private ArrayList<Forecast> listOfSixHourForecasts;
     private ArrayList<Forecast> listOfOneHourForecasts;
-    private ArrayList<SingleDay> listOfDays;
-    private String url;
+    private ArrayList<SingleDay> listOfSixHourDays;
+    private ArrayList<SingleDay> listOfOneHourDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +40,14 @@ public class ForecastActivity extends FragmentActivity {
         setContentView(R.layout.activity_forecast);
 
         forecastLocation = new ForecastLocation();
-        listOfForecasts = new ArrayList<Forecast>();
+        listOfSixHourForecasts = new ArrayList<Forecast>();
         listOfOneHourForecasts = new ArrayList<Forecast>();
-        listOfDays = new ArrayList<SingleDay>();
+        listOfSixHourDays = new ArrayList<SingleDay>();
+        listOfOneHourDays = new ArrayList<SingleDay>();
 
         // Get intent and data passed with it
         Intent intent = getIntent();
-        url = intent.getStringExtra("info");
+        String url = intent.getStringExtra("info");
 
         // Download and parse the XML
         new AsyncHandleXML().execute(url);
@@ -55,10 +57,9 @@ public class ForecastActivity extends FragmentActivity {
      * Organize forecasts into SingleDay objects
      */
     public void handleForecasts() {
-
+        // Handle six hour forecasts
         SingleDay day = new SingleDay();
-
-        for (Forecast f : listOfForecasts) {
+        for (Forecast f : listOfSixHourForecasts) {
             if (f.getPeriod() == 0) {
                 day = new SingleDay();
                 day.addForecast(f);
@@ -66,12 +67,32 @@ public class ForecastActivity extends FragmentActivity {
             }
             if (f.getPeriod() == 3) {
                 day.addForecast(f);
-                listOfDays.add(day);
+                listOfSixHourDays.add(day);
                 continue;
             }
             day.addForecast(f);
         }
-        listOfDays.add(day);
+        listOfSixHourDays.add(day); // Add any "non-finished" days to the list
+
+        // Handle one hour forecasts
+        day = new SingleDay();
+        Log.d("APP", "nr of forecasts " + Integer.toString(listOfOneHourForecasts.size()));
+        for(Forecast f : listOfOneHourForecasts) {
+            if(f.getFromTime().getHourOfDay() == 23 ||
+                    (f.getFromTime().getHourOfDay()<23 && f.getFromTime().getHourOfDay()>23)) {
+                day.addForecast(f);
+                listOfOneHourDays.add(day);
+                day = new SingleDay();
+                Log.d("APP", "Ny dag " + Integer.toString(f.getFromTime().getHourOfDay()));
+                continue;
+            }
+            Log.d("APP", Integer.toString(f.getFromTime().getHourOfDay()));
+            day.addForecast(f);
+        }
+        listOfOneHourDays.add(day); // Add any "non-finished" days to the list
+
+        Log.d("APP", "nr of days " + Integer.toString(listOfOneHourDays.size()));
+
 
         // Initialize and send data to Fragments
         initializeFragments();
@@ -80,8 +101,8 @@ public class ForecastActivity extends FragmentActivity {
     public void initializeFragments() {
         Bundle bundle = new Bundle();
         bundle.putParcelable("forecastlocation", forecastLocation);
-        bundle.putParcelableArrayList("listofdays", listOfDays);
-        bundle.putParcelableArrayList("listofonehourforecasts", listOfOneHourForecasts);
+        bundle.putParcelableArrayList("listofdays", listOfSixHourDays);
+        bundle.putParcelableArrayList("listofonehourdays", listOfOneHourDays);
 
         List<Fragment> fragments = new ArrayList<Fragment>();
         // Add bundle extras to fragments
@@ -145,7 +166,7 @@ public class ForecastActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(String result) {
             // Check if we actually found any forecasts while reading the URL
-            if (listOfForecasts.isEmpty()) {
+            if (listOfSixHourForecasts.isEmpty()) {
                 Toast.makeText(ForecastActivity.this, "No forecasts available for this location",
                         Toast.LENGTH_SHORT).show();
                 finish();
@@ -245,7 +266,7 @@ public class ForecastActivity extends FragmentActivity {
                     && insideTabular) {
                 // Done processing this "time"
                 forecast.setForecastLocation(forecastLocation);
-                listOfForecasts.add(forecast);
+                listOfSixHourForecasts.add(forecast);
             }
 
             eventType = xpp.next(); //move to next element

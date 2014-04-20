@@ -10,13 +10,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
 import com.example.yrnoparser.adapter.OneHourSectionAdapter;
-import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.ForecastLocation;
+import com.example.yrnoparser.data.SingleDay;
 
 import java.util.ArrayList;
 
 public class OneHourFragment extends Fragment {
-    private ArrayList<Forecast> listOfOneHourForecasts;
+    private ArrayList<SingleDay> listOfOneHourForecasts;
     private ForecastLocation forecastLocation;
     private TypedArray weatherIcons;
 
@@ -27,7 +27,7 @@ public class OneHourFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             forecastLocation = bundle.getParcelable("forecastlocation");
-            listOfOneHourForecasts = bundle.getParcelableArrayList("listofonehourforecasts");
+            listOfOneHourForecasts = bundle.getParcelableArrayList("listofonehourdays");
         }
 
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
