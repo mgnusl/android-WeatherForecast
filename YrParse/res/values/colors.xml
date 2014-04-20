@@ -15,5 +15,17 @@
     <color name="orangem">#f37735</color>
     <color name="yellowm">#ffc425</color>
 
+    <color name="listheaderbg">#3a5e9e</color>
+    <color name="listheaderfont">#A0D8F1</color>
+
+    <!-- Test colors -->
+    <color name="c1">#ECD078</color>
+    <color name="c2">#D95B43</color>
+    <color name="c3">#C02942</color>
+    <color name="c4">#74324C</color>
+    <color name="c5">#53777A</color>
+
+    <!-- Background color -->
+    <color name="bg">#ffffff</color>
 
 </resources>

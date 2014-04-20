@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Toast;
+import com.astuetz.PagerSlidingTabStrip;
 import com.example.yrnoparser.adapter.MyPagerAdapter;
 import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.ForecastLocation;
@@ -39,8 +40,6 @@ public class ForecastActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
-
-
 
         forecastLocation = new ForecastLocation();
         forecast = new Forecast();
@@ -78,7 +77,7 @@ public class ForecastActivity extends FragmentActivity {
         }
         listOfDays.add(day);
 
-        // Send data to Fragments
+        // Initialize and send data to Fragments
         initializeFragments();
     }
 
@@ -86,17 +85,24 @@ public class ForecastActivity extends FragmentActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("forecastlocation", forecastLocation);
         bundle.putParcelableArrayList("listofdays", listOfDays);
-        bundle.putParcelableArrayList("listofforecasts", listOfForecasts);
 
         List<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new OneHourFragment());
         SixHourFragment sixHourFragment = new SixHourFragment();
         sixHourFragment.setArguments(bundle);
         fragments.add(sixHourFragment);
+        fragments.add(new OneHourFragment());
+
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         FragmentManager fragmentManager = getSupportFragmentManager();
         viewPager.setAdapter(new MyPagerAdapter(fragmentManager, fragments));
+        // Bind the tabs to the ViewPager
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(viewPager);
+        //Style tabs
+        tabs.setIndicatorColor(getResources().getColor(R.color.c4));
+        tabs.setShouldExpand(true);
+
     }
 
     private class AsyncDownloadTask extends AsyncTask<String, String, String> {

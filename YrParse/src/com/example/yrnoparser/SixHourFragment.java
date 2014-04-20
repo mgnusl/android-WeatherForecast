@@ -10,14 +10,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.applidium.headerlistview.HeaderListView;
 import com.example.yrnoparser.adapter.OverviewSectionAdapter;
-import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.SingleDay;
 
 import java.util.ArrayList;
 
 public class SixHourFragment extends Fragment {
-    private ArrayList<Forecast> listOfForecasts;
     private ArrayList<SingleDay> listOfDays;
     private ForecastLocation forecastLocation;
     private TypedArray weatherIcons;
@@ -30,12 +28,11 @@ public class SixHourFragment extends Fragment {
         if(bundle != null){
             forecastLocation = bundle.getParcelable("forecastlocation");
             listOfDays = bundle.getParcelableArrayList("listofdays");
-            listOfForecasts = bundle.getParcelableArrayList("listofforecasts");
         }
 
         weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
 
-        HeaderListView list = (HeaderListView)view.findViewById(R.id.listView1);
+        HeaderListView list = (HeaderListView)view.findViewById(R.id.sixHourListView);
 
         // Add header to the list
         //LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

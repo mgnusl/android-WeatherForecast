@@ -23,4 +23,12 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return fragments.size();
     }
+
+    public CharSequence getPageTitle(int position) {
+        if (position == 0)
+            return "Overview";
+        if (position == 1)
+            return "Detailed";
+        return null;
+    }
 }

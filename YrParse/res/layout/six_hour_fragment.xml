@@ -4,10 +4,10 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#f4efcb">
+              android:background="@color/bg">
 
     <com.applidium.headerlistview.HeaderListView
-            android:id="@+id/listView1"
+            android:id="@+id/sixHourListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
     </com.applidium.headerlistview.HeaderListView>

@@ -74,22 +74,20 @@ public class OverviewSectionAdapter extends SectionAdapter {
             tempTextView.setTextColor(context.getResources().getColor(R.color.blue_text));
 
         TextView precipitationTextView = (TextView) convertView.findViewById(R.id.precipitationTextView);
-        if(forecast.getPrecipitation().equals("0"))
+        if(forecast.getPrecipitation().equals("0") || forecast.getPrecipitation() == null)
+            precipitationTextView.setText("0 mm");
+        else if (forecast.getPrecipitationMin() == null)
             precipitationTextView.setText("0 mm");
         else
             precipitationTextView.setText(forecast.getPrecipitationMin() + "-" + forecast.getPrecipitationMax() + " mm");
-
-
-
-
 
         // Find the correct symbol
         int symbol;
         if (forecast.getSymbol() == 1)
             if (forecast.getPeriod() == 3 || forecast.getPeriod() == 0)
-                symbol = 0;
-            else
                 symbol = 1;
+            else
+                symbol = 0;
         else {
             // Check if day or night period
             if (forecast.getPeriod() == 3 || forecast.getPeriod() == 0) //"natt"
@@ -127,11 +125,13 @@ public class OverviewSectionAdapter extends SectionAdapter {
         TextView text = (TextView) convertView.findViewById(android.R.id.text1);
         SingleDay day = data.get(section);
         text.setText(weekDayNames[day.getDate().getDayOfWeek()-1] + " " + day.getDateString());
+        text.setTextColor(context.getResources().getColor(R.color.c1));
 
-        int sectionColor = section % 3;
+        //int sectionColor = section % 3;
+        int sectionColor = 0;
         switch (sectionColor) {
             case 0:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue1));
+                convertView.setBackgroundColor(context.getResources().getColor(R.color.c3));
                 break;
             case 1:
                 convertView.setBackgroundColor(context.getResources().getColor(R.color.blue2));
