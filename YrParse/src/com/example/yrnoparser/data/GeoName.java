@@ -1,6 +1,9 @@
 package com.example.yrnoparser.data;
 
-public class GeoName {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class GeoName implements Parcelable {
 
     private String name;
     private String fcode;
@@ -32,5 +35,34 @@ public class GeoName {
 
     public void setGeonameID(int geonameID) {
         this.geonameID = geonameID;
+    }
+
+    // Parcelable methods
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(fcode);
+        parcel.writeInt(geonameID);
+    }
+
+    public static final Parcelable.Creator<GeoName> CREATOR = new Parcelable.Creator<GeoName>() {
+        public GeoName createFromParcel(Parcel in) {
+            return new GeoName(in);
+        }
+
+        public GeoName[] newArray(int size) {
+            return new GeoName[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    private GeoName(Parcel in) {
+        name = in.readString();
+        fcode = in.readString();
+        geonameID = in.readInt();
     }
 }

@@ -1,10 +1,12 @@
 package com.example.yrnoparser.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class Forecast {
+public class Forecast implements Parcelable {
     private ForecastLocation forecastLocation;
     private String windSpeed;
     private DateTime fromTime;
@@ -132,4 +134,54 @@ public class Forecast {
         DateTime fromTime = dateFormatter.parseDateTime(t);
         this.fromTime = fromTime;
     }
+
+    // Parcelable methods
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(forecastLocation, i);
+        parcel.writeString(windSpeed);
+        parcel.writeString(fromTime.toString());
+        parcel.writeString(toTime.toString());
+        parcel.writeString(windDirection);
+        parcel.writeInt(period);
+        parcel.writeInt(symbol);
+        parcel.writeString(weatherType);
+        parcel.writeString(temperature);
+        parcel.writeString(pressure);
+        parcel.writeString(precipitation);
+        parcel.writeString(precipitationMin);
+        parcel.writeString(precipitationMax);
+    }
+
+    public static final Parcelable.Creator<Forecast> CREATOR = new Parcelable.Creator<Forecast>() {
+        public Forecast createFromParcel(Parcel in) {
+            return new Forecast(in);
+        }
+
+        public Forecast[] newArray(int size) {
+            return new Forecast[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    private Forecast(Parcel in) {
+        forecastLocation = in.readParcelable(null);
+        windSpeed = in.readString();
+        fromTime = DateTime.parse(in.readString());
+        toTime = DateTime.parse(in.readString());
+        windDirection = in.readString();
+        period = in.readInt();
+        symbol = in.readInt();
+        weatherType = in.readString();
+        temperature = in.readString();
+        pressure = in.readString();
+        precipitation = in.readString();
+        precipitationMin = in.readString();
+        precipitationMax = in.readString();
+    }
+
 }
