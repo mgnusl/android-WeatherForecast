@@ -14,7 +14,6 @@ public class SingleDay implements Parcelable {
     private DateTime date;
     private DateTimeFormatter dateFormatter;
 
-
     public SingleDay() {
         forecasts = new ArrayList<Forecast>();
         dateFormatter = new DateTimeFormatterBuilder().appendPattern("dd/MM/YY").toFormatter();

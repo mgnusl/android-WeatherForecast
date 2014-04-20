@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.applidium.headerlistview.SectionAdapter;
 import com.example.yrnoparser.R;
 import com.example.yrnoparser.data.Forecast;
-import com.example.yrnoparser.data.SingleDay;
 import com.example.yrnoparser.utils.DateFormatter;
 
 import java.util.ArrayList;
@@ -20,11 +19,11 @@ import java.util.ArrayList;
 public class OneHourSectionAdapter extends SectionAdapter {
 
     private Context context;
-    private ArrayList<SingleDay> data;
+    private ArrayList<Forecast> data;
     private TypedArray icons;
     private String[] weekDayNames;
 
-    public OneHourSectionAdapter(Context context, ArrayList<SingleDay> data, TypedArray icons) {
+    public OneHourSectionAdapter(Context context, ArrayList<Forecast> data, TypedArray icons) {
         this.context = context;
         this.data = data;
         this.icons = icons;
@@ -38,7 +37,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
 
     @Override
     public int numberOfRows(int section) {
-        return data.get(section).getForecasts().size();
+        return data.size();
     }
 
     @Override
@@ -58,7 +57,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
             convertView = inflater.inflate(R.layout.row_data_six_hour, parent, false);
         }
 
-        Forecast forecast = data.get(section).getForecasts().get(row);
+        Forecast forecast = data.get(row);
 
         TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
         fromTextView.setText(DateFormatter.get24HourString(forecast.getFromTime()));
@@ -81,23 +80,9 @@ public class OneHourSectionAdapter extends SectionAdapter {
         else
             precipitationTextView.setText(forecast.getPrecipitationMin() + "-" + forecast.getPrecipitationMax() + " mm");
 
-        // Find the correct symbol
-        int symbol;
-        if (forecast.getSymbol() == 1)
-            if (forecast.getPeriod() == 3 || forecast.getPeriod() == 0)
-                symbol = 1;
-            else
-                symbol = 0;
-        else {
-            // Check if day or night period
-            if (forecast.getPeriod() == 3 || forecast.getPeriod() == 0) //"natt"
-                symbol = (forecast.getSymbol() * 2) - 2;
-            else
-                symbol = (forecast.getSymbol() * 2) - 1;
-        }
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);
-        iconImageView.setImageDrawable(icons.getDrawable(symbol));
+        iconImageView.setImageDrawable(icons.getDrawable(forecast.getSymbol()));
 
 
         return convertView;
@@ -123,23 +108,10 @@ public class OneHourSectionAdapter extends SectionAdapter {
         }
 
         TextView text = (TextView) convertView.findViewById(android.R.id.text1);
-        SingleDay day = data.get(section);
-        text.setText(weekDayNames[day.getDate().getDayOfWeek()-1] + " " + day.getDateString());
+        text.setText("section");
         text.setTextColor(context.getResources().getColor(R.color.c1));
 
-        //int sectionColor = section % 3;
-        int sectionColor = 0;
-        switch (sectionColor) {
-            case 0:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.c3));
-                break;
-            case 1:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue2));
-                break;
-            case 2:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue3));
-                break;
-        }
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.c3));
 
         return convertView;
     }
