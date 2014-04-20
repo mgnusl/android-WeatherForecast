@@ -91,9 +91,9 @@ public class SixHourSectionAdapter extends SectionAdapter {
         else {
             // Check if day or night period
             if (forecast.getPeriod() == 3 || forecast.getPeriod() == 0) //"natt"
-                symbol = (forecast.getSymbol() * 2) - 2;
-            else
                 symbol = (forecast.getSymbol() * 2) - 1;
+            else
+                symbol = (forecast.getSymbol() * 2) - 2;
         }
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.weatherTypeImageView);

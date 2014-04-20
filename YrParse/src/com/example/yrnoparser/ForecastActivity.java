@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.yrnoparser.adapter.MyPagerAdapter;
@@ -38,6 +38,8 @@ public class ForecastActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         forecastLocation = new ForecastLocation();
         listOfSixHourForecasts = new ArrayList<Forecast>();
@@ -76,11 +78,9 @@ public class ForecastActivity extends FragmentActivity {
 
         // Handle one hour forecasts
         day = new SingleDay();
-        for(Forecast f : listOfOneHourForecasts) {
-            Log.d("APP", "From time: " + Integer.toString(f.getFromTime().getHourOfDay()));
-            Log.d("APP", "To time: " + Integer.toString(f.getToTime().getHourOfDay()));
-            if(f.getFromTime().getHourOfDay() == 23 ||
-                    (f.getFromTime().getHourOfDay()<23 && f.getFromTime().getHourOfDay()>23)) {
+        for (Forecast f : listOfOneHourForecasts) {
+            if (f.getFromTime().getHourOfDay() == 23 ||
+                    (f.getFromTime().getHourOfDay() < 23 && f.getFromTime().getHourOfDay() > 23)) {
                 day.addForecast(f);
                 listOfOneHourDays.add(day);
                 day = new SingleDay();
@@ -90,8 +90,8 @@ public class ForecastActivity extends FragmentActivity {
         }
         listOfOneHourDays.add(day); // Add any "non-finished" days to the list
         // Remove any empty days at the end of the list
-        if(listOfOneHourDays.get(listOfOneHourDays.size()-1).getForecasts().isEmpty())
-            listOfOneHourDays.remove(listOfOneHourDays.size()-1);
+        if (listOfOneHourDays.get(listOfOneHourDays.size() - 1).getForecasts().isEmpty())
+            listOfOneHourDays.remove(listOfOneHourDays.size() - 1);
 
         // Initialize and send data to Fragments
         initializeFragments();
@@ -119,7 +119,7 @@ public class ForecastActivity extends FragmentActivity {
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);
         //Style tabs
-        tabs.setIndicatorColor(getResources().getColor(R.color.c4));
+        tabs.setIndicatorColor(getResources().getColor(R.color.yellowm));
         tabs.setShouldExpand(true);
 
     }
@@ -180,7 +180,7 @@ public class ForecastActivity extends FragmentActivity {
     }
 
     private void loadSixHourForecast(String baseUrl) throws XmlPullParserException, IOException {
-        URL url= new URL(baseUrl + "/forecast.xml");
+        URL url = new URL(baseUrl + "/forecast.xml");
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(false);
@@ -274,7 +274,7 @@ public class ForecastActivity extends FragmentActivity {
     }
 
     private void loadOneHourForecast(String baseUrl) throws XmlPullParserException, IOException {
-        URL url= new URL(baseUrl + "/forecast_hour_by_hour.xml");
+        URL url = new URL(baseUrl + "/forecast_hour_by_hour.xml");
 
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(false);
@@ -346,6 +346,17 @@ public class ForecastActivity extends FragmentActivity {
 
             eventType = xpp.next(); //move to next element
 
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

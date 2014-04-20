@@ -2,14 +2,18 @@ package com.example.yrnoparser;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
+import com.example.yrnoparser.utils.UrlBuilder;
 import com.example.yrnoparser.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -27,7 +31,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
     private LocationClient locationClient;
     private GeoName currentLocationGeoname;
-    private ForecastLocation location;
+    private ForecastLocation forecastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +39,41 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         setContentView(R.layout.loc_finder);
 
         // Check if Google Play service is available and up to date.
-        if(!servicesConnected()) {
+        if (!servicesConnected())
             finish();
-        }
 
         locationClient = new LocationClient(this, this, this);
+
+        Button getForecastButton = (Button) findViewById(R.id.getForecastButton);
+        getForecastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url;
+                String country = null;
+                String region = null;
+                String region2 = null;
+                String place = null;
+                for(GeoName g : forecastLocation.getGeonameList()) {
+                    if(g.getFcode().equals("PCLI"))
+                        country = g.getName();
+                    if(g.getFcode().equals("ADM1"))
+                        region = g.getName();
+                    if(g.getFcode().equals("ADM2"))
+                        region2 = g.getName();
+                    if(g.getFcode().contains("PPL"))
+                        place = g.getName();
+                }
+
+                url = UrlBuilder.buildNorwegianBaseURL(country, region, region2, place);
+
+
+                // Launch activity
+                Intent intent = new Intent(LocationFinderActivity.this, ForecastActivity.class);
+                intent.putExtra("info", url);
+                startActivity(intent);
+                Log.d("APP", url);
+            }
+        });
     }
 
     @Override
@@ -57,7 +91,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
     @Override
     public void onConnected(Bundle arg0) {
 
-        if(!servicesConnected())
+        if (!servicesConnected())
             return;
         Location location = locationClient.getLastLocation();
 
@@ -119,12 +153,11 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                 }
 
                 // Check if we found a result. If not, show error and stop asynctask
-                if(currentLocationGeoname.getGeonameID() == 0) {
+                if (currentLocationGeoname.getGeonameID() == 0) {
                     Log.d("APP", "NO GEONAME ID SET");
                     return null;
                 }
 
-                //
                 // ***
                 // If we have a geonameID, extract data from its corresponding url
                 URL geonameURL = new URL("http://api.geonames.org/hierarchy?geonameId=" +
@@ -138,8 +171,8 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                 xpp2.setInput(Utils.getInputStream(geonameURL), "UTF_8");
 
                 // Set location fields for data we already know
-                location = new ForecastLocation();
-                location.setGeonamesID(currentLocationGeoname.getGeonameID());
+                forecastLocation = new ForecastLocation();
+                forecastLocation.setGeonamesID(currentLocationGeoname.getGeonameID());
 
                 boolean insideGeoname2 = false;
                 GeoName geoname = new GeoName();
@@ -155,7 +188,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                         } else if (xpp2.getName().equalsIgnoreCase("name")) {
                             if (insideGeoname2) {
                                 geoname.setName(xpp2.nextText());
-                                Log.d("APP", geoname.getName());
                             }
                         } else if (xpp2.getName().equalsIgnoreCase("fcode")) {
                             if (insideGeoname2) {
@@ -164,7 +196,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                         }
                     } else if (eventType2 == XmlPullParser.END_TAG && xpp2.getName().equalsIgnoreCase("geoname")) {
                         insideGeoname2 = false;
-                        location.addGeoname(geoname);
+                        forecastLocation.addGeoname(geoname);
                         geoname = new GeoName();
                     }
 
@@ -172,9 +204,9 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
                 } // end while
 
-            } catch(XmlPullParserException e) {
+            } catch (XmlPullParserException e) {
                 e.printStackTrace();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -191,11 +223,10 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
         protected void onPostExecute(String result) {
             pDialog.dismiss();
-            Log.d("APP", Integer.toString(currentLocationGeoname.getGeonameID()));
 
             // FOR TESTING
             StringBuilder sb = new StringBuilder();
-            for(GeoName g : location.getGeonameList()) {
+            for (GeoName g : forecastLocation.getGeonameList()) {
                 sb.append(g.getName() + " - ");
             }
 
@@ -204,7 +235,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
     }
 
     public void testResult(String s) {
-        TextView tv = (TextView)findViewById(R.id.textView2);
+        TextView tv = (TextView) findViewById(R.id.textView2);
         tv.setText(s);
     }
 
@@ -218,8 +249,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
             Toast.makeText(this, "Available", Toast.LENGTH_SHORT).show();
 
             return true;
-        }
-        else {
+        } else {
             // Get the error code
             Toast.makeText(this, "Error code: " + Integer.toString(resultCode), Toast.LENGTH_SHORT).show();
             return false;
