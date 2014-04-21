@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.MyCompatTheme" parent="@style/Theme.AppCompat.Light"></style>
-    <style name="AppTheme" parent="Theme.MyCompatTheme">
-        <item name="actionBarStyle">@style/ActionBarCompat</item>
-    </style>
-
-    <style name="ActionBarCompat" parent="@style/Widget.AppCompat.Base.ActionBar">
-        <item name="titleTextStyle">@style/titleStyle</item>
-    </style>
-
-    <style name="titleStyle" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
 </resources>

@@ -96,6 +96,8 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         Location location = locationClient.getLastLocation();
 
         TextView textView = (TextView) findViewById(R.id.textView);
+        if(location == null)
+            return;
         textView.setText(location.getLatitude() + ", " + location.getLongitude());
 
         new AsyncReverseGeocode().execute(Double.toString(location.getLatitude()),

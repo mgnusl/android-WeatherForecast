@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +46,8 @@ public class StartActivity extends ActionBarActivity {
         // Style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
-        getActionBar().setTitle("Weather forecast");
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + "Weather forecast" + "</font>"));
+
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
