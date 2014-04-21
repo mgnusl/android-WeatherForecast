@@ -127,19 +127,7 @@ public class SixHourSectionAdapter extends SectionAdapter {
         text.setText(weekDayNames[day.getDate().getDayOfWeek()-1] + " " + day.getDateString());
         text.setTextColor(context.getResources().getColor(R.color.c1));
 
-        //int sectionColor = section % 3;
-        int sectionColor = 0;
-        switch (sectionColor) {
-            case 0:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.c3));
-                break;
-            case 1:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue2));
-                break;
-            case 2:
-                convertView.setBackgroundColor(context.getResources().getColor(R.color.blue3));
-                break;
-        }
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.bloodred));
 
         return convertView;
     }

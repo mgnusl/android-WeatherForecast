@@ -66,7 +66,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
                 url = UrlBuilder.buildNorwegianBaseURL(country, region, region2, place);
 
-
                 // Launch activity
                 Intent intent = new Intent(LocationFinderActivity.this, ForecastActivity.class);
                 intent.putExtra("info", url);

@@ -13,13 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 import com.cengalabs.flatui.FlatUI;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.location.GeonamesLocation;
 import com.example.yrnoparser.utils.UrlBuilder;
 import com.example.yrnoparser.utils.Utils;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import org.geonames.Toponym;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -34,6 +35,7 @@ public class StartActivity extends ActionBarActivity {
     private List<ForecastLocation> listOfForecastLocations;
     private EditText searchEditText;
     private ForecastLocation selectedForecastLocation;
+    private Style confirm, error;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +48,11 @@ public class StartActivity extends ActionBarActivity {
         // Style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
-        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + "Weather forecast" + "</font>"));
-
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
+        // Crouton
+        confirm = new Style.Builder().setBackgroundColor(R.color.greenm).build();
+        error = new Style.Builder().setBackgroundColor(R.color.yellowm).build();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
@@ -59,7 +64,8 @@ public class StartActivity extends ActionBarActivity {
                 // Clear location list to remove results from earlier searches
                 listOfForecastLocations.clear();
                 if (searchString.equals(""))
-                    Toast.makeText(StartActivity.this, "Tomt søkefelt", Toast.LENGTH_LONG).show();
+                    Crouton.makeText(StartActivity.this, "Please enter a location", error).show();
+
                 else
                     new AsyncSearchLocationFromString().execute(searchEditText.getText().toString());
 
@@ -79,7 +85,7 @@ public class StartActivity extends ActionBarActivity {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
 
         if (resultsFromSearch.isEmpty()) {
-            Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
+            Crouton.makeText(this, "No results...", error).show();
             return;
         }
 

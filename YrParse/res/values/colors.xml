@@ -28,4 +28,6 @@
     <!-- Background color -->
     <color name="bg">#ffffff</color>
 
+    <color name="bloodred">#d94130</color>
+
 </resources>

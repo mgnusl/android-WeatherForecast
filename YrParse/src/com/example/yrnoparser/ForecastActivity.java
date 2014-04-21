@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
+import com.cengalabs.flatui.FlatUI;
 import com.example.yrnoparser.adapter.MyPagerAdapter;
 import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.ForecastLocation;
@@ -26,7 +28,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForecastActivity extends FragmentActivity {
+public class ForecastActivity extends ActionBarActivity {
     private ViewPager viewPager;
     private ForecastLocation forecastLocation;
     private ArrayList<Forecast> listOfSixHourForecasts;
@@ -37,9 +39,16 @@ public class ForecastActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.activity_forecast);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
 
         forecastLocation = new ForecastLocation();
         listOfSixHourForecasts = new ArrayList<Forecast>();

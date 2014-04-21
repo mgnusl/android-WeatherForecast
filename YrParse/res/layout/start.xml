@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/searchEditText"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="50dp"
             android:hint="Search..."
             flatui:fieldStyle="flat"
             flatui:cornerRadius="3dip"/>
@@ -23,11 +23,12 @@
     <com.cengalabs.flatui.views.FlatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search..."
+            android:text="Get forecast"
             android:id="@+id/searchButton"
             android:layout_below="@+id/searchEditText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="28dp"
+            android:padding="10dp"
             flatui:textAppearance="light"/>
 
     <com.cengalabs.flatui.views.FlatButton

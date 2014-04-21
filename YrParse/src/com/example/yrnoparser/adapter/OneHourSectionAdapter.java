@@ -127,7 +127,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
         text.setText(weekDayNames[day.getDate().getDayOfWeek() - 1] + " " + day.getDateString());
         text.setTextColor(context.getResources().getColor(R.color.c1));
 
-        convertView.setBackgroundColor(context.getResources().getColor(R.color.c3));
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.bloodred));
 
         return convertView;
     }
