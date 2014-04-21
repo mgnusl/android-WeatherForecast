@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+import com.cengalabs.flatui.FlatUI;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.location.GeonamesLocation;
@@ -26,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartActivity extends FragmentActivity {
+public class StartActivity extends ActionBarActivity {
 
     private List<Toponym> resultsFromSearch;
     private List<ForecastLocation> listOfForecastLocations;
@@ -35,12 +36,16 @@ public class StartActivity extends FragmentActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.start);
 
         resultsFromSearch = new ArrayList<Toponym>();
         listOfForecastLocations = new ArrayList<ForecastLocation>();
 
-
+        // Style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
+        getActionBar().setTitle("Weather forecast");
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
 
@@ -59,7 +64,7 @@ public class StartActivity extends FragmentActivity {
             }
         });
 
-        Button locationButton = (Button)findViewById(R.id.locfindButton);
+        Button locationButton = (Button) findViewById(R.id.locfindButton);
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +76,7 @@ public class StartActivity extends FragmentActivity {
     private void showPopupMenu() {
         PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
 
-        if(resultsFromSearch.isEmpty()) {
+        if (resultsFromSearch.isEmpty()) {
             Toast.makeText(this, "No results", Toast.LENGTH_SHORT).show();
             return;
         }

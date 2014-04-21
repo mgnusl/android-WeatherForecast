@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:flatui="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
 
-    <TextView
+    <com.cengalabs.flatui.views.FlatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:text="Oslo"
             android:id="@+id/sixHourLocationTextView"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            flatui:textColor="main"/>
 
-    <TextView
+    <com.cengalabs.flatui.views.FlatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:text="City"
             android:id="@+id/sixHourTypeTextView"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            flatui:textColor="main"/>
 
-    <TextView
+    <com.cengalabs.flatui.views.FlatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:text="Norway"
             android:id="@+id/sixHourCountryTextView"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            flatui:textColor="main"/>
 </LinearLayout>

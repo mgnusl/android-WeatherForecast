@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:flatui="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -9,28 +10,32 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
 
-    <EditText
+    <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:id="@+id/searchEditText"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="33dp"/>
+            android:layout_marginTop="33dp"
+            android:hint="Search..."
+            flatui:fieldStyle="flat"
+            flatui:cornerRadius="3dip"/>
 
-    <Button
+    <com.cengalabs.flatui.views.FlatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search..."
             android:id="@+id/searchButton"
-            style="@style/btnStylelivid_brown"
             android:layout_below="@+id/searchEditText"
             android:layout_centerHorizontal="true"
-            android:textColor="#ffffff"
-            android:layout_marginTop="28dp"/>
-    <Button
+            android:layout_marginTop="28dp"
+            flatui:textAppearance="light"/>
+
+    <com.cengalabs.flatui.views.FlatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="location finder"
             android:id="@+id/locfindButton"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            flatui:textAppearance="light"/>
 </RelativeLayout>

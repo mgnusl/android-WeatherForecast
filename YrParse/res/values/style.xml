@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="btnStylelivid_brown" parent="@android:style/Widget.Button">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">0.6</item>
-        <item name="android:background">@drawable/custom_btn_livid_brown</item>
-        <item name="android:padding">10dip</item>
+    <style name="Theme.MyCompatTheme" parent="@style/Theme.AppCompat.Light"></style>
+    <style name="AppTheme" parent="Theme.MyCompatTheme">
+        <item name="actionBarStyle">@style/ActionBarCompat</item>
+    </style>
+
+    <style name="ActionBarCompat" parent="@style/Widget.AppCompat.Base.ActionBar">
+        <item name="titleTextStyle">@style/titleStyle</item>
+    </style>
+
+    <style name="titleStyle" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
