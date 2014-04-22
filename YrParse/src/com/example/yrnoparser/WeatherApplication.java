@@ -35,19 +35,28 @@ public class WeatherApplication extends Application {
         previousSearches.add(fl);
     }
 
+
     public ArrayList<ForecastLocation> getPreviousSearches() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         numberOfSearches = sp.getInt(NUMBER_OF_SEARCHES, 0);
 
         ArrayList<ForecastLocation> list = new ArrayList<ForecastLocation>();
         for (int i = 1; i <= numberOfSearches; i++) {
-            // Get string
-            //ArrayList<String> l = convertStringToArrayList(sp.getString(SAVED_FORECASTLOCATION + numberOfSearches, "lol-lol"));
+            // Get
+            ArrayList<String> result = convertStringToArrayList(sp.getString(SAVED_FORECASTLOCATION + i, "lol-lol"));
+            // Build object
             ForecastLocation fl = new ForecastLocation();
-            Log.d("APP", Integer.toString(i) + " " + convertStringToArrayList(sp.getString(SAVED_FORECASTLOCATION + i, "")));
-            Log.d("APP", "Antall searches: " + Integer.toString(numberOfSearches));
-
+            fl.setCountry(result.get(0));
+            fl.setRegion(result.get(1));
+            fl.setChildRegion(result.get(2));
+            fl.setName(result.get(3));
+            // Add it to list
+            list.add(fl);
         }
+
+        for(ForecastLocation ll : list)
+            Log.d("APP", ll.toString());
+
         return list;
     }
 
@@ -58,12 +67,12 @@ public class WeatherApplication extends Application {
         // converts the information needed in ForecastLocation to a string
         // so it can be saved to sharedpreferences
         String s = "";
-        s += fl.getCountry() + "-";
+        s += fl.getCountry() + ";";
+        s += fl.getRegion() + ";";
         if (fl.getChildRegion() == null)
-            s += "null-";
+            s += "null;";
         else
-            s += fl.getChildRegion() + "-";
-        s += fl.getRegion() + "-";
+            s += fl.getChildRegion() + ";";
         s += fl.getName();
 
         return s;
@@ -71,7 +80,7 @@ public class WeatherApplication extends Application {
 
     public ArrayList<String> convertStringToArrayList(String s) {
 
-        ArrayList<String> myList = new ArrayList<String>(Arrays.asList(s.split("-")));
+        ArrayList<String> myList = new ArrayList<String>(Arrays.asList(s.split(";")));
         return myList;
 
     }

@@ -18,6 +18,8 @@
     <color name="listheaderbg">#3a5e9e</color>
     <color name="listheaderfont">#A0D8F1</color>
 
+    <color name="font1">#f4cdc8</color>
+
     <!-- Test colors -->
     <color name="c1">#ECD078</color>
     <color name="c2">#D95B43</color>
@@ -29,5 +31,7 @@
     <color name="bg">#ffffff</color>
 
     <color name="bloodred">#d94130</color>
+    <color name="bloodred_1">#dc5444</color>
+    <color name="bloodred1">#c33a2b</color>
 
 </resources>

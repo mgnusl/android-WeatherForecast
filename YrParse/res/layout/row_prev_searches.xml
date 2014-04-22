@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:flatui="http://schemas.android.com/apk/res-auto"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal|center_vertical">
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/rx"
+        android:layout_weight="1"></LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/r1"
+        android:layout_weight="1">
+
+        <com.cengalabs.flatui.views.FlatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CITY"
+            android:textSize="12dp"
+            android:id="@+id/cityTextView"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dp"
+            flatui:textColor="main"
+            flatui:fontWeight="regular"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/r2"
+        android:layout_weight="1">
+
+        <com.cengalabs.flatui.views.FlatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REGION"
+            android:textSize="12dp"
+            android:id="@+id/regionTextView"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            flatui:textColor="main"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/r3">
+
+        <com.cengalabs.flatui.views.FlatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COUNTRY"
+            android:textSize="12dp"
+            android:id="@+id/countryTextView"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            flatui:textColor="main"/>
+    </LinearLayout>
+
+
+</LinearLayout>

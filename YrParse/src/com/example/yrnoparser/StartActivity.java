@@ -12,8 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import com.cengalabs.flatui.FlatUI;
+import com.example.yrnoparser.adapter.PrevSearchesAdapter;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.location.GeonamesLocation;
@@ -36,11 +38,17 @@ public class StartActivity extends ActionBarActivity {
     private EditText searchEditText;
     private ForecastLocation selectedForecastLocation;
     private Style confirm, error;
+    private ListView previousSearchesLV;
+    private WeatherApplication globalApp;
+    private ArrayList<ForecastLocation> searchHistory;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.start);
+
+        globalApp = (WeatherApplication) getApplicationContext();
+        searchHistory = globalApp.getPreviousSearches();
 
         resultsFromSearch = new ArrayList<Toponym>();
         listOfForecastLocations = new ArrayList<ForecastLocation>();
@@ -55,6 +63,9 @@ public class StartActivity extends ActionBarActivity {
         error = new Style.Builder().setBackgroundColor(R.color.yellowm).build();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
+        previousSearchesLV = (ListView) findViewById(R.id.previousSearchesListView);
+        previousSearchesLV.setAdapter(new PrevSearchesAdapter(this, searchHistory));
+
 
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {

@@ -88,6 +88,16 @@ public class ForecastLocation implements Parcelable {
         this.countryCode = countryCode;
     }
 
+    @Override
+    public String toString() {
+        return "ForecastLocation{" +
+                "name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", childRegion='" + childRegion + '\'' +
+                ", region='" + region + '\'' +
+                '}';
+    }
+
     // Parcelable methods
     @Override
     public void writeToParcel(Parcel parcel, int i) {

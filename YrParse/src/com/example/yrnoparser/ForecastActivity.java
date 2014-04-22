@@ -38,7 +38,6 @@ public class ForecastActivity extends ActionBarActivity {
     private ArrayList<SingleDay> listOfOneHourDays;
     private WeatherApplication globalApp;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
