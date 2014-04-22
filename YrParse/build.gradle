@@ -18,11 +18,11 @@ repositories {
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 13
+        minSdkVersion 11
         targetSdkVersion 19
     }
 

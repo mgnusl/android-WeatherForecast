@@ -29,7 +29,6 @@ public class OneHourSectionAdapter extends SectionAdapter {
         this.data = data;
         this.icons = icons;
         weekDayNames = context.getResources().getStringArray(R.array.weekdays);
-        Log.d("APP", Integer.toString(data.size()));
     }
 
     @Override

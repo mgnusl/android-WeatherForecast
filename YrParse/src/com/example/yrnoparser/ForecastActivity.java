@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
@@ -35,12 +36,16 @@ public class ForecastActivity extends ActionBarActivity {
     private ArrayList<Forecast> listOfOneHourForecasts;
     private ArrayList<SingleDay> listOfSixHourDays;
     private ArrayList<SingleDay> listOfOneHourDays;
+    private WeatherApplication globalApp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.activity_forecast);
+
+        globalApp = (WeatherApplication) getApplicationContext();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -59,6 +64,7 @@ public class ForecastActivity extends ActionBarActivity {
         // Get intent and data passed with it
         Intent intent = getIntent();
         String url = intent.getStringExtra("info");
+        Log.d("APP", url);
 
         // Download and parse the XML
         new AsyncHandleXML().execute(url);
@@ -130,6 +136,11 @@ public class ForecastActivity extends ActionBarActivity {
         //Style tabs
         tabs.setIndicatorColor(getResources().getColor(R.color.yellowm));
         tabs.setShouldExpand(true);
+
+        // Add the forecast to "search history"
+        Intent intent = getIntent();
+        ForecastLocation fl = intent.getExtras().getParcelable("location");
+        globalApp.addPreviousSearch(fl);
 
     }
 

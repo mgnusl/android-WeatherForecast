@@ -26,12 +26,15 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class LocationFinderActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener {
 
     private LocationClient locationClient;
     private GeoName currentLocationGeoname;
     private ForecastLocation forecastLocation;
+    private WeatherApplication globalApp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         // Check if Google Play service is available and up to date.
         if (!servicesConnected())
             finish();
+
+        globalApp = (WeatherApplication) getApplicationContext();
+        ArrayList<ForecastLocation> lol = globalApp.getPreviousSearches();
 
         locationClient = new LocationClient(this, this, this);
 

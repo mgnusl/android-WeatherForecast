@@ -122,6 +122,7 @@ public class StartActivity extends ActionBarActivity {
         // Launch activity
         Intent intent = new Intent(StartActivity.this, ForecastActivity.class);
         intent.putExtra("info", url);
+        intent.putExtra("location", selectedForecastLocation);
         startActivity(intent);
 
     }

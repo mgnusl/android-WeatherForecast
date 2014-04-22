@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForecastLocation implements Parcelable{
+public class ForecastLocation implements Parcelable {
     private String name;
     private String country;
     private String countryCode;
@@ -126,6 +126,6 @@ public class ForecastLocation implements Parcelable{
         geonamesID = in.readInt();
 
         geonameList = new ArrayList<GeoName>();
-        in.readList(geonameList, null);
+        in.readList(geonameList, ((Object) this).getClass().getClassLoader());
     }
 }
