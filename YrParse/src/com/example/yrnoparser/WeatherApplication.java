@@ -8,11 +8,13 @@ import com.example.yrnoparser.data.ForecastLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class WeatherApplication extends Application {
 
     public final static String NUMBER_OF_SEARCHES = "nr_of_searches";
     public final static String SAVED_FORECASTLOCATION = "saved_fl";
+    public final static int NUMBER_OF_SEARCHES_TO_SHOW = 5;
 
     private ArrayList<ForecastLocation> previousSearches;
     private int numberOfSearches;
@@ -54,16 +56,24 @@ public class WeatherApplication extends Application {
             list.add(fl);
         }
 
-        for(ForecastLocation ll : list)
+        for (ForecastLocation ll : list)
             Log.d("APP", ll.toString());
 
+        if(list.size() > NUMBER_OF_SEARCHES_TO_SHOW) {
+            list.subList(0, list.size()-NUMBER_OF_SEARCHES_TO_SHOW).clear();
+        }
+
         return list;
+    }
+
+    private void cleanSharedPreferences() {
+
     }
 
     /*
             HELPER METHODS
      */
-    public String convertForecastLocationToString(ForecastLocation fl) {
+    private String convertForecastLocationToString(ForecastLocation fl) {
         // converts the information needed in ForecastLocation to a string
         // so it can be saved to sharedpreferences
         String s = "";
@@ -78,7 +88,7 @@ public class WeatherApplication extends Application {
         return s;
     }
 
-    public ArrayList<String> convertStringToArrayList(String s) {
+    private ArrayList<String> convertStringToArrayList(String s) {
 
         ArrayList<String> myList = new ArrayList<String>(Arrays.asList(s.split(";")));
         return myList;
