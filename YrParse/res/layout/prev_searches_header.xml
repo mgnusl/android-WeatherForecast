@@ -4,13 +4,14 @@
               xmlns:flatui="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="50dp">
+              android:layout_height="50dp"
+              android:padding="8dp">
 
     <com.cengalabs.flatui.views.FlatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prev_searches"
-        android:id="@+id/prevHeaderTextView"
-        flatui:fontWeight="regular"
-        flatui:textAppearance="none"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prev_searches"
+            android:id="@+id/prevHeaderTextView"
+            flatui:fontWeight="regular"
+            flatui:textAppearance="none"/>
 </LinearLayout>

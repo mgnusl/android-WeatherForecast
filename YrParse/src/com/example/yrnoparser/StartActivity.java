@@ -92,13 +92,41 @@ public class StartActivity extends ActionBarActivity {
         });
     }
 
-    private void showPopupMenu() {
-        PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
-
+    private void preparePopupMenu() {
+        // Check if we got no results
         if (resultsFromSearch.isEmpty()) {
             Crouton.makeText(this, "No results...", error).show();
             return;
         }
+
+        // Check if we only got one result, in which case go to forecast straight away
+        if (resultsFromSearch.size() == 1) {
+            // Launch forecast activity
+            // Build URL
+            selectedForecastLocation = listOfForecastLocations.get(0);
+            String url;
+            if (selectedForecastLocation.getCountryCode().equalsIgnoreCase("no")) {
+                url = UrlBuilder.buildNorwegianBaseURL(selectedForecastLocation.getCountry(), selectedForecastLocation.getRegion(),
+                        selectedForecastLocation.getChildRegion(), selectedForecastLocation.getName());
+            } else {
+                url = UrlBuilder.buildInternationalBaseURL(selectedForecastLocation.getCountry(),
+                        selectedForecastLocation.getRegion(), selectedForecastLocation.getName());
+            }
+            Intent intent = new Intent(StartActivity.this, ForecastActivity.class);
+            intent.putExtra("info", url);
+            intent.putExtra("location", listOfForecastLocations.get(0));
+            startActivity(intent);
+            finish();
+        }
+
+        // If more than one result, show popup
+        if(resultsFromSearch.size() > 1)
+            showPopupMenu();
+    }
+
+    private void showPopupMenu() {
+
+        PopupMenu popup = new PopupMenu(StartActivity.this, searchEditText);
 
         int i = 0;
         for (ForecastLocation l : listOfForecastLocations) {
@@ -114,6 +142,7 @@ public class StartActivity extends ActionBarActivity {
                 return true;
             }
         });
+
         popup.show();
 
     }
@@ -130,7 +159,7 @@ public class StartActivity extends ActionBarActivity {
                     selectedForecastLocation.getRegion(), selectedForecastLocation.getName());
         }
 
-        // Launch activity
+        // Launch forecast activity
         Intent intent = new Intent(StartActivity.this, ForecastActivity.class);
         intent.putExtra("info", url);
         intent.putExtra("location", selectedForecastLocation);
@@ -233,7 +262,7 @@ public class StartActivity extends ActionBarActivity {
 
         protected void onPostExecute(String result) {
             pDialog.dismiss();
-            showPopupMenu();
+            preparePopupMenu();
         }
     }
 }
