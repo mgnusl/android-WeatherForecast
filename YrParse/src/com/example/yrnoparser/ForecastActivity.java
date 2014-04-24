@@ -372,6 +372,7 @@ public class ForecastActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                startActivity(new Intent(ForecastActivity.this, StartActivity.class));
                 finish();
                 return true;
             default:

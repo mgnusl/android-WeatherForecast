@@ -8,7 +8,7 @@ import com.example.yrnoparser.data.ForecastLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 public class WeatherApplication extends Application {
 
@@ -46,6 +46,9 @@ public class WeatherApplication extends Application {
         for (int i = 1; i <= numberOfSearches; i++) {
             // Get
             ArrayList<String> result = convertStringToArrayList(sp.getString(SAVED_FORECASTLOCATION + i, "lol-lol"));
+            // Check if the result is numberOfSearches variable
+            if (result.size() < 2)
+                continue;
             // Build object
             ForecastLocation fl = new ForecastLocation();
             fl.setCountry(result.get(0));
@@ -56,18 +59,35 @@ public class WeatherApplication extends Application {
             list.add(fl);
         }
 
-        for (ForecastLocation ll : list)
-            Log.d("APP", ll.toString());
-
-        if(list.size() > NUMBER_OF_SEARCHES_TO_SHOW) {
-            list.subList(0, list.size()-NUMBER_OF_SEARCHES_TO_SHOW).clear();
+        if (list.size() > NUMBER_OF_SEARCHES_TO_SHOW) {
+            list.subList(0, list.size() - NUMBER_OF_SEARCHES_TO_SHOW).clear();
         }
+
+        previousSearches = list;
+        cleanSharedPreferences();
 
         return list;
     }
 
-    private void cleanSharedPreferences() {
+    public void printAllPrefs() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        Map<String, ?> map = sp.getAll();
+        for (String key : map.keySet()) {
+            Log.d("APP", "Key: " + key + " - Value: " + map.get(key));
+        }
+    }
 
+    private void cleanSharedPreferences() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        numberOfSearches = 1;
+        for (ForecastLocation fl : previousSearches) {
+            editor.putString(SAVED_FORECASTLOCATION + numberOfSearches, convertForecastLocationToString(fl));
+            numberOfSearches++;
+        }
+        editor.putInt(NUMBER_OF_SEARCHES, numberOfSearches);
+        editor.commit();
     }
 
     /*
@@ -90,8 +110,7 @@ public class WeatherApplication extends Application {
 
     private ArrayList<String> convertStringToArrayList(String s) {
 
-        ArrayList<String> myList = new ArrayList<String>(Arrays.asList(s.split(";")));
-        return myList;
+        return new ArrayList<String>(Arrays.asList(s.split(";")));
 
     }
 }
