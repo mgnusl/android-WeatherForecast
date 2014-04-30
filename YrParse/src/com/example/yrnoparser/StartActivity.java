@@ -114,6 +114,7 @@ public class StartActivity extends ActionBarActivity {
                 url = UrlBuilder.buildInternationalBaseURL(selectedForecastLocation.getCountry(),
                         selectedForecastLocation.getRegion(), selectedForecastLocation.getName());
             }
+
             Intent intent = new Intent(StartActivity.this, ForecastActivity.class);
             intent.putExtra("info", url);
             intent.putExtra("location", listOfForecastLocations.get(0));
@@ -139,7 +140,7 @@ public class StartActivity extends ActionBarActivity {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 selectedForecastLocation = listOfForecastLocations.get(item.getItemId());
-                handleLocationSelection();
+                handleLocationSelection(selectedForecastLocation);
                 return true;
             }
         });
@@ -148,25 +149,23 @@ public class StartActivity extends ActionBarActivity {
 
     }
 
-    private void handleLocationSelection() {
+    private void handleLocationSelection(ForecastLocation fl) {
         String url;
 
         // Build URL
-        if (selectedForecastLocation.getCountryCode().equalsIgnoreCase("no")) {
-            url = UrlBuilder.buildNorwegianBaseURL(selectedForecastLocation.getCountry(), selectedForecastLocation.getRegion(),
-                    selectedForecastLocation.getChildRegion(), selectedForecastLocation.getName());
+        if (fl.getCountryCode().equalsIgnoreCase("no")) {
+            url = UrlBuilder.buildNorwegianBaseURL(fl.getCountry(), fl.getRegion(),
+                    fl.getChildRegion(), fl.getName());
         } else {
-            url = UrlBuilder.buildInternationalBaseURL(selectedForecastLocation.getCountry(),
-                    selectedForecastLocation.getRegion(), selectedForecastLocation.getName());
+            url = UrlBuilder.buildInternationalBaseURL(fl.getCountry(),
+                    fl.getRegion(), fl.getName());
         }
 
         // Launch forecast activity
         Intent intent = new Intent(StartActivity.this, ForecastActivity.class);
         intent.putExtra("info", url);
-        intent.putExtra("location", selectedForecastLocation);
+        intent.putExtra("location", fl);
         startActivity(intent);
-        finish();
-
     }
 
     private class AsyncSearchLocationFromString extends AsyncTask<String, String, String> {
@@ -280,8 +279,7 @@ public class StartActivity extends ActionBarActivity {
         if(resultCode == RESULT_OK) {
             ForecastLocation nearbyLocation = data.getParcelableExtra("nearbylocation");
             Log.d("APP", nearbyLocation.toString());
+            handleLocationSelection(nearbyLocation);
         }
-
-
     }
 }

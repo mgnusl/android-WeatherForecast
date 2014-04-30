@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Weather forecast</string>
     <string name="prev_searches">Previous searches</string>
+    <string name="nearby">Get forecast for my area</string>
 </resources>

@@ -7,6 +7,7 @@ public class GeoName implements Parcelable {
 
     private String name;
     private String fcode;
+    private String countryCode;
     private int geonameID;
 
     public GeoName() {
@@ -35,6 +36,14 @@ public class GeoName implements Parcelable {
 
     public void setGeonameID(int geonameID) {
         this.geonameID = geonameID;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     // Parcelable methods

@@ -195,7 +195,12 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                             if (insideGeoname2) {
                                 geoname.setFcode(xpp2.nextText());
                             }
+                        } else if (xpp2.getName().equalsIgnoreCase("countryCode")) {
+                            if (insideGeoname2) {
+                                geoname.setCountryCode(xpp2.nextText());
+                            }
                         }
+
                     } else if (eventType2 == XmlPullParser.END_TAG && xpp2.getName().equalsIgnoreCase("geoname")) {
                         insideGeoname2 = false;
                         forecastLocation.addGeoname(geoname);
@@ -247,6 +252,7 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                 }
                 if (g.getFcode().equals("PCLI")) { //Country
                     forecastLocation.setCountry(g.getName());
+                    forecastLocation.setCountryCode(g.getCountryCode());
                 }
             }
 

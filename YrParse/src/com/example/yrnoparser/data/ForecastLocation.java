@@ -93,8 +93,12 @@ public class ForecastLocation implements Parcelable {
         return "ForecastLocation{" +
                 "name='" + name + '\'' +
                 ", country='" + country + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", type='" + type + '\'' +
                 ", childRegion='" + childRegion + '\'' +
                 ", region='" + region + '\'' +
+                ", geonamesID=" + geonamesID +
+                ", geonameList=" + geonameList +
                 '}';
     }
 

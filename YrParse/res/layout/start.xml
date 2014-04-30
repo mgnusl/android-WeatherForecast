@@ -12,11 +12,10 @@
         android:layout_centerHorizontal="true">
 
         <com.cengalabs.flatui.views.FlatEditText
-            android:layout_width="120dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:id="@+id/searchEditText"
             android:layout_marginTop="50dp"
-            android:layout_marginLeft="20dp"
             android:padding="11dp"
             android:paddingRight="50dp"
             android:paddingLeft="10dp"
@@ -45,7 +44,7 @@
     <com.cengalabs.flatui.views.FlatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="location finder"
+        android:text="@string/nearby"
         android:id="@+id/locfindButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
