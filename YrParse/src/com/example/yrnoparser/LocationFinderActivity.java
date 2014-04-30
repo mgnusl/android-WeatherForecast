@@ -258,7 +258,10 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
 
             Intent intent = getIntent();
             intent.putExtra("nearbylocation", forecastLocation);
-            setResult(RESULT_OK, intent);
+            if(forecastLocation.hasRequiredFields())
+                setResult(RESULT_OK, intent);
+            else
+                setResult(2, intent); //missing some data
             finish();
         }
     }

@@ -48,7 +48,9 @@
         android:id="@+id/locfindButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        flatui:textAppearance="light"/>
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"/>
 
     <ListView
         android:layout_width="wrap_content"

@@ -102,6 +102,13 @@ public class ForecastLocation implements Parcelable {
                 '}';
     }
 
+    // Check to see if we actually has enough information to build an URL
+    public boolean hasRequiredFields() {
+        if (name == null || country == null || countryCode == null || region == null)
+            return false;
+        return true;
+    }
+
     // Parcelable methods
     @Override
     public void writeToParcel(Parcel parcel, int i) {

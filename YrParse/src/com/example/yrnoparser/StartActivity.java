@@ -278,8 +278,12 @@ public class StartActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK) {
             ForecastLocation nearbyLocation = data.getParcelableExtra("nearbylocation");
+            if(resultCode == 2)
+                Crouton.makeText(StartActivity.this, "Unable to find any nearby forecast locations", error).show();
+            else
+                handleLocationSelection(nearbyLocation);
+
             Log.d("APP", nearbyLocation.toString());
-            handleLocationSelection(nearbyLocation);
         }
     }
 }
