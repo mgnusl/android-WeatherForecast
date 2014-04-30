@@ -95,4 +95,5 @@ public class PrevSearchesAdapter extends SectionAdapter {
         Log.d("APP", "Section: " + Integer.toString(section) + ". Row: " + Integer.toString(row));
     }
 
+
 }

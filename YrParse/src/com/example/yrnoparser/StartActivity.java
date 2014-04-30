@@ -41,6 +41,7 @@ public class StartActivity extends ActionBarActivity {
     private ListView previousSearchesLV;
     private WeatherApplication globalApp;
     private ArrayList<ForecastLocation> searchHistory;
+    private PrevSearchesAdapter listAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,8 @@ public class StartActivity extends ActionBarActivity {
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         previousSearchesLV = (ListView) findViewById(R.id.previousSearchesListView);
-        previousSearchesLV.setAdapter(new PrevSearchesAdapter(this, searchHistory));
+        listAdapter = new PrevSearchesAdapter(this, searchHistory);
+        previousSearchesLV.setAdapter(listAdapter);
 
 
         Button searchButton = (Button) findViewById(R.id.searchButton);
@@ -116,7 +118,6 @@ public class StartActivity extends ActionBarActivity {
             intent.putExtra("info", url);
             intent.putExtra("location", listOfForecastLocations.get(0));
             startActivity(intent);
-            finish();
         }
 
         // If more than one result, show popup
@@ -264,5 +265,12 @@ public class StartActivity extends ActionBarActivity {
             pDialog.dismiss();
             preparePopupMenu();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchHistory = globalApp.getPreviousSearches();
+        listAdapter.notifyDataSetChanged();
     }
 }
