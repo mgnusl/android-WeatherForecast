@@ -10,13 +10,6 @@
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:id="@+id/rx"
-        android:layout_weight="1"></LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
         android:id="@+id/r1"
         android:layout_weight="1">
 
@@ -26,7 +19,8 @@
             android:text="CITY"
             android:textSize="12dp"
             android:id="@+id/cityTextView"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="25dp"
             flatui:textColor="main"
@@ -46,7 +40,8 @@
             android:text="REGION"
             android:textSize="12dp"
             android:id="@+id/regionTextView"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_centerHorizontal="true"
             flatui:textColor="main"/>
     </LinearLayout>
@@ -63,7 +58,8 @@
             android:text="COUNTRY"
             android:textSize="12dp"
             android:id="@+id/countryTextView"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_centerHorizontal="true"
             flatui:textColor="main"/>
     </LinearLayout>

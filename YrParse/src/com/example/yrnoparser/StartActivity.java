@@ -89,7 +89,7 @@ public class StartActivity extends ActionBarActivity {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(StartActivity.this, LocationFinderActivity.class));
+                startActivityForResult(new Intent(StartActivity.this, LocationFinderActivity.class), 1);
             }
         });
     }
@@ -272,5 +272,16 @@ public class StartActivity extends ActionBarActivity {
         super.onResume();
         searchHistory = globalApp.getPreviousSearches();
         listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            ForecastLocation nearbyLocation = data.getParcelableExtra("nearbylocation");
+            Log.d("APP", nearbyLocation.toString());
+        }
+
+
     }
 }

@@ -33,8 +33,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
     private LocationClient locationClient;
     private GeoName currentLocationGeoname;
     private ForecastLocation forecastLocation;
-    private WeatherApplication globalApp;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +42,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         // Check if Google Play service is available and up to date.
         if (!servicesConnected())
             finish();
-
-        globalApp = (WeatherApplication) getApplicationContext();
-        ArrayList<ForecastLocation> lol = globalApp.getPreviousSearches();
 
         locationClient = new LocationClient(this, this, this);
 
@@ -238,6 +233,27 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
             }
 
             testResult(sb.toString());
+
+            // Run through the list of GeoNames the Location has and set the needed fields
+            for (GeoName g : forecastLocation.getGeonameList()) {
+                if (g.getFcode().equals("ADM2")) { // Child region. IE. "Bærum" or "Santa Barbara"
+                    forecastLocation.setChildRegion(g.getName());
+                }
+                if (g.getFcode().equals("ADM1")) { // Parent region. IE. "Akershus" or "California"
+                    forecastLocation.setRegion(g.getName());
+                }
+                if (g.getFcode().startsWith("PPL")) { //Place name
+                    forecastLocation.setName(g.getName());
+                }
+                if (g.getFcode().equals("PCLI")) { //Country
+                    forecastLocation.setCountry(g.getName());
+                }
+            }
+
+            Intent intent = getIntent();
+            intent.putExtra("nearbylocation", forecastLocation);
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 
