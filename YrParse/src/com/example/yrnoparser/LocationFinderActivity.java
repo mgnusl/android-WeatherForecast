@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.cengalabs.flatui.FlatUI;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
 import com.example.yrnoparser.utils.UrlBuilder;
@@ -28,54 +31,29 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class LocationFinderActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener {
+public class LocationFinderActivity extends ActionBarActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 
     private LocationClient locationClient;
     private GeoName currentLocationGeoname;
     private ForecastLocation forecastLocation;
     private ProgressDialog pDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loc_finder);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
+
+        // Style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
 
         // Check if Google Play service is available and up to date.
         if (!servicesConnected())
             finish();
 
         locationClient = new LocationClient(this, this, this);
-
-        Button getForecastButton = (Button) findViewById(R.id.getForecastButton);
-        getForecastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url;
-                String country = null;
-                String region = null;
-                String region2 = null;
-                String place = null;
-                for(GeoName g : forecastLocation.getGeonameList()) {
-                    if(g.getFcode().equals("PCLI"))
-                        country = g.getName();
-                    if(g.getFcode().equals("ADM1"))
-                        region = g.getName();
-                    if(g.getFcode().equals("ADM2"))
-                        region2 = g.getName();
-                    if(g.getFcode().contains("PPL"))
-                        place = g.getName();
-                }
-
-                url = UrlBuilder.buildNorwegianBaseURL(country, region, region2, place);
-
-                // Launch activity
-                Intent intent = new Intent(LocationFinderActivity.this, ForecastActivity.class);
-                intent.putExtra("info", url);
-                startActivity(intent);
-                Log.d("APP", url);
-            }
-        });
     }
 
     @Override
@@ -97,10 +75,8 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
             return;
         Location location = locationClient.getLastLocation();
 
-        TextView textView = (TextView) findViewById(R.id.textView);
         if(location == null)
             return;
-        textView.setText(location.getLatitude() + ", " + location.getLongitude());
 
         new AsyncReverseGeocode().execute(Double.toString(location.getLatitude()),
                 Double.toString(location.getLongitude()));
@@ -232,14 +208,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         protected void onPostExecute(String result) {
             pDialog.dismiss();
 
-            // FOR TESTING
-            StringBuilder sb = new StringBuilder();
-            for (GeoName g : forecastLocation.getGeonameList()) {
-                sb.append(g.getName() + " - ");
-            }
-
-            testResult(sb.toString());
-
             // Run through the list of GeoNames the Location has and set the needed fields
             for (GeoName g : forecastLocation.getGeonameList()) {
                 if (g.getFcode().equals("ADM2")) { // Child region. IE. "Bærum" or "Santa Barbara"
@@ -265,11 +233,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
                 setResult(2, intent); //missing some data
             finish();
         }
-    }
-
-    public void testResult(String s) {
-        TextView tv = (TextView) findViewById(R.id.textView2);
-        tv.setText(s);
     }
 
     private boolean servicesConnected() {
