@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:flatui="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:flatui="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal|center_vertical">
 
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:layout_height="0dip"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="3">
 
         <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="170dp"
@@ -41,23 +44,33 @@
     </RelativeLayout>
 
 
-    <com.cengalabs.flatui.views.FlatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nearby"
-        android:id="@+id/locfindButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        flatui:textAppearance="none"
-        flatui:fontWeight="light"
-        flatui:fontFamily="Roboto"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="2">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/previousSearchesListView"
-        android:layout_below="@+id/locfindButton"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-</RelativeLayout>
+        <com.cengalabs.flatui.views.FlatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nearby"
+            android:id="@+id/locfindButton"
+            android:layout_centerHorizontal="true"
+            flatui:textAppearance="none"
+            flatui:fontWeight="light"
+            flatui:fontFamily="Roboto"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/previousSearchesListView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    </RelativeLayout>
+</LinearLayout>

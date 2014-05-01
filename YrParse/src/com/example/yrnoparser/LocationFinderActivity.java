@@ -33,6 +33,8 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
     private LocationClient locationClient;
     private GeoName currentLocationGeoname;
     private ForecastLocation forecastLocation;
+    private ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +119,6 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
     }
 
     private class AsyncReverseGeocode extends AsyncTask<String, String, String> {
-        ProgressDialog pDialog;
 
         protected String doInBackground(String... args) {
 
@@ -288,4 +289,12 @@ public class LocationFinderActivity extends Activity implements ConnectionCallba
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+    }
 }
