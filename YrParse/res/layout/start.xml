@@ -5,7 +5,8 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="match_parent"
-              android:gravity="center_horizontal|center_vertical">
+              android:gravity="center_horizontal|center_vertical"
+              android:background="@color/bg">
 
 
     <LinearLayout
@@ -27,16 +28,18 @@
             android:id="@+id/searchEditText"
             android:padding="11dp"
             android:hint="Search..."
+            flatui:theme="@array/custom_theme"
             flatui:fieldStyle="flat"
             flatui:cornerRadius="3dip"/>
 
         <com.cengalabs.flatui.views.FlatButton
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_weight="5"
             android:text="Get forecast"
             android:id="@+id/searchButton"
             android:layout_marginLeft="10dp"
+            flatui:theme="@array/custom_theme"
             flatui:cornerRadius="3dp"
             flatui:blockButtonEffectHeight="3dp"
             android:layout_alignBottom="@+id/searchEditText"
@@ -61,11 +64,12 @@
 
         <com.cengalabs.flatui.views.FlatButton
             android:layout_width="0dip"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:layout_weight="3"
             android:text="@string/nearby"
             android:id="@+id/locfindButton"
             android:layout_centerHorizontal="true"
+            flatui:theme="@array/custom_theme"
             flatui:blockButtonEffectHeight="3dp"
             flatui:cornerRadius="3dp"/>
 

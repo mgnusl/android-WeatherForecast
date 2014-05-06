@@ -82,9 +82,9 @@ public class PrevSearchesAdapter extends SectionAdapter {
         }
 
         TextView text = (TextView) convertView.findViewById(R.id.prevHeaderTextView);
-        text.setTextColor(context.getResources().getColor(R.color.font1));
+        text.setTextColor(context.getResources().getColor(R.color.white));
 
-        convertView.setBackgroundColor(context.getResources().getColor(R.color.bloodred_1));
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.custom_theme_primary));
 
         return convertView;
     }
