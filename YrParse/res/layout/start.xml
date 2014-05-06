@@ -8,58 +8,72 @@
               android:gravity="center_horizontal|center_vertical">
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_centerHorizontal="true"
-        android:layout_weight="3">
+        android:layout_marginTop="40dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <com.cengalabs.flatui.views.FlatEditText
-            android:layout_width="170dp"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_weight="6"
             android:id="@+id/searchEditText"
-            android:layout_marginTop="50dp"
             android:padding="11dp"
-            android:paddingRight="50dp"
-            android:paddingLeft="10dp"
             android:hint="Search..."
             flatui:fieldStyle="flat"
-            flatui:cornerRadius="3dip"
-            flatui:fontFamily="Roboto"/>
+            flatui:cornerRadius="3dip"/>
 
         <com.cengalabs.flatui.views.FlatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="5"
             android:text="Get forecast"
             android:id="@+id/searchButton"
-            android:layout_marginLeft="20dp"
-            android:padding="10dp"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            flatui:textAppearance="none"
-            flatui:fontWeight="light"
-            flatui:fontFamily="Roboto"
+            android:layout_marginLeft="10dp"
+            flatui:cornerRadius="3dp"
+            flatui:blockButtonEffectHeight="3dp"
             android:layout_alignBottom="@+id/searchEditText"
             android:layout_toRightOf="@+id/searchEditText"/>
-    </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="2">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
         <com.cengalabs.flatui.views.FlatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+            android:layout_height="45dp"
+            android:layout_weight="3"
             android:text="@string/nearby"
             android:id="@+id/locfindButton"
             android:layout_centerHorizontal="true"
-            flatui:textAppearance="none"
-            flatui:fontWeight="light"
-            flatui:fontFamily="Roboto"/>
-    </RelativeLayout>
+            flatui:blockButtonEffectHeight="3dp"
+            flatui:cornerRadius="3dp"/>
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import com.cengalabs.flatui.FlatUI;
+import com.cengalabs.flatui.views.FlatButton;
 import com.example.yrnoparser.adapter.PrevSearchesAdapter;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
@@ -28,7 +29,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class StartActivity extends ActionBarActivity {
         listAdapter = new PrevSearchesAdapter(this, searchHistory);
         previousSearchesLV.setAdapter(listAdapter);
 
-        Button searchButton = (Button) findViewById(R.id.searchButton);
+        FlatButton searchButton = (FlatButton) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +91,7 @@ public class StartActivity extends ActionBarActivity {
             }
         });
 
-        Button locationButton = (Button) findViewById(R.id.locfindButton);
+        FlatButton locationButton = (FlatButton) findViewById(R.id.locfindButton);
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
