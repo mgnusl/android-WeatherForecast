@@ -48,9 +48,7 @@ public class ForecastActivity extends ActionBarActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Style
-        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
-        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
+        // Actionbar title
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 

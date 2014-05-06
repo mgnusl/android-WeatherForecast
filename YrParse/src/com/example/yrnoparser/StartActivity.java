@@ -25,8 +25,11 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.geonames.Toponym;
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,26 +51,29 @@ public class StartActivity extends ActionBarActivity {
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.start);
 
+        FlatUI.initDefaultValues(this);
+
+        // TODO: CHECK FOR INTERNET CONNECTION BEFORE SEARCH
+        // TODO: CANCEL ALL CROUTONS
+
         globalApp = (WeatherApplication) getApplicationContext();
         searchHistory = globalApp.getPreviousSearches();
 
         resultsFromSearch = new ArrayList<Toponym>();
         listOfForecastLocations = new ArrayList<ForecastLocation>();
 
-        // Style
-        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
-        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
+        // Actionbar title
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
+
         // Crouton
-        confirm = new Style.Builder().setBackgroundColor(R.color.greenm).build();
-        error = new Style.Builder().setBackgroundColor(R.color.yellowm).build();
+        confirm = new Style.Builder().setBackgroundColor(getResources().getColor(R.color.greenm)).build();
+        error = new Style.Builder().setBackgroundColor(getResources().getColor(R.color.yellowm)).build();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         previousSearchesLV = (ListView) findViewById(R.id.previousSearchesListView);
         listAdapter = new PrevSearchesAdapter(this, searchHistory);
         previousSearchesLV.setAdapter(listAdapter);
-
 
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +128,7 @@ public class StartActivity extends ActionBarActivity {
         }
 
         // If more than one result, show popup
-        if(resultsFromSearch.size() > 1)
+        if (resultsFromSearch.size() > 1)
             showPopupMenu();
     }
 
@@ -244,10 +250,15 @@ public class StartActivity extends ActionBarActivity {
 
                 } // end for
 
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             } catch (Exception e) {
-                Log.d("APP", "exception");
                 e.printStackTrace();
             }
+
+
 
             return null;
         }
@@ -274,11 +285,17 @@ public class StartActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             ForecastLocation nearbyLocation = data.getParcelableExtra("nearbylocation");
-            if(resultCode == 2)
+            if (resultCode == 2)
                 Crouton.makeText(StartActivity.this, "Unable to find any nearby forecast locations", error).show();
             else
                 handleLocationSelection(nearbyLocation);

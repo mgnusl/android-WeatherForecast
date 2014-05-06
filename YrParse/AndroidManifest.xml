@@ -16,7 +16,7 @@
         android:name="com.example.yrnoparser.WeatherApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MyCompatTheme"
+        android:theme="@style/CustomActionBarTheme"
         android:icon="@drawable/ic_launcher">
         <activity
             android:name="com.example.yrnoparser.StartActivity"

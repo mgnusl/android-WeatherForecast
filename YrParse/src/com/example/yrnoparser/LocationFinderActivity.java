@@ -1,35 +1,28 @@
 package com.example.yrnoparser;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.cengalabs.flatui.FlatUI;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.GeoName;
-import com.example.yrnoparser.utils.UrlBuilder;
 import com.example.yrnoparser.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class LocationFinderActivity extends ActionBarActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 
@@ -41,13 +34,6 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FlatUI.setDefaultTheme(FlatUI.BLOOD);
-
-        // Style
-        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
-        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DEEP, false));
-        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
-                + "</font>"));
 
         // Check if Google Play service is available and up to date.
         if (!servicesConnected())
@@ -75,7 +61,7 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
             return;
         Location location = locationClient.getLastLocation();
 
-        if(location == null)
+        if (location == null)
             return;
 
         new AsyncReverseGeocode().execute(Double.toString(location.getLatitude()),
@@ -85,13 +71,12 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
 
     @Override
     public void onConnectionFailed(ConnectionResult arg0) {
-
-        Toast.makeText(this, "Connection failed", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Connection failed", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onDisconnected() {
-        Toast.makeText(this, "Disconnected", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Disconnected", Toast.LENGTH_LONG).show();
     }
 
     private class AsyncReverseGeocode extends AsyncTask<String, String, String> {
@@ -225,9 +210,10 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
                 }
             }
 
+            // Set result for StartActivity to recieve.
             Intent intent = getIntent();
             intent.putExtra("nearbylocation", forecastLocation);
-            if(forecastLocation.hasRequiredFields())
+            if (forecastLocation.hasRequiredFields())
                 setResult(RESULT_OK, intent);
             else
                 setResult(2, intent); //missing some data
@@ -236,17 +222,12 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
     }
 
     private boolean servicesConnected() {
-        // Check that Google Play services is available
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            // In debug mode, log the status
-            Log.d("APP", "Google Play services is available.");
-            Toast.makeText(this, "Available", Toast.LENGTH_SHORT).show();
 
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode)
             return true;
-        } else {
-            // Get the error code
+        else {
             Toast.makeText(this, "Error code: " + Integer.toString(resultCode), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -255,9 +236,15 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
     @Override
     protected void onStop() {
         super.onStop();
-        if(pDialog != null) {
+        if (pDialog != null) {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
     }
 }

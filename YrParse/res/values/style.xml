@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MyCompatTheme" parent="@style/Theme.AppCompat.Light"></style>
+
+    <style name="CustomActionBarTheme"
+           parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionbarStyle</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/ActionbarStyle</item>
+    </style>
+
+
+    <!-- Actionbar style -->
+    <style name="ActionbarStyle"
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/c4</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/c4</item>
+    </style>
 </resources>
