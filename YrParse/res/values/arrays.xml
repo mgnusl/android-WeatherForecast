@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="weather_icons">
+    <string-array name="yricons">
         <item>@drawable/a01d</item>
         <item>@drawable/a01n</item>
         <item>@drawable/a02d</item>
@@ -39,6 +39,47 @@
         <item>@drawable/a22n</item>
         <item>@drawable/a23d</item>
         <item>@drawable/a23n</item>
+    </string-array>
+
+    <string-array name="newicons">
+        <item>@drawable/fa01d</item>
+        <item>@drawable/fa01n</item>
+        <item>@drawable/fa02d</item>
+        <item>@drawable/fa02n</item>
+        <item>@drawable/fa03d</item>
+        <item>@drawable/fa03n</item>
+        <item>@drawable/fa04d</item>
+        <item>@drawable/fa04n</item>
+        <item>@drawable/fa05d</item>
+        <item>@drawable/fa05n</item>
+        <item>@drawable/fa06d</item>
+        <item>@drawable/fa06n</item>
+        <item>@drawable/fa07d</item>
+        <item>@drawable/fa07n</item>
+        <item>@drawable/fa08d</item>
+        <item>@drawable/fa08n</item>
+        <item>@drawable/fa09d</item>
+        <item>@drawable/fa09n</item>
+        <item>@drawable/fa10d</item>
+        <item>@drawable/fa10n</item>
+        <item>@drawable/fa11d</item>
+        <item>@drawable/fa11n</item>
+        <item>@drawable/fa12d</item>
+        <item>@drawable/fa12n</item>
+        <item>@drawable/fa13d</item>
+        <item>@drawable/fa13n</item>
+        <item>@drawable/fa14d</item>
+        <item>@drawable/fa14n</item>
+        <item>@drawable/fa15d</item>
+        <item>@drawable/fa15n</item>
+        <item>@drawable/fa20d</item>
+        <item>@drawable/fa20n</item>
+        <item>@drawable/fa21d</item>
+        <item>@drawable/fa21n</item>
+        <item>@drawable/fa22d</item>
+        <item>@drawable/fa22n</item>
+        <item>@drawable/fa23d</item>
+        <item>@drawable/fa23n</item>
     </string-array>
 
     <string-array name="weekdays">

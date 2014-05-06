@@ -1,49 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_weight="1"
         android:id="@+id/weatherTypeImageView"
         android:src="@drawable/a01d"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/weatherTypeImageView"
-        android:text="18:00"
+        android:layout_weight="2"
+        android:text="18:00 - 20:00"
         android:textSize="12dp"
-        android:id="@+id/fromTextView"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="25dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fromTextView"
-        android:text=" - "
-        android:textSize="12dp"
-        android:id="@+id/dash"
+        android:id="@+id/timeTextView"
         android:layout_marginTop="15dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/dash"
-        android:text="00:00"
-        android:textSize="12dp"
-        android:id="@+id/toTextView"
-        android:layout_marginTop="15dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/toTextView"
+        android:layout_weight="1"
         android:text="10°C"
         android:textSize="12dp"
         android:id="@+id/temperatureTextView"
@@ -51,12 +32,12 @@
         android:layout_marginLeft="25dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/temperatureTextView"
+        android:layout_weight="2"
         android:text="0.5 - 5.3 mm"
         android:textSize="12dp"
         android:id="@+id/precipitationTextView"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="25dp"/>
-</RelativeLayout>
+</LinearLayout>

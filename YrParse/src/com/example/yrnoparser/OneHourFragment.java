@@ -30,7 +30,7 @@ public class OneHourFragment extends Fragment {
             listOfOneHourForecasts = bundle.getParcelableArrayList("listofonehourdays");
         }
 
-        weatherIcons = getResources().obtainTypedArray(R.array.weather_icons);
+        weatherIcons = getResources().obtainTypedArray(R.array.newicons);
 
         HeaderListView list = (HeaderListView) view.findViewById(R.id.oneHourListView);
 

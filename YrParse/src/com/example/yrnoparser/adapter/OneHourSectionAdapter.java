@@ -60,11 +60,9 @@ public class OneHourSectionAdapter extends SectionAdapter {
 
         Forecast forecast = data.get(section).getForecasts().get(row);
 
-        TextView fromTextView = (TextView) convertView.findViewById(R.id.fromTextView);
-        fromTextView.setText(DateFormatter.get24HourString(forecast.getFromTime()));
-
-        TextView toTextView = (TextView) convertView.findViewById(R.id.toTextView);
-        toTextView.setText(DateFormatter.get24HourString(forecast.getToTime()));
+        TextView timeTextView = (TextView) convertView.findViewById(R.id.timeTextView);
+        timeTextView.setText(DateFormatter.get24HourString(forecast.getFromTime()) + " - " +
+                DateFormatter.get24HourString(forecast.getToTime()));
 
         TextView tempTextView = (TextView) convertView.findViewById(R.id.temperatureTextView);
         tempTextView.setText(forecast.getTemperature() + "°C");
