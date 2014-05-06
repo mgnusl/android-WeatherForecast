@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.cengalabs.flatui.FlatUI;
-import com.example.yrnoparser.adapter.MyPagerAdapter;
+import com.example.yrnoparser.adapter.ViewPagerAdapter;
 import com.example.yrnoparser.data.Forecast;
 import com.example.yrnoparser.data.ForecastLocation;
 import com.example.yrnoparser.data.SingleDay;
@@ -126,7 +126,7 @@ public class ForecastActivity extends ActionBarActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        viewPager.setAdapter(new MyPagerAdapter(fragmentManager, fragments));
+        viewPager.setAdapter(new ViewPagerAdapter(fragmentManager, fragments));
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);

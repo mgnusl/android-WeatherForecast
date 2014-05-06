@@ -11,10 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.PopupMenu;
+import android.widget.*;
 import com.cengalabs.flatui.FlatUI;
 import com.cengalabs.flatui.views.FlatButton;
 import com.example.yrnoparser.adapter.PrevSearchesAdapter;
@@ -55,7 +52,6 @@ public class StartActivity extends ActionBarActivity {
         FlatUI.initDefaultValues(this);
 
         // TODO: CHECK FOR INTERNET CONNECTION BEFORE SEARCH
-        // TODO: CANCEL ALL CROUTONS
 
         globalApp = (WeatherApplication) getApplicationContext();
         searchHistory = globalApp.getPreviousSearches();
@@ -68,13 +64,19 @@ public class StartActivity extends ActionBarActivity {
                 + "</font>"));
 
         // Crouton
-        confirm = new Style.Builder().setBackgroundColor(getResources().getColor(R.color.greenm)).build();
-        error = new Style.Builder().setBackgroundColor(getResources().getColor(R.color.yellowm)).build();
+        confirm = new Style.Builder().setBackgroundColor(R.color.greenm).build();
+        error = new Style.Builder().setBackgroundColor(R.color.yellowm).build();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         previousSearchesLV = (ListView) findViewById(R.id.previousSearchesListView);
         listAdapter = new PrevSearchesAdapter(this, searchHistory);
         previousSearchesLV.setAdapter(listAdapter);
+        previousSearchesLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                handleLocationSelection(searchHistory.get(position-1));
+            }
+        });
 
         FlatButton searchButton = (FlatButton) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -205,6 +207,7 @@ public class StartActivity extends ActionBarActivity {
                     forecastLocation.setGeonamesID(toponym.getGeoNameId());
                     forecastLocation.setName(toponym.getName());
                     forecastLocation.setCountryCode(toponym.getCountryCode());
+                    Log.d("APP", forecastLocation.getCountryCode());
 
                     boolean insideGeoname = false;
                     GeoName geoname = new GeoName();

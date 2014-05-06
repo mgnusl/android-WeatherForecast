@@ -92,7 +92,7 @@ public class PrevSearchesAdapter extends SectionAdapter {
     @Override
     public void onRowItemClick(AdapterView<?> parent, View view, int section, int row, long id) {
         super.onRowItemClick(parent, view, section, row, id);
-        Log.d("APP", "Section: " + Integer.toString(section) + ". Row: " + Integer.toString(row));
+        Log.d("APP", "CLICK LIST");
     }
 
 

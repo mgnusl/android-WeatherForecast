@@ -124,9 +124,9 @@ public class OneHourSectionAdapter extends SectionAdapter {
         TextView text = (TextView) convertView.findViewById(android.R.id.text1);
         SingleDay day = data.get(section);
         text.setText(weekDayNames[day.getDate().getDayOfWeek() - 1] + " " + day.getDateString());
-        text.setTextColor(context.getResources().getColor(R.color.c1));
+        text.setTextColor(context.getResources().getColor(R.color.sticky_headers_font));
 
-        convertView.setBackgroundColor(context.getResources().getColor(R.color.bloodred));
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.custom_theme_primary));
 
         return convertView;
     }

@@ -18,8 +18,10 @@
     <color name="listheaderbg">#3a5e9e</color>
     <color name="listheaderfont">#A0D8F1</color>
 
+    <!-- Font colors -->
     <color name="font1">#f4cdc8</color>
     <color name="white">#ffffff</color>
+    <color name="sticky_headers_font">#f8ddd9</color>
 
     <color name="actionbar">#3B8183</color>
 
@@ -31,7 +33,7 @@
     <color name="c5">#53777A</color>
 
     <!-- Background color -->
-    <color name="bg">#eae4db</color>
+    <color name="bg">#e4e9ec</color>
 
     <color name="bloodred">#d94130</color>
     <color name="bloodred_1">#dc5444</color>

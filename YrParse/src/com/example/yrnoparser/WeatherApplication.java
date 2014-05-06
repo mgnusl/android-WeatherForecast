@@ -55,6 +55,7 @@ public class WeatherApplication extends Application {
             fl.setRegion(result.get(1));
             fl.setChildRegion(result.get(2));
             fl.setName(result.get(3));
+            fl.setCountryCode(result.get(4));
             // Add it to list
             list.add(fl);
         }
@@ -103,7 +104,8 @@ public class WeatherApplication extends Application {
             s += "null;";
         else
             s += fl.getChildRegion() + ";";
-        s += fl.getName();
+        s += fl.getName() + ";";
+        s += fl.getCountryCode();
 
         return s;
     }
