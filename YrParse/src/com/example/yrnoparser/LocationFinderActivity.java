@@ -228,7 +228,11 @@ public class LocationFinderActivity extends ActionBarActivity implements Connect
         if (ConnectionResult.SUCCESS == resultCode)
             return true;
         else {
-            Toast.makeText(this, "Error code: " + Integer.toString(resultCode), Toast.LENGTH_SHORT).show();
+            if(resultCode == 9)
+                Toast.makeText(this, "The version of the Google Play services installed on this device is not authentic.",
+                        Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(this, "Error code: " + Integer.toString(resultCode), Toast.LENGTH_LONG).show();
             return false;
         }
     }

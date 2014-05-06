@@ -1,45 +1,22 @@
 <resources>
-    <!-- Sticky six_hour_header colors -->
-    <color name="blue1">#5588ff</color>
-    <color name="blue2">#77aaff</color>
-    <color name="blue3">#99ccff</color>
 
-    <!-- Text color -->
+    <!-- Font color -->
     <color name="red_text">#cc0000</color>
     <color name="blue_text">#0000cc</color>
-
-    <!-- Metro colors -->
-    <color name="redm">#d11141</color>
-    <color name="greenm">#00b159</color>
-    <color name="bluem">#00aedb</color>
-    <color name="orangem">#f37735</color>
-    <color name="yellowm">#ffc425</color>
-
-    <color name="listheaderbg">#3a5e9e</color>
-    <color name="listheaderfont">#A0D8F1</color>
-
-    <!-- Font colors -->
     <color name="font1">#f4cdc8</color>
     <color name="white">#ffffff</color>
     <color name="sticky_headers_font">#f8ddd9</color>
 
-    <color name="actionbar">#3B8183</color>
-
-    <!-- Test colors -->
-    <color name="c1">#ECD078</color>
-    <color name="c2">#D95B43</color>
-    <color name="c3">#C02942</color>
-    <color name="c4">#74324C</color>
-    <color name="c5">#53777A</color>
+    <!-- Crouton colors -->
+    <color name="greenm">#00b159</color>
+    <color name="yellowm">#FF9900</color>
 
     <!-- Background color -->
     <color name="bg">#e4e9ec</color>
 
-    <color name="bloodred">#d94130</color>
-    <color name="bloodred_1">#dc5444</color>
-    <color name="bloodred1">#c33a2b</color>
-
     <!-- Custom theme colors -->
+    <color name="actionbar">#3B8183</color>
+
     <color name="custom_theme_darker">#7a3125</color>
     <color name="custom_theme_dark">#ab4533</color>
     <color name="custom_theme_primary">#dc5942</color>

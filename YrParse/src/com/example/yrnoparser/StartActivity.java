@@ -2,7 +2,6 @@ package com.example.yrnoparser;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -38,7 +37,7 @@ public class StartActivity extends ActionBarActivity {
     private List<ForecastLocation> listOfForecastLocations;
     private EditText searchEditText;
     private ForecastLocation selectedForecastLocation;
-    private Style confirm, error;
+    private Style croutonConfirm, croutonError;
     private ListView previousSearchesLV;
     private WeatherApplication globalApp;
     private ArrayList<ForecastLocation> searchHistory;
@@ -64,8 +63,8 @@ public class StartActivity extends ActionBarActivity {
                 + "</font>"));
 
         // Crouton
-        confirm = new Style.Builder().setBackgroundColor(R.color.greenm).build();
-        error = new Style.Builder().setBackgroundColor(R.color.yellowm).build();
+        croutonConfirm = new Style.Builder().setBackgroundColor(R.color.greenm).build();
+        croutonError = new Style.Builder().setBackgroundColor(R.color.yellowm).build();
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         previousSearchesLV = (ListView) findViewById(R.id.previousSearchesListView);
@@ -86,10 +85,13 @@ public class StartActivity extends ActionBarActivity {
                 // Clear location list to remove results from earlier searches
                 listOfForecastLocations.clear();
                 if (searchString.equals(""))
-                    Crouton.makeText(StartActivity.this, "Please enter a location", error).show();
+                    Crouton.makeText(StartActivity.this, "Please enter a location", croutonError).show();
 
                 else
-                    new AsyncSearchLocationFromString().execute(searchEditText.getText().toString());
+                    if(Utils.isNetworkAvailable(StartActivity.this))
+                        new AsyncSearchLocationFromString().execute(searchEditText.getText().toString());
+                    else
+                        Crouton.makeText(StartActivity.this, "No internet connection available", croutonError).show();
 
             }
         });
@@ -98,7 +100,10 @@ public class StartActivity extends ActionBarActivity {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(StartActivity.this, LocationFinderActivity.class), 1);
+                if(Utils.isNetworkAvailable(StartActivity.this))
+                    startActivityForResult(new Intent(StartActivity.this, LocationFinderActivity.class), 1);
+                else
+                    Crouton.makeText(StartActivity.this, "No internet connection available", croutonError).show();
             }
         });
     }
@@ -106,7 +111,7 @@ public class StartActivity extends ActionBarActivity {
     private void preparePopupMenu() {
         // Check if we got no results
         if (resultsFromSearch.isEmpty()) {
-            Crouton.makeText(this, "No results...", error).show();
+            Crouton.makeText(this, "No results...", croutonError).show();
             return;
         }
 
@@ -159,8 +164,12 @@ public class StartActivity extends ActionBarActivity {
     }
 
     private void handleLocationSelection(ForecastLocation fl) {
-        String url;
+        if(!Utils.isNetworkAvailable(this)) {
+            Crouton.makeText(StartActivity.this, "No internet connection available", croutonError).show();
+            return;
+        }
 
+        String url;
         // Build URL
         if (fl.getCountryCode().equalsIgnoreCase("no")) {
             url = UrlBuilder.buildNorwegianBaseURL(fl.getCountry(), fl.getRegion(),
@@ -207,7 +216,6 @@ public class StartActivity extends ActionBarActivity {
                     forecastLocation.setGeonamesID(toponym.getGeoNameId());
                     forecastLocation.setName(toponym.getName());
                     forecastLocation.setCountryCode(toponym.getCountryCode());
-                    Log.d("APP", forecastLocation.getCountryCode());
 
                     boolean insideGeoname = false;
                     GeoName geoname = new GeoName();
@@ -300,7 +308,7 @@ public class StartActivity extends ActionBarActivity {
         if (resultCode == RESULT_OK) {
             ForecastLocation nearbyLocation = data.getParcelableExtra("nearbylocation");
             if (resultCode == 2)
-                Crouton.makeText(StartActivity.this, "Unable to find any nearby forecast locations", error).show();
+                Crouton.makeText(StartActivity.this, "Unable to find any nearby forecast locations", croutonError).show();
             else
                 handleLocationSelection(nearbyLocation);
 
