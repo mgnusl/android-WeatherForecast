@@ -131,7 +131,7 @@ public class ForecastActivity extends ActionBarActivity {
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);
         //Style tabs
-        tabs.setIndicatorColor(getResources().getColor(R.color.yellowm));
+        tabs.setIndicatorColor(getResources().getColor(R.color.viewpager_indicator));
         tabs.setShouldExpand(true);
 
         // Add the forecast to "search history"

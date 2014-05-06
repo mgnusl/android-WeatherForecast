@@ -15,7 +15,9 @@
     <color name="bg">#e4e9ec</color>
 
     <!-- Custom theme colors -->
-    <color name="actionbar">#3B8183</color>
+    <color name="actionbar">#295a5b</color>
+
+    <color name="viewpager_indicator">#4e8d8f</color>
 
     <color name="custom_theme_darker">#7a3125</color>
     <color name="custom_theme_dark">#ab4533</color>
