@@ -82,7 +82,7 @@ public class OneHourSectionAdapter extends SectionAdapter {
         // Find the correct symbol
         int symbol;
         if (forecast.getSymbol() == 1)
-            if (forecast.getFromTime().getHourOfDay()<7)
+            if (forecast.getFromTime().getHourOfDay()<9)
                 symbol = 1;
             else
                 symbol = 0;
